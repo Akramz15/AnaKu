@@ -10,3 +10,5 @@ pyjwt
 httpx
 qrcode
 pillow
+groq
+
