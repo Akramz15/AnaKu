@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+supabase
+python-dotenv
+google-generativeai
+cloudinary
+python-multipart
+pydantic-settings
+pyjwt
+httpx
+qrcode
+pillow

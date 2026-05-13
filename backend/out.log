@@ -1,0 +1,650 @@
+ INFO:     127.0.0.1:64790 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60018 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60018 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63028 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60018 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60018 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "OPTIONS /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64700 - "OPTIONS /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64700 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60018 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60018 - "OPTIONS /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64700 - "OPTIONS /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60018 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64700 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63028 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62124 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62124 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53519 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53519 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53519 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52611 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53519 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52611 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52611 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53519 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "OPTIONS /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60740 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60740 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60740 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53356 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "OPTIONS /api/v1/registrations/?status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/?status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/registrations/?status=rejected HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/?status=rejected HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/registrations/?status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64051 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "OPTIONS /api/v1/billings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49434 - "OPTIONS /api/v1/billings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54471 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60233 - "GET /api/v1/billings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54471 - "GET /api/v1/billings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "OPTIONS /api/v1/billings/fc69bd67-5aca-42e4-9bcf-9056ed9d2002 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "DELETE /api/v1/billings/fc69bd67-5aca-42e4-9bcf-9056ed9d2002 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57485 - "GET /api/v1/billings/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58011 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58011 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53828 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52213 - "OPTIONS /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "OPTIONS /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52213 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52213 - "OPTIONS /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52213 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57889 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58011 - "OPTIONS /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53828 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53828 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58011 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57889 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63574 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64730 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63574 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:63574 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49939 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:49939 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:65062 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "OPTIONS /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64429 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64429 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64429 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63555 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63555 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65062 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63555 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63555 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57200 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53582 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64664 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51896 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50553 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60546 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+ INFO:     127.0.0.1:51566 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60481 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61820 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50788 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50788 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50788 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64113 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50788 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64113 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64113 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60315 - "OPTIONS /api/v1/registrations/d05dd863-31dc-4b0c-8287-1895f981db10/approve HTTP/1.1" 200 OK
+[EMAIL OK] Sent to naufalakramziyad056@gmail.com
+INFO:     127.0.0.1:60315 - "POST /api/v1/registrations/d05dd863-31dc-4b0c-8287-1895f981db10/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60315 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65534 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63632 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64518 - "OPTIONS /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+[EMAIL OK] Sent to naufalakramziyad056@gmail.com
+INFO:     127.0.0.1:64518 - "POST /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64518 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64518 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50205 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50205 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50205 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58162 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50205 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50205 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50205 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57536 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52774 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60887 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55216 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64779 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50411 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63147 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49199 - "OPTIONS /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49199 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50166 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+ INFO:     127.0.0.1:58757 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49611 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49740 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64808 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60003 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64808 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:64808 - "GET /api/v1/users/me HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:55376 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55376 - "OPTIONS /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55376 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55376 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55376 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55376 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62648 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61047 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50396 - "OPTIONS /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50396 - "GET /api/v1/users/?role=parent&status=active HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61047 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50396 - "OPTIONS /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61047 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61047 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65233 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54151 - "OPTIONS /api/v1/registrations/d05dd863-31dc-4b0c-8287-1895f981db10/reject HTTP/1.1" 200 OK
+[EMAIL OK] Sent to naufalakramziyad056@gmail.com
+INFO:     127.0.0.1:54151 - "POST /api/v1/registrations/d05dd863-31dc-4b0c-8287-1895f981db10/reject HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54151 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65177 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65051 - "OPTIONS /api/v1/registrations/c2a04c8f-0b89-4c99-872f-b06e98fdb802/approve HTTP/1.1" 200 OK
+[EMAIL OK] Sent to apayabingungakujuga@gmail.com
+INFO:     127.0.0.1:65051 - "POST /api/v1/registrations/c2a04c8f-0b89-4c99-872f-b06e98fdb802/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65051 - "GET /api/v1/registrations/?status=pending HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55598 - "GET /api/v1/registrations/count HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65344 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65344 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55594 - "OPTIONS /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55594 - "POST /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55594 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55594 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59175 - "POST /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59175 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59175 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "POST /api/v1/registrations/complete-profile HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61438 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61438 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61438 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64329 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64329 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64329 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51610 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51610 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51610 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51610 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51610 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51610 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55871 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55871 - "PUT /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55871 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55871 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55871 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55871 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "OPTIONS /api/v1/chats/users/contacts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "OPTIONS /api/v1/chats/rooms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "OPTIONS /api/v1/chats/users/contacts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "OPTIONS /api/v1/chats/rooms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59343 - "GET /api/v1/chats/users/contacts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59343 - "GET /api/v1/chats/users/contacts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59976 - "GET /api/v1/chats/rooms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59976 - "GET /api/v1/chats/rooms HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54801 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54801 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54801 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57861 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57861 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/users/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "OPTIONS /api/v1/children HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51082 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60585 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "OPTIONS /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51082 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "OPTIONS /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60585 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51082 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60585 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "OPTIONS /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "OPTIONS /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51082 - "GET /api/v1/children HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51082 - "GET /api/v1/children/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+ INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51929 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61316 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57578 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60716 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57578 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60716 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50684 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50684 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50684 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55212 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55729 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65424 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58255 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60266 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60266 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58255 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49531 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49531 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49531 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49717 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53687 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54182 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54182 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53687 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54409 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63078 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63078 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54409 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60287 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57769 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57769 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/daily-logs?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/attendances?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57769 - "GET /api/v1/daily-logs/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1&log_date=2026-05-12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60287 - "GET /api/v1/attendances/?child_id=6885d0bf-b607-4cbc-96b1-9bafb0e38ed1 HTTP/1.1" 200 OK

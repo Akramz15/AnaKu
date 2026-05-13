@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary:       #F5A993; /* Soft peach/orange matching the mockup */
+  --primary-light: #FDECE7;
+  --primary-dark:  #DF8B74;
+  --secondary:     #B9F1C8; /* Light green matching checking in */
+  --accent:        #84D6FE; /* Light blue matching makan active */
+  --bg:            #DBE9E9; /* Updated main background color */
+  --surface:       #FFFFFF;
+  --surface-2:     #F4F4F5;
+  --border:        #E9ECEF;
+  --text:          #334155;
+  --text-muted:    #64748B;
+  --success:       #B9F1C8;
+  --warning:       #FFE082;
+  --danger:        #EF9A9A;
+  --info:          #81D4FA;
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 20px rgba(108,99,255,0.15);
+  --shadow-lg:  0 8px 40px rgba(108,99,255,0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a { color: var(--primary); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+}
+
+/* Responsive Utilities */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.dashboard-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.dashboard-two-col {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.dashboard-col-main {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard-col-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* Tablet Layout (up to 1024px) */
+@media (max-width: 1024px) {
+  .dashboard-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .dashboard-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+  .dashboard-two-col { flex-direction: column !important; min-height: auto !important; }
+  .dashboard-col-main, .dashboard-col-side { flex: none !important; width: 100% !important; }
+  .dashboard-col-side { min-height: 400px; }
+  .dashboard-col-main { min-height: 500px; }
+  
+  /* Make sure internal content like chat or gallery doesn't overflow */
+  .chat-wrapper { height: 500px !important; }
+}
+
+/* Mobile Layout (up to 768px) */
+@media (max-width: 768px) {
+  .page-layout { 
+    padding: 0.75rem !important; 
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 20px)) !important; /* safe area for iOS */
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  
+  .main-content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important; /* smooth scroll on iOS */
+    height: 100% !important;
+  }
+  /* Chat Layouts (Mobile Native App Behavior) */
+  .chat-layout {
+    flex-direction: column !important;
+  }
+  
+  /* When Chat is Active */
+  .chat-layout.has-active-chat .chat-sidebar {
+    display: none !important;
+  }
+  .chat-layout.has-active-chat .chat-panel {
+    display: flex !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+  }
+  
+  /* When No Chat is Active (Show Contact List) */
+  .chat-layout:not(.has-active-chat) .chat-sidebar {
+    width: 100% !important;
+    max-height: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    display: flex !important;
+  }
+  .chat-layout:not(.has-active-chat) .chat-panel {
+    display: none !important;
+  }
+  
+  /* Removed from media query to make it global below */
+
+  .dashboard-grid, .dashboard-grid-3 { grid-template-columns: 1fr !important; }
+  
+  /* Header Card Mobile */
+  .header-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .header-card-left {
+    width: 100% !important;
+  }
+  .header-card-right {
+    width: 100% !important;
+    margin-top: 1rem !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+  }
+  .header-card-right button, .header-card-right select {
+    flex: 1 !important;
+    justify-content: center !important;
+  }
+  
+  /* Sidebar becomes Bottom Navigation */
+  .mobile-bottom-nav {
+    width: 100% !important;
+    height: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+    min-height: auto !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 0.5rem env(safe-area-inset-bottom, 0px) !important;
+    border-radius: 20px 20px 0 0 !important;
+    position: absolute !important; /* Use absolute inside fixed parent */
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 99999 !important;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15) !important;
+    background: #ffffff !important;
+    border: none !important;
+    margin: 0 !important;
+    transform: translateZ(0) !important; /* Hardware acceleration */
+  }
+  
+  .mobile-bottom-nav .logo, .mobile-bottom-nav button[style*="position: absolute"] { display: none !important; }
+  .mobile-bottom-nav nav { flex-direction: row !important; justify-content: space-around !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .mobile-bottom-nav nav a { padding: 0.5rem !important; justify-content: center !important; border-radius: 12px !important; margin: 0 !important; }
+  .mobile-bottom-nav nav a span.nav-text { display: none !important; } /* hide text, keep icons */
+  .mobile-bottom-nav nav a span.badge { 
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+  .mobile-bottom-nav > div:last-child { display: none !important; } /* hide logout from bottom nav */
+}
+
+
+/* ── Global Mobile Back Button ────────────────────────────────────────────────
+   Styled outside media query so it renders beautifully even on tablet viewports
+───────────────────────────────────────────────────────────────────────────── */
+.mobile-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-right: 1rem; /* Generous spacing from text */
+  background: #E0F2FE; /* Soft light blue */
+  border: 1px solid #BAE6FD; /* Crisp light blue border */
+  border-radius: 10px; /* Neat rounded square */
+  color: #0284C7; /* High-contrast icon color */
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.mobile-back-btn:hover {
+  background: #BAE6FD;
+  transform: translateY(-1px);
+}
+
+/* Hide on large desktops where sidebar is always visible alongside chat */
+@media (min-width: 1200px) {
+  .mobile-back-btn {
+    display: none !important;
+  }
+}
