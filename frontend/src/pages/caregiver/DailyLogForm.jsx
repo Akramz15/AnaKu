@@ -89,13 +89,21 @@ export default function DailyLogForm() {
     }
     if (parsedMeals.length === 0) parsedMeals = [{ type:'Makan Siang', description:'' }]
 
-    // 2. Reconstruct placeholder sleep duration
-    const min = log.sleep_duration_min || 60
-    const h = Math.floor(min / 60)
-    const m = min % 60
-    const endH = 13 + h
-    const endM = 0 + m
-    const pad = v => String(v).padStart(2,'0')
+    // 2. Reconstruct ACTUAL sleep slots from saved activities
+    let parsedSleep = []
+    if (log.activities) {
+      const doneSleeps = log.activities.filter(act => act.startsWith('DONE|Tidur|'))
+      doneSleeps.forEach(act => {
+        const [, , timeRange] = act.split('|')
+        if (timeRange && timeRange.includes(' - ')) {
+          const [start, end] = timeRange.split(' - ')
+          parsedSleep.push({ start, end })
+        }
+      })
+    }
+    if (parsedSleep.length === 0) {
+      parsedSleep = [{ start:'', end:'' }]
+    }
 
     setForm({
       draft_id: '', // Clear draft correlation
@@ -103,7 +111,7 @@ export default function DailyLogForm() {
       log_date: log.log_date, // Explicit overwrite key
       child_id: log.child_id,
       meal_entries: parsedMeals,
-      sleep_slots: [{ start: '13:00', end: `${pad(endH)}:${pad(endM)}` }],
+      sleep_slots: parsedSleep,
       mood: log.mood || 'ceria'
     })
     setStep(1)
@@ -140,6 +148,25 @@ export default function DailyLogForm() {
     if (!form.child_id) { toast.error('Pilih anak'); return }
     setLoading(true)
     try {
+      // 1. Ambil data log harian eksisting hari ini agar tidak menimpa riwayat Tracker Live
+      const targetDate = form.log_date || new Date().toISOString().split('T')[0]
+      const getLog = await api.get(`/api/v1/daily-logs/?child_id=${form.child_id}&log_date=${targetDate}`)
+      const existingLog = getLog.data.data?.[0]
+
+      let mergedActivities = existingLog?.activities || []
+      // Bersihkan entri Tidur sebelumnya agar tidak duplikasi
+      mergedActivities = mergedActivities.filter(act => !act.includes('|Tidur|'))
+
+      // 2. Sisipkan slot tidur baru dari Form ke dalam array mergedActivities
+      form.sleep_slots.forEach(s => {
+        if (s.start && s.end) {
+          const [sh, sm] = s.start.split(':').map(Number)
+          const [eh, em] = s.end.split(':').map(Number)
+          const dur = Math.max(0, (eh * 60 + em) - (sh * 60 + sm))
+          mergedActivities.push(`DONE|Tidur|${s.start} - ${s.end}|${dur}`)
+        }
+      })
+
       const payload = {
         child_id: form.child_id,
         mood: form.mood,
@@ -148,9 +175,9 @@ export default function DailyLogForm() {
         special_notes: form.meal_entries.map(m=>`${m.type}: ${m.description}`).join('; '),
         meal_morning:'habis', meal_lunch:'habis', meal_snack:'habis',
         health_notes:'', toilet_count:0,
-        // Hapus payload 'activities' agar tidak menimpa log aktivitas live di Dashboard
+        activities: mergedActivities // Kirim gabungan aktivitas baru yang aman dari overwrite
       }
-      // Jika sedang mengedit log eksisting, sertakan log_date agar upsert menimpa baris yang benar
+      
       if (form.log_date) payload.log_date = form.log_date
 
       form.meal_entries.forEach(m => { if (mealMap[m.type]) payload[mealMap[m.type]] = 'habis' })

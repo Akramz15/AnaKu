@@ -148,6 +148,7 @@ export default function ParentDailyLog() {
   // Compute derived filtered reports list
   const filteredReports = allLogs.filter(log => isInRange(log.log_date, reportFilter))
 
+
   return (
     <PageLayout>
       <div style={S.page}>
@@ -159,6 +160,7 @@ export default function ParentDailyLog() {
           todayAtt={todayAtt}
           onChildChange={setSelectedChild}
         />
+
 
         {/* ── Kegiatan Anak ── */}
         <div style={S.section}>

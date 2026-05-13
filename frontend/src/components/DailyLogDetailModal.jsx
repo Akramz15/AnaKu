@@ -34,6 +34,13 @@ const parseSleepSessions = (activities = []) => {
 
 // ── Parse meal info ───────────────────────────────────────────────────────────
 const buildMealInfo = (log) => {
+  if (log.special_notes && log.special_notes.includes(':')) {
+    return log.special_notes.split('; ').map(part => {
+      const bits = part.split(': ')
+      return { label: bits[0] || 'Makan', desc: bits.slice(1).join(': ') || 'Habis' }
+    }).filter(m => m.desc && m.label)
+  }
+
   const meals = []
   if (log.meal_morning) meals.push({ label: 'Makan Pagi', desc: log.meal_morning })
   if (log.meal_lunch)   meals.push({ label: 'Makan Siang', desc: log.meal_lunch })
@@ -139,7 +146,6 @@ ${sleepSessions.length > 0 ? `
     <div class="mood-emoji">${mood.emoji}</div>
     <div>
       <div class="mood-label">${mood.label}</div>
-      ${log.special_notes ? `<div class="mood-notes">${log.special_notes}</div>` : ''}
     </div>
   </div>
 </div>
@@ -261,9 +267,6 @@ export default function DailyLogDetailModal({ log, childName, att, onClose, auto
               <span style={{ fontSize: '2.5rem', lineHeight: 1 }}>{mood.emoji}</span>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '1rem', color: '#1E293B' }}>{mood.label}</div>
-                {log.special_notes && (
-                  <div style={{ fontSize: '0.85rem', color: '#475569', marginTop: '0.2rem' }}>{log.special_notes}</div>
-                )}
               </div>
             </div>
           </div>
