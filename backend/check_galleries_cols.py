@@ -11,7 +11,11 @@ try:
     # Fetch one row from galleries to inspect keys
     res = sb.table("galleries").select("*").limit(1).execute()
     if res.data and len(res.data) > 0:
-        print("Found columns via data:", res.data[0].keys())
+        first_row = res.data[0]
+        if isinstance(first_row, dict):
+            print("Found columns via data:", first_row.keys())
+        else:
+            print("Data format is unexpected:", type(first_row))
     else:
         # If empty, try a dummy insert to get the schema keys or look at the error message
         print("Galleries table is empty! Checking schema metadata if possible...")

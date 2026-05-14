@@ -39,7 +39,7 @@ async def list_children(current_user=Depends(get_current_user)):
         if isinstance(all_auth_users, list):
             for au in all_auth_users:
                 if hasattr(au, 'id') and hasattr(au, 'email'):
-                    auth_email_map[str(au.id)] = str(au.email or "")
+                    auth_email_map[au.id] = au.email or ""
     except Exception as e:
         print(f"[WARNING] Gagal fetching list_users untuk email: {e}")
 
@@ -55,7 +55,7 @@ async def list_children(current_user=Depends(get_current_user)):
             p_dict = child_dict.get("parent")
             if isinstance(p_dict, dict) and p_id:
                 p_dict_mut = dict(p_dict) # make copy to modify
-                p_dict_mut["email"] = auth_email_map.get(str(p_id), "-")
+                p_dict_mut["email"] = auth_email_map.get(p_id, "-")
                 child_dict["parent"] = p_dict_mut
 
             cid = child_dict.get("id")
