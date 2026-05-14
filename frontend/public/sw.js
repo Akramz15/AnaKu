@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anaku-cache-v1';
+const CACHE_NAME = 'anaku-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -32,20 +32,37 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event handler: required for Chrome PWA install prompt
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests and cross-origin requests to prevent cache errors
-  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) return;
+  // Hanya interupsi request GET dari asal (origin) yang sama
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
 
-  // Stale-while-revalidate strategy
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((response) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        }).catch(() => response); // fallback to cached on fail
-        
-        return response || fetchPromise;
-      });
-    })
-  );
+  const url = new URL(event.request.url);
+
+  // KUNCI UTAMA: Hanya intercept aset fisik statis yang kita cache secara eksplisit!
+  // Ini mencegah service worker merusak navigasi Router React SPA (/parent, dsb) atau callback OAuth Google.
+  const isCachedAsset = ASSETS_TO_CACHE.some(asset => {
+    const assetPath = new URL(asset, self.location.origin).pathname;
+    return url.pathname === assetPath;
+  });
+
+  if (isCachedAsset) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        // Kembalikan aset dari cache jika ada, jika tidak ambil dari jaringan
+        return cachedResponse || fetch(event.request);
+      })
+    );
+  }
+
+  // PENTING: Jika tidak di-cache (seperti rute dinamis /parent, endpoint API, atau callback Google), 
+  // kita TIDAK memanggil event.respondWith(). Ini memerintahkan browser untuk memprosesnya secara normal 
+  // tanpa campur tangan service worker sedikit pun. Solusi Anti-Bug 100%!
+});
+
+// Memaksa pembaharuan instan saat ada instruksi dari script utama
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
