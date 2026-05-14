@@ -3,7 +3,7 @@ import api from '../../lib/axios'
 import PageLayout from '../../components/layout/PageLayout'
 import ParentPageHeader from '../../components/layout/ParentPageHeader'
 import { useAuth } from '../../context/AuthContext'
-import { CheckCircle } from 'lucide-react'
+import { CheckCircle, AlertCircle } from 'lucide-react'
 
 
 const Avatar = ({ name, size = 50 }) => (
