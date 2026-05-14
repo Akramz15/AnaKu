@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -15,11 +16,11 @@ class Settings(BaseSettings):
     FRONTEND_URL: str = "http://localhost:5173"
     
     # SMTP for Email Notifications (Optional)
-    SMTP_HOST: str | None = None
-    SMTP_PORT: int | None = 587
-    SMTP_USER: str | None = None
-    SMTP_PASS: str | None = None
-    SMTP_FROM: str | None = None
+    SMTP_HOST: Optional[str] = None
+    SMTP_PORT: Optional[int] = 587
+    SMTP_USER: Optional[str] = None
+    SMTP_PASS: Optional[str] = None
+    SMTP_FROM: Optional[str] = None
 
     class Config:
         env_file = ".env"
