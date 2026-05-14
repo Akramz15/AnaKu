@@ -338,7 +338,7 @@ export default function ParentDashboard() {
                       }}></div> Pick Up
                     </div>
                     <div style={{ fontSize: '1.8rem', fontWeight: 800, color: todayAttendance?.check_out_at ? '#1E293B' : '#94A3B8' }}>
-                      {todayAttendance?.check_out_at ? fmt12h(todayAttendance.check_out_at) : '17:00 PM'}
+                      {todayAttendance?.check_out_at ? fmt12h(todayAttendance.check_out_at) : '—'}
                     </div>
                   </div>
                 </div>

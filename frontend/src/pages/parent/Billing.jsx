@@ -71,7 +71,7 @@ export default function ParentBilling() {
       })
     }
     fetch()
-    const interval = setInterval(fetch, 5000)
+    const interval = setInterval(fetch, 3000)
     return () => clearInterval(interval)
   }, [selectedChild?.id])
 
