@@ -356,3 +356,26 @@ body.modal-open .mobile-bottom-nav {
   box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
 }
 
+/* ── iOS FLUSH FULLSCREEN AUTH CONTAINER ── */
+.auth-page-container {
+  min-height: 100vh !important; /* Fallback */
+  min-height: 100dvh !important; /* Dvh dinamis mengabaikan search bar iOS */
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  
+  /* Mengalirkan gradasi ke seluruh pixel layar */
+  background: linear-gradient(135deg,#F9E4D4 0%,#FDF6EC 30%,#D4EDD4 65%,#D4E8F9 100%) !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  
+  /* Padding pengaman notch agar kartu tidak terpotong tapi background tetap meluber penuh */
+  padding: 1.5rem !important;
+  padding-top: calc(1.5rem + env(safe-area-inset-top)) !important;
+  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
+}
+
+

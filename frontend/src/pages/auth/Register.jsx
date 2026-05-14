@@ -62,7 +62,7 @@ export default function Register() {
 
   /* ── Success State ───────────────────────────────────────────────────────── */
   if (success) return (
-    <div style={S.page}>
+    <div className="auth-page-container">
       <div style={{ ...S.card, textAlign: 'center', padding: '3rem 2rem' }}>
         <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>✅</div>
         <h2 style={{ ...S.title, fontSize: '1.5rem', marginBottom: '0.75rem' }}>Pendaftaran Berhasil!</h2>
@@ -76,7 +76,7 @@ export default function Register() {
   )
 
   return (
-    <div style={S.page}>
+    <div className="auth-page-container">
       <div style={S.card}>
         <h1 style={S.title}>Buat Akun Baru</h1>
         <p style={S.subtitle}>
@@ -145,11 +145,7 @@ export default function Register() {
 }
 
 const S = {
-  page: {
-    minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    padding: '1.5rem',
-    background: 'linear-gradient(135deg, #F9E4D4 0%, #FDF6EC 30%, #D4EDD4 65%, #D4E8F9 100%)',
-  },
+
   card: {
     background: '#ffffff', borderRadius: 20, padding: '2.5rem 2.25rem',
     width: '100%', maxWidth: '420px', boxShadow: '0 8px 40px rgba(0,0,0,0.08)',
