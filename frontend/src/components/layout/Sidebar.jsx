@@ -46,57 +46,137 @@ export default function Sidebar() {
   const navItems = profile?.role === 'parent' ? NAV_PARENT
                  : profile?.role === 'caregiver' ? NAV_CAREGIVER : NAV_ADMIN
 
-  const handleLogout = async () => { await logout(); navigate('/login') }
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const handleLogout = async () => { 
+    setShowConfirm(false)
+    await logout()
+    navigate('/login') 
+  }
 
   return (
-    <aside className="mobile-bottom-nav" style={{
-      ...styles.sidebar,
-      width: isCollapsed ? '80px' : '260px',
-    }}>
-      {/* Collapse Toggle Button */}
-      <button 
-        style={styles.collapseBtn} 
-        onClick={() => setIsCollapsed(!isCollapsed)}
-      >
-        {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-      </button>
+    <>
+      <aside className="mobile-bottom-nav" style={{
+        ...styles.sidebar,
+        width: isCollapsed ? '80px' : '260px',
+      }}>
+        {/* Collapse Toggle Button */}
+        <button 
+          style={styles.collapseBtn} 
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+        </button>
 
-      {/* Logo */}
-      <div className="logo" style={{...styles.logo, justifyContent: isCollapsed ? 'center' : 'flex-start'}}>
-        <img src="/Logo AnaKu.png" alt="AnaKu Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
-        {!isCollapsed && <span style={{color: '#1E293B'}}>AnaKuu</span>}
-      </div>
+        {/* Logo */}
+        <div className="logo" style={{...styles.logo, justifyContent: isCollapsed ? 'center' : 'flex-start'}}>
+          <img src="/Logo AnaKu.png" alt="AnaKu Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+          {!isCollapsed && <span style={{color: '#1E293B'}}>AnaKuu</span>}
+        </div>
 
-      {/* Navigation */}
-      <nav style={styles.nav}>
-        {navItems.map(item => (
-          <NavLink key={item.to} to={item.to} end style={({ isActive }) => ({
+        {/* Navigation */}
+        <nav style={styles.nav}>
+          {navItems.map(item => (
+            <NavLink key={item.to} to={item.to} end style={({ isActive }) => ({
+              ...styles.navItem,
+              ...(isActive ? styles.navActive : {}),
+              justifyContent: isCollapsed ? 'center' : 'flex-start',
+              padding: isCollapsed ? '0.8rem 0' : '0.8rem 1rem'
+            })}>
+              <span style={{ color: 'var(--text-muted)' }}>{item.icon}</span>
+              {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>}
+              {!isCollapsed && item.badge > 0 && (
+                <span style={styles.badge}>{item.badge}</span>
+              )}
+            </NavLink>
+          ))}
+          {/* Logout integrated inside NAV to flow into mobile bottom tab row */}
+          <a href="#" style={{
             ...styles.navItem,
-            ...(isActive ? styles.navActive : {}),
+            marginTop: 'auto',
+            cursor: 'pointer',
+            color: '#DC2626',
             justifyContent: isCollapsed ? 'center' : 'flex-start',
-            padding: isCollapsed ? '0.8rem 0' : '0.8rem 1rem'
-          })}>
-            <span style={{ color: 'var(--text-muted)' }}>{item.icon}</span>
-            {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>}
-            {!isCollapsed && item.badge > 0 && (
-              <span style={styles.badge}>{item.badge}</span>
-            )}
-          </NavLink>
-        ))}
-        {/* Logout integrated inside NAV to flow into mobile bottom tab row */}
-        <a href="#" style={{
-          ...styles.navItem,
-          marginTop: 'auto',
-          cursor: 'pointer',
-          color: '#DC2626',
-          justifyContent: isCollapsed ? 'center' : 'flex-start',
-          padding: isCollapsed ? '0.8rem 0' : '0.8rem 1rem',
-        }} onClick={(e) => { e.preventDefault(); handleLogout() }}>
-          <span style={{ color: '#DC2626', display: 'flex', alignItems: 'center' }}><LogOut size={20} /></span>
-          {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>Log out</span>}
-        </a>
-      </nav>
-    </aside>
+            padding: isCollapsed ? '0.8rem 0' : '0.8rem 1rem',
+          }} onClick={(e) => { e.preventDefault(); setShowConfirm(true) }}>
+            <span style={{ color: '#DC2626', display: 'flex', alignItems: 'center' }}><LogOut size={20} /></span>
+            {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>Log out</span>}
+          </a>
+        </nav>
+      </aside>
+
+      {/* Premium Confirmation Modal */}
+      {showConfirm && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 99999,
+          background: 'rgba(15, 23, 42, 0.3)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '1.5rem'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            padding: '2rem',
+            borderRadius: '24px',
+            width: '100%',
+            maxWidth: '380px',
+            boxShadow: '0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03)',
+            textAlign: 'center',
+            border: '1px solid #F1F5F9'
+          }}>
+            <div style={{
+              width: '56px', height: '56px', borderRadius: '50%', background: '#FEF2F2',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 1.25rem', color: '#EF4444'
+            }}>
+              <LogOut size={24} />
+            </div>
+            
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#0F172A', marginBottom: '0.5rem' }}>
+              Apakah anda yakin ingin logout?
+            </h3>
+            <p style={{ fontSize: '0.88rem', color: '#64748B', marginBottom: '1.75rem', lineHeight: 1.5 }}>
+              Anda harus login kembali untuk mengakses dashboard si kecil.
+            </p>
+            
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <button 
+                onClick={() => setShowConfirm(false)}
+                style={{
+                  flex: 1,
+                  padding: '0.75rem',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: '#F1F5F9', // abu muda
+                  color: '#475569',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: '0.9rem'
+                }}
+              >
+                Batal
+              </button>
+              <button 
+                onClick={handleLogout}
+                style={{
+                  flex: 1,
+                  padding: '0.75rem',
+                  borderRadius: '12px',
+                  border: 'none',
+                  background: '#2563EB', // biru
+                  color: '#FFFFFF',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontSize: '0.9rem'
+                }}
+              >
+                Ya
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
