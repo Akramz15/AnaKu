@@ -422,7 +422,7 @@ const S = {
   logSub:  { fontSize:'0.8rem', color:'var(--text-muted)' },
 
   overlay: { position:'fixed', inset:0, background:'rgba(0,0,0,0.3)', backdropFilter:'blur(4px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:2000, padding:'1rem' },
-  modal:   { background:'#fff', borderRadius:16, width:'100%', maxWidth:'500px', maxHeight:'92vh', display:'flex', flexDirection:'column', boxShadow:'0 20px 60px rgba(0,0,0,0.15)', overflow:'hidden' },
+  modal:   { background:'#fff', borderRadius:16, width:'100%', maxWidth:'500px', maxHeight:'100%', display:'flex', flexDirection:'column', boxShadow:'0 20px 60px rgba(0,0,0,0.15)', overflow:'hidden' },
   modalIconBox: { width:40, height:40, borderRadius:10, border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center' },
   closeBtn: { background:'transparent', border:'none', cursor:'pointer', color:'#64748B', display:'flex', alignItems:'center', padding:'0.2rem', borderRadius:6 },
   stepBody: { flex:1, overflowY:'auto', padding:'0 1.75rem 1.75rem', display:'flex', flexDirection:'column', gap:'1rem' },
