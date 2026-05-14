@@ -3,7 +3,7 @@ import api from '../../lib/axios'
 import toast from 'react-hot-toast'
 import PageLayout from '../../components/layout/PageLayout'
 import { useAuth } from '../../context/AuthContext'
-import { Plus, X, Upload, Trash2, Camera } from 'lucide-react'
+import { Plus, X, Upload, Trash2, Camera, MapPin } from 'lucide-react'
 
 const Avatar = ({ name, size = 44 }) => (
   <div style={{ width: size, height: size, borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1rem', flexShrink: 0 }}>
@@ -210,6 +210,14 @@ export default function GalleryUpload() {
               </div>
               <div style={S.cardBody}>
                 <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
+                
+                {item.location && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '0.3rem', fontWeight: 500 }}>
+                    <MapPin size={12} />
+                    <span>{item.location}</span>
+                  </div>
+                )}
+
                 <div style={S.cardMeta}>
                   {fmtTime(item.created_at || item.activity_date)} | {fmtDate(item.created_at || item.activity_date)}
                 </div>
@@ -372,6 +380,14 @@ export default function GalleryUpload() {
               <img src={lightbox.cloudinary_url} alt={lightbox.caption} style={{ display: 'block', maxWidth: '100%', maxHeight: '70vh', objectFit: 'contain' }} />
               <div style={{ background: '#fff', padding: '1rem 1.25rem' }}>
                 <div style={{ fontWeight: 600 }}>{cleanCaption(lightbox.caption)}</div>
+                
+                {lightbox.location && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginTop: '0.25rem', marginBottom: '0.25rem', fontWeight: 500 }}>
+                    <MapPin size={12} />
+                    <span>{lightbox.location}</span>
+                  </div>
+                )}
+
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                   {fmtTime(lightbox.created_at || lightbox.activity_date)} | {fmtDate(lightbox.created_at || lightbox.activity_date)}
                 </div>

@@ -3,7 +3,7 @@ import api from '../../lib/axios'
 import PageLayout from '../../components/layout/PageLayout'
 import ParentPageHeader from '../../components/layout/ParentPageHeader'
 import { useAuth } from '../../context/AuthContext'
-import { Camera } from 'lucide-react'
+import { Camera, MapPin } from 'lucide-react'
 
 // ─── Avatar ────────────────────────────────────────────────────────────────────
 const Avatar = ({ name, size = 50 }) => (
@@ -117,6 +117,14 @@ export default function ParentGallery() {
                 {/* Caption below */}
                 <div style={S.cardBody}>
                   <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
+                  
+                  {item.location && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '0.3rem', fontWeight: 500 }}>
+                      <MapPin size={12} />
+                      <span>{item.location}</span>
+                    </div>
+                  )}
+
                   <div style={S.cardMeta}>
                     {formatTime(item.activity_date || item.created_at)} | {formatDate(item.activity_date || item.created_at)}
                   </div>
@@ -142,6 +150,14 @@ export default function ParentGallery() {
               {/* Caption + meta */}
               <div style={S.lbBody}>
                 <div style={S.lbTitle}>{cleanCaption(lightbox.caption)}</div>
+                
+                {lightbox.location && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginTop: '0.25rem', marginBottom: '0.25rem', fontWeight: 500 }}>
+                    <MapPin size={12} />
+                    <span>{lightbox.location}</span>
+                  </div>
+                )}
+
                 <div style={S.lbMeta}>
                   {formatTime(lightbox.activity_date ?? lightbox.created_at)} | {formatDate(lightbox.activity_date ?? lightbox.created_at)}
                 </div>
