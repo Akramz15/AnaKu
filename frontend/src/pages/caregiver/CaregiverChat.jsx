@@ -25,25 +25,31 @@ export default function CaregiverChat() {
   const [children, setChildren]     = useState([])
   const [selectedChild, setSelectedChild] = useState(null)
   const [todayAtt, setTodayAtt]     = useState(null)
+  const [isLoading, setIsLoading]   = useState(true)
 
   // ── Fetch data ─────────────────────────────────────────────────────────────
   useEffect(() => {
-    api.get('/api/v1/chats/users/contacts').then(r => setContacts(r.data.data))
-    
     const fetchRooms = () => {
       api.get('/api/v1/chats/rooms').then(r => setRooms(r.data.data)).catch(() => {})
     }
-    
-    fetchRooms()
-    const interval = setInterval(fetchRooms, 3000) // Cek chat baru setiap 3 detik untuk merubah posisi list
-    
-    api.get('/api/v1/children').then(r => {
-      const list = r.data.data
+
+    Promise.all([
+      api.get('/api/v1/chats/users/contacts'),
+      api.get('/api/v1/children')
+    ]).then(([contactsRes, childrenRes]) => {
+      setContacts(contactsRes.data.data)
+      
+      const list = childrenRes.data.data
       setChildren(list)
       const savedId = localStorage.getItem('selected_child_id')
       const defaultChild = list.find(c => c.id === savedId) || list[0]
       if (defaultChild) setSelectedChild(defaultChild)
+    }).catch(() => {}).finally(() => {
+      setIsLoading(false)
     })
+    
+    fetchRooms()
+    const interval = setInterval(fetchRooms, 3000) // Cek chat baru setiap 3 detik untuk merubah posisi list
     
     return () => clearInterval(interval)
   }, [])
@@ -89,36 +95,52 @@ export default function CaregiverChat() {
           <div className="chat-sidebar" style={S.contactPanel}>
             <div style={S.contactTitle}>Daftar Orang Tua</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              {sortedContacts.map(c => {
-                const isActive = selected?.receiverId === c.id
-                return (
-                  <div
-                    key={c.id}
-                    style={{ ...S.contactRow, ...(isActive ? S.contactRowActive : {}) }}
-                    onClick={() => startChat(c)}
-                  >
-                    <ContactAvatar name={c.full_name} size={42} />
-                    <div style={{ overflow: 'hidden', flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.full_name}</div>
-                      
-                      {/* Tampilkan preview pesan terakhir seperti WhatsApp jika ada */}
-                      {c.last_message ? (
-                         <div style={{ fontSize: '0.75rem', color: isActive ? 'var(--primary)' : '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 500 }}>
-                           {c.last_message}
-                         </div>
-                      ) : (
-                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                           {c.role === 'parent' ? 'Orang Tua' : c.role === 'admin' ? 'Admin' : 'Pengasuh'}
-                         </div>
-                      )}
+              {isLoading ? (
+                <>
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} style={{ ...S.contactRow, cursor: 'default' }}>
+                      <div className="skeleton-shimmer" style={{ width: '42px', height: '42px', borderRadius: '50%' }} />
+                      <div style={{ overflow: 'hidden', flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                        <div className="skeleton-shimmer" style={{ height: '14px', width: '60%' }} />
+                        <div className="skeleton-shimmer" style={{ height: '10px', width: '40%' }} />
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
-              {sortedContacts.length === 0 && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>
-                  Tidak ada kontak.
-                </p>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {sortedContacts.map(c => {
+                    const isActive = selected?.receiverId === c.id
+                    return (
+                      <div
+                        key={c.id}
+                        style={{ ...S.contactRow, ...(isActive ? S.contactRowActive : {}) }}
+                        onClick={() => startChat(c)}
+                      >
+                        <ContactAvatar name={c.full_name} size={42} />
+                        <div style={{ overflow: 'hidden', flex: 1 }}>
+                          <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.full_name}</div>
+                          
+                          {/* Tampilkan preview pesan terakhir seperti WhatsApp jika ada */}
+                          {c.last_message ? (
+                             <div style={{ fontSize: '0.75rem', color: isActive ? 'var(--primary)' : '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 500 }}>
+                               {c.last_message}
+                             </div>
+                          ) : (
+                             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                               {c.role === 'parent' ? 'Orang Tua' : c.role === 'admin' ? 'Admin' : 'Pengasuh'}
+                             </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                  {sortedContacts.length === 0 && (
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>
+                      Tidak ada kontak.
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>

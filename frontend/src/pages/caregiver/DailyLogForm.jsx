@@ -31,10 +31,20 @@ export default function DailyLogForm() {
   const [loading, setLoading]   = useState(false)
   const [drafts, setDrafts]     = useState([])
   const [filterChildId, setFilterChildId] = useState('all')
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
   useEffect(() => {
-    api.get('/api/v1/children/').then(r => setChildren(r.data.data))
-    fetchLogs()
+    setIsInitialLoading(true)
+    Promise.all([
+      api.get('/api/v1/children/'),
+      api.get('/api/v1/daily-logs')
+    ]).then(([childrenRes, logsRes]) => {
+      setChildren(childrenRes.data.data)
+      setLogs([...logsRes.data.data].sort((a,b) => b.log_date.localeCompare(a.log_date)))
+    }).catch(() => {}).finally(() => {
+      setIsInitialLoading(false)
+    })
+    
     const savedDrafts = localStorage.getItem('daily_log_drafts')
     if (savedDrafts) setDrafts(JSON.parse(savedDrafts))
   }, [])
@@ -247,22 +257,39 @@ export default function DailyLogForm() {
             </div>
           </div>
           <div>
-            {filteredLogs.length === 0 && <div style={{ padding:'3rem', textAlign:'center', color:'var(--text-muted)', fontSize:'0.9rem' }}>Belum ada laporan untuk filter ini. Tekan + untuk menambahkan.</div>}
-            {filteredLogs.map((log,i) => (
-              <div key={log.id} style={{ ...S.logRow, borderBottom: i<filteredLogs.length-1?'1px solid var(--border)':'none' }}>
-                <div style={S.logIcon}><ClipboardList size={20} color="#E07A5F"/></div>
-                <div style={{ flex: 1 }}>
-                  <div style={S.logDate}>{fmtDate(log.log_date)}</div>
-                  <div style={S.logSub}>Anak: {log.children?.full_name} | Pengasuh: {log.caregiver?.full_name ?? 'Pengasuh'}</div>
-                </div>
-                <button 
-                   onClick={() => loadReport(log)}
-                   style={{ ...S.outlineBtn, flex: 'none', padding: '0.4rem 0.75rem', fontSize: '0.75rem', gap: '0.3rem' }}
-                >
-                   <Pencil size={13} /> Edit
-                </button>
-              </div>
-            ))}
+            {isInitialLoading ? (
+              <>
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} style={{ ...S.logRow, borderBottom: '1px solid var(--border)', alignItems: 'center' }}>
+                    <div className="skeleton-shimmer" style={{ width: '44px', height: '44px', borderRadius: '12px' }} />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                      <div className="skeleton-shimmer" style={{ height: '16px', width: '180px' }} />
+                      <div className="skeleton-shimmer" style={{ height: '12px', width: '220px' }} />
+                    </div>
+                    <div className="skeleton-shimmer" style={{ width: '64px', height: '32px', borderRadius: '8px' }} />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {filteredLogs.length === 0 && <div style={{ padding:'3rem', textAlign:'center', color:'var(--text-muted)', fontSize:'0.9rem' }}>Belum ada laporan untuk filter ini. Tekan + untuk menambahkan.</div>}
+                {filteredLogs.map((log,i) => (
+                  <div key={log.id} style={{ ...S.logRow, borderBottom: i<filteredLogs.length-1?'1px solid var(--border)':'none' }}>
+                    <div style={S.logIcon}><ClipboardList size={20} color="#E07A5F"/></div>
+                    <div style={{ flex: 1 }}>
+                      <div style={S.logDate}>{fmtDate(log.log_date)}</div>
+                      <div style={S.logSub}>Anak: {log.children?.full_name} | Pengasuh: {log.caregiver?.full_name ?? 'Pengasuh'}</div>
+                    </div>
+                    <button 
+                       onClick={() => loadReport(log)}
+                       style={{ ...S.outlineBtn, flex: 'none', padding: '0.4rem 0.75rem', fontSize: '0.75rem', gap: '0.3rem' }}
+                    >
+                       <Pencil size={13} /> Edit
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
 

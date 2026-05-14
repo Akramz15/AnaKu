@@ -37,6 +37,7 @@ export default function CaregiverDashboard() {
   const [todayAtt, setTodayAtt] = useState(null)
   const [checklist, setChecklist] = useState([])
   const [todoInput, setTodoInput] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => { todayLogRef.current = todayLog }, [todayLog])
 
@@ -54,6 +55,7 @@ export default function CaregiverDashboard() {
   // Fetch initial daily log — RESET semua state dulu saat anak berganti
   useEffect(() => {
     if (!selectedChild) return
+    setIsLoading(true)
     const today = new Date().toISOString().split('T')[0]
 
     // ⚠️ RESET state anak sebelumnya agar tidak bocor ke anak lain
@@ -104,6 +106,7 @@ export default function CaregiverDashboard() {
           const ms = log.mood === 'ceria' ? 100 : log.mood === 'biasa' ? 75 : log.mood === 'rewel' ? 50 : 25
           setMoodScore(ms)
         }
+        setIsLoading(false)
       })
   }, [selectedChild])
 
@@ -246,159 +249,203 @@ export default function CaregiverDashboard() {
         {/* Main Grid Content */}
         <div className="dashboard-two-col" style={{ width: '100%' }}>
           
-          {/* LEFT COLUMN */}
-          <div className="dashboard-col-main" style={{ minHeight: 0 }}>
-            
-            {/* 4 Toggles Grid */}
-            <div className="dashboard-grid">
-              {TOGGLES.map(t => {
-                const isActive = !!activeTasks[t.label]
-                return (
-                  <div key={t.label} style={{...styles.card, padding:'1.2rem', border: isActive ? `2px solid var(--accent)` : '1px solid var(--border)', background:'#fff'}}>
-                    <div style={{ width: '48px', height: '48px', background: 'var(--bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position:'relative', color: t.bg }}>
-                      {t.icon}
-                      <span style={{position:'absolute', top:-2, right:-2, color:'var(--warning)'}}><Sparkles size={12} /></span>
+          {isLoading ? (
+            <>
+              {/* Left Column Skeletons */}
+              <div className="dashboard-col-main" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 0 }}>
+                <div className="dashboard-grid">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} style={{ ...styles.card, height: '120px', padding: '1.2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#fff', border: '1px solid var(--border)' }}>
+                      <div className="skeleton-shimmer" style={{ height: '44px', width: '44px', borderRadius: '50%' }} />
+                      <div className="skeleton-shimmer" style={{ height: '18px', width: '70%' }} />
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'auto' }}>
-                      <span style={{ fontWeight: 600, color: 'var(--text-muted)', fontSize:'0.9rem' }}>{t.label}</span>
-                      <ToggleBtn active={isActive} onClick={() => toggleTask(t.label)} />
+                  ))}
+                </div>
+                {/* Mood Card Skeleton */}
+                <div style={styles.card}>
+                  <div className="skeleton-shimmer" style={{ height: '22px', width: '35%', marginBottom: '1rem' }} />
+                  <div className="skeleton-shimmer" style={{ height: '48px', borderRadius: '12px' }} />
+                </div>
+                {/* Daily Report Card Skeleton */}
+                <div style={{ ...styles.card, flex: 1 }}>
+                  <div className="skeleton-shimmer" style={{ height: '22px', width: '30%', marginBottom: '1.5rem' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div className="skeleton-shimmer" style={{ height: '56px', borderRadius: '8px' }} />
+                    <div className="skeleton-shimmer" style={{ height: '56px', borderRadius: '8px' }} />
+                  </div>
+                </div>
+              </div>
+              {/* Right Column Skeleton: Checklist */}
+              <div className="dashboard-col-side" style={{ ...styles.card, display: 'flex', flexDirection: 'column' }}>
+                <div className="skeleton-shimmer" style={{ height: '24px', width: '60%', alignSelf: 'center', marginBottom: '2rem' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                  <div className="skeleton-shimmer" style={{ height: '52px', borderRadius: '8px' }} />
+                  <div className="skeleton-shimmer" style={{ height: '52px', borderRadius: '8px' }} />
+                  <div className="skeleton-shimmer" style={{ height: '52px', borderRadius: '8px' }} />
+                </div>
+                <div className="skeleton-shimmer" style={{ height: '48px', borderRadius: '30px', marginTop: 'auto' }} />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* LEFT COLUMN */}
+              <div className="dashboard-col-main" style={{ minHeight: 0 }}>
+                
+                {/* 4 Toggles Grid */}
+                <div className="dashboard-grid">
+                  {TOGGLES.map(t => {
+                    const isActive = !!activeTasks[t.label]
+                    return (
+                      <div key={t.label} style={{...styles.card, padding:'1.2rem', border: isActive ? `2px solid var(--accent)` : '1px solid var(--border)', background:'#fff'}}>
+                        <div style={{ width: '48px', height: '48px', background: 'var(--bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position:'relative', color: t.bg }}>
+                          {t.icon}
+                          <span style={{position:'absolute', top:-2, right:-2, color:'var(--warning)'}}><Sparkles size={12} /></span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'auto' }}>
+                          <span style={{ fontWeight: 600, color: 'var(--text-muted)', fontSize:'0.9rem' }}>{t.label}</span>
+                          <ToggleBtn active={isActive} onClick={() => toggleTask(t.label)} />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Mood Anak */}
+                <div style={{ ...styles.card, marginTop: '1.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <h3 style={{ fontWeight: 700, margin: 0 }}>Mood Anak</h3>
+                      <span style={{...styles.badgeGreen, background: getMoodColor(moodScore), color:'#fff'}}>{getMoodLabel(moodScore)}</span>
+                      {isUpdatingMood && <span style={{fontSize:'0.75rem', color:'var(--text-muted)'}}>Updating...</span>}
                     </div>
                   </div>
-                )
-              })}
-            </div>
-
-            {/* Mood Anak */}
-            <div style={{ ...styles.card, marginTop: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <h3 style={{ fontWeight: 700, margin: 0 }}>Mood Anak</h3>
-                  <span style={{...styles.badgeGreen, background: getMoodColor(moodScore), color:'#fff'}}>{getMoodLabel(moodScore)}</span>
-                  {isUpdatingMood && <span style={{fontSize:'0.75rem', color:'var(--text-muted)'}}>Updating...</span>}
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', marginTop: '0.5rem' }}>
+                    Gunakan slider di bawah untuk mendata perubahan emosi anak hari ini secara instan.
+                  </p>
+                  <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value={moodScore}
+                    onChange={e => setMoodScore(parseInt(e.target.value))}
+                    onMouseUp={updateMood}
+                    onTouchEnd={updateMood}
+                    style={{ 
+                      width: '100%', 
+                      cursor: 'pointer', 
+                      accentColor: getMoodColor(moodScore)
+                    }}
+                  />
+                  <div style={{ display: 'flex', justifyContent:'space-between', marginTop:'0.5rem', fontSize:'0.75rem', color:'var(--text-muted)' }}>
+                    <span>Rewel</span>
+                    <span>Normal</span>
+                    <span>Sangat Ceria</span>
+                  </div>
                 </div>
-              </div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', marginTop: '0.5rem' }}>
-                Geser untuk memperbarui mood anak secara real-time.
-              </p>
-              
-              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%', height: '40px' }}>
-                <input 
-                  type="range" 
-                  min="0" max="100" 
-                  value={moodScore} 
-                  onChange={(e) => updateMood(parseInt(e.target.value))}
-                  style={{ width: '100%', position: 'absolute', zIndex: 10, opacity: 0, cursor: 'pointer', height:'100%' }}
-                />
-                <div style={{ height: '8px', background: 'var(--border)', borderRadius: '10px', width: '100%', position: 'relative', overflow:'hidden' }}>
-                  <div style={{ height: '100%', width: `${moodScore}%`, background: getMoodColor(moodScore), borderRadius: '10px', transition: 'width 0.1s, background 0.1s' }}></div>
-                </div>
-                <div style={{ position: 'absolute', left: `calc(${moodScore}% - 15px)`, background: getMoodColor(moodScore), width: '30px', height: '30px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', pointerEvents: 'none', transition: 'left 0.1s, background 0.1s' }}>
-                  <Smile size={16} />
-                </div>
-              </div>
-            </div>
 
-            {/* Daily Report */}
-            <div style={{ ...styles.card, marginTop: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 style={{ fontWeight: 700, margin: 0 }}>Daily Report</h3>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', cursor: 'pointer' }}>Detail</span>
-              </div>
+                {/* Daily Report */}
+                <div style={{ ...styles.card, marginTop: '1.5rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h3 style={{ fontWeight: 700, margin: 0 }}>Daily Report</h3>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', cursor: 'pointer' }}>Detail</span>
+                  </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                
-                {/* Active Items */}
-                {Object.keys(activeTasks).map(taskName => {
-                  const t = TOGGLES.find(x => x.label === taskName) || { icon: <Baby size={24}/> }
-                  return (
-                    <div key={taskName} style={{ background: 'var(--info)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ width: '48px', height: '48px', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>{t.icon}</div>
-                        <div>
-                          <div style={{ fontWeight: 700 }}>{taskName}</div>
-                          <div style={{ fontWeight: 800, fontSize: '1.1rem' }}>
-                            <LiveTimer startTimeISO={activeTasks[taskName]} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    
+                    {/* Active Items */}
+                    {Object.keys(activeTasks).map(taskName => {
+                      const t = TOGGLES.find(x => x.label === taskName) || { icon: <Baby size={24}/> }
+                      return (
+                        <div key={taskName} style={{ background: 'var(--info)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ width: '48px', height: '48px', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>{t.icon}</div>
+                            <div>
+                              <div style={{ fontWeight: 700 }}>{taskName}</div>
+                              <div style={{ fontWeight: 800, fontSize: '1.1rem' }}>
+                                <LiveTimer startTimeISO={activeTasks[taskName]} />
+                              </div>
+                            </div>
                           </div>
+                          <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: '#0284c7' }}>Berjalan</button>
                         </div>
-                      </div>
-                      <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: '#0284c7' }}>Berjalan</button>
-                    </div>
-                  )
-                })}
+                      )
+                    })}
 
-                {/* History Items */}
-                {historyTasks.map((task, i) => {
-                  const t = TOGGLES.find(x => x.label === task.name) || { icon: <Moon size={24}/> }
-                  return (
-                    <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ width: '48px', height: '48px', background: 'var(--secondary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#166534' }}>{t.icon}</div>
-                        <div>
-                          <div style={{ fontWeight: 700, color: 'var(--text)' }}>{task.name}</div>
-                          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{task.duration} menit</div>
+                    {/* History Items */}
+                    {historyTasks.map((task, i) => {
+                      const t = TOGGLES.find(x => x.label === task.name) || { icon: <Moon size={24}/> }
+                      return (
+                        <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <div style={{ width: '48px', height: '48px', background: 'var(--secondary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#166534' }}>{t.icon}</div>
+                            <div>
+                              <div style={{ fontWeight: 700, color: 'var(--text)' }}>{task.name}</div>
+                              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{task.duration} menit</div>
+                            </div>
+                          </div>
+                          <div style={{ fontWeight: 600, color: 'var(--text)' }}>{task.time}</div>
                         </div>
-                      </div>
-                      <div style={{ fontWeight: 600, color: 'var(--text)' }}>{task.time}</div>
-                    </div>
-                  )
-                })}
-                
-                {Object.keys(activeTasks).length === 0 && historyTasks.length === 0 && (
-                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Belum ada aktivitas.</div>
-                )}
+                      )
+                    })}
+                    
+                    {Object.keys(activeTasks).length === 0 && historyTasks.length === 0 && (
+                      <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Belum ada aktivitas.</div>
+                    )}
 
-              </div>
-            </div>
-
-          </div>
-
-          {/* RIGHT COLUMN: Checklist */}
-          <div className="dashboard-col-side" style={{ ...styles.card }}>
-            <h3 style={{ fontWeight: 700, marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem' }}>Checklist Kegiatan</h3>
-
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1rem', overflowY: 'auto' }}>
-              {checklist.length === 0 && <div style={{ color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>Belum ada daftar kegiatan.</div>}
-              {checklist.map((item, idx) => (
-                <div key={idx} style={{ border: '1px solid var(--border)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: item.done ? 0.6 : 1, transition: 'opacity 0.2s' }}>
-                  <span style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500, textDecoration: item.done ? 'line-through' : 'none' }}>{item.text}</span>
-                  <div onClick={() => toggleTodo(idx)} style={{ width: '20px', height: '20px', border: '2px solid', borderColor: item.done ? 'var(--primary)' : 'var(--border)', background: item.done ? 'var(--primary)' : 'transparent', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                    {item.done && <span style={{fontSize: '12px'}}>✓</span>}
                   </div>
                 </div>
-              ))}
-            </div>
 
-            <div style={{ position: 'relative', marginTop: 'auto', display: 'flex', alignItems: 'center' }}>
-              <input 
-                type="text" 
-                placeholder="Tambah kegiatan..." 
-                value={todoInput}
-                onChange={(e) => setTodoInput(e.target.value)}
-                onKeyDown={addTodo}
-                style={{ width: '100%', padding: '1rem 3rem 1rem 1.25rem', border: '1px solid #E2E8F0', borderRadius: '30px', outline: 'none', background: '#F8FAFC', color: '#1E293B', boxSizing: 'border-box' }}
-              />
-              <button 
-                onClick={addTodo}
-                style={{
-                  position: 'absolute',
-                  right: '0.5rem',
-                  background: '#60B8D4',
-                  border: 'none',
-                  borderRadius: '50%',
-                  width: '36px',
-                  height: '36px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  color: '#fff',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                }}
-              >
-                <Send size={16} style={{ marginLeft: '-2px' }} />
-              </button>
-            </div>
-          </div>
+              </div>
+
+              {/* RIGHT COLUMN: Checklist */}
+              <div className="dashboard-col-side" style={{ ...styles.card }}>
+                <h3 style={{ fontWeight: 700, marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem' }}>Checklist Kegiatan</h3>
+
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1rem', overflowY: 'auto' }}>
+                  {checklist.length === 0 && <div style={{ color: 'var(--text-muted)', textAlign: 'center', marginTop: '2rem' }}>Belum ada daftar kegiatan.</div>}
+                  {checklist.map((item, idx) => (
+                    <div key={idx} style={{ border: '1px solid var(--border)', padding: '1rem', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: item.done ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+                      <span style={{ fontSize: '0.9rem', color: 'var(--text)', fontWeight: 500, textDecoration: item.done ? 'line-through' : 'none' }}>{item.text}</span>
+                      <div onClick={() => toggleTodo(idx)} style={{ width: '20px', height: '20px', border: '2px solid', borderColor: item.done ? 'var(--primary)' : 'var(--border)', background: item.done ? 'var(--primary)' : 'transparent', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                        {item.done && <span style={{fontSize: '12px'}}>✓</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ position: 'relative', marginTop: 'auto', display: 'flex', alignItems: 'center' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Tambah kegiatan..." 
+                    value={todoInput}
+                    onChange={(e) => setTodoInput(e.target.value)}
+                    onKeyDown={addTodo}
+                    style={{ width: '100%', padding: '1rem 3rem 1rem 1.25rem', border: '1px solid #E2E8F0', borderRadius: '30px', outline: 'none', background: '#F8FAFC', color: '#1E293B', boxSizing: 'border-box' }}
+                  />
+                  <button 
+                    onClick={addTodo}
+                    style={{
+                      position: 'absolute',
+                      right: '0.5rem',
+                      background: '#60B8D4',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: '36px',
+                      height: '36px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      color: '#fff',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    }}
+                  >
+                    <Send size={16} style={{ marginLeft: '-2px' }} />
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
 
         </div>
       </div>

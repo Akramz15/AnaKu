@@ -42,6 +42,7 @@ export default function GalleryUpload() {
   const [file, setFile]                   = useState(null)
   const [preview, setPreview]             = useState(null)
   const [loading, setLoading]             = useState(false)
+  const [isGalleryLoading, setIsGalleryLoading] = useState(true)
   const [lightbox, setLightbox]           = useState(null)
   const [showCamera, setShowCamera]       = useState(false)
   const videoRef                          = useRef(null)
@@ -95,8 +96,12 @@ export default function GalleryUpload() {
   }
 
   useEffect(() => {
-    api.get('/api/v1/children/').then(r => {
-      const list = r.data.data
+    setIsGalleryLoading(true)
+    Promise.all([
+      api.get('/api/v1/children/'),
+      api.get('/api/v1/galleries/')
+    ]).then(([childrenRes, galleryRes]) => {
+      const list = childrenRes.data.data
       setChildren(list)
       const savedId = localStorage.getItem('selected_child_id')
       const defaultChild = list.find(c => c.id === savedId) || list[0]
@@ -104,8 +109,10 @@ export default function GalleryUpload() {
         setSelectedChild(defaultChild)
         setForm(f => ({ ...f, child_id: defaultChild.id }))
       }
+      setGallery(galleryRes.data.data)
+    }).catch(console.error).finally(() => {
+      setIsGalleryLoading(false)
     })
-    loadGallery()
     return () => stopCamera() // Cleanup on unmount
   }, [])
 
@@ -125,7 +132,15 @@ export default function GalleryUpload() {
       .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
   }, [selectedChild?.id])
 
-  const loadGallery = () => api.get('/api/v1/galleries/').then(r => setGallery(r.data.data)).catch(console.error)
+  const loadGallery = () => {
+    setIsGalleryLoading(true)
+    return api.get('/api/v1/galleries/')
+      .then(r => setGallery(r.data.data))
+      .catch(console.error)
+      .finally(() => {
+        setIsGalleryLoading(false)
+      })
+  }
 
   const handleCloseModal = () => {
     stopCamera()
@@ -208,39 +223,55 @@ export default function GalleryUpload() {
 
         {/* ── Gallery Grid ── */}
         <div className="dashboard-grid-3" style={S.grid}>
-          {filteredGallery.length === 0 && (
-            <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '4rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              Belum ada foto untuk anak ini. Klik + untuk mengunggah.
-            </div>
-          )}
-          {filteredGallery.map(item => (
-            <div key={item.id} style={S.card} onClick={() => setLightbox(item)}>
-              <div style={S.imgBox}>
-                <img src={item.cloudinary_url} alt={item.caption} style={S.img} />
-                <button
-                  style={S.delBtn}
-                  onClick={e => { e.stopPropagation(); handleDelete(item.id) }}
-                  title="Hapus foto"
-                >
-                  <Trash2 size={14} />
-                </button>
-              </div>
-              <div style={S.cardBody}>
-                <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
-                
-                {item.location && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '0.3rem', fontWeight: 500 }}>
-                    <MapPin size={12} />
-                    <span>{item.location}</span>
+          {isGalleryLoading ? (
+            <>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} style={{ ...S.card, cursor: 'default', background: '#fff' }}>
+                  <div className="skeleton-shimmer" style={{ width: '100%', height: '200px', borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }} />
+                  <div style={S.cardBody}>
+                    <div className="skeleton-shimmer" style={{ height: '16px', width: '70%', marginBottom: '0.5rem' }} />
+                    <div className="skeleton-shimmer" style={{ height: '12px', width: '40%' }} />
                   </div>
-                )}
-
-                <div style={S.cardMeta}>
-                  {fmtTime(item.created_at || item.activity_date)} | {fmtDate(item.created_at || item.activity_date)}
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
+            </>
+          ) : (
+            <>
+              {filteredGallery.length === 0 && (
+                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '4rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                  Belum ada foto untuk anak ini. Klik + untuk mengunggah.
+                </div>
+              )}
+              {filteredGallery.map(item => (
+                <div key={item.id} style={S.card} onClick={() => setLightbox(item)}>
+                  <div style={S.imgBox}>
+                    <img src={item.cloudinary_url} alt={item.caption} style={S.img} />
+                    <button
+                      style={S.delBtn}
+                      onClick={e => { e.stopPropagation(); handleDelete(item.id) }}
+                      title="Hapus foto"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                  <div style={S.cardBody}>
+                    <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
+                    
+                    {item.location && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '0.3rem', fontWeight: 500 }}>
+                        <MapPin size={12} />
+                        <span>{item.location}</span>
+                      </div>
+                    )}
+
+                    <div style={S.cardMeta}>
+                      {fmtTime(item.created_at || item.activity_date)} | {fmtDate(item.created_at || item.activity_date)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
 
         {/* ── FAB Upload ── */}

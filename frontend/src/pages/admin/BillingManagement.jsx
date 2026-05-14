@@ -69,7 +69,29 @@ export default function BillingManagement() {
 
         <div className="table-responsive" style={S.tableContainer}>
           {loading ? (
-            <div style={{ padding: '2rem', color: '#64748B' }}>Memuat data...</div>
+            <table style={S.table}>
+              <thead>
+                <tr>
+                  <th style={S.th}>Nama Anak</th>
+                  <th style={S.th}>Orang Tua</th>
+                  <th style={S.th}>Periode</th>
+                  <th style={S.th}>Total (Rp)</th>
+                  <th style={S.th}>Status</th>
+                  <th style={{...S.th, textAlign:'right'}}>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i}>
+                    {[...Array(6)].map((_, j) => (
+                      <td key={j} style={S.td}>
+                        <div className="skeleton-shimmer" style={{ height: '16px', width: j === 0 ? '80%' : j === 5 ? '40%' : '60%' }} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <table style={S.table}>
               <thead>

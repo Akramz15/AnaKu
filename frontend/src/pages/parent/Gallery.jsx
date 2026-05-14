@@ -86,8 +86,16 @@ export default function ParentGallery() {
 
         {/* ── Gallery Grid ── */}
         {loading ? (
-          <div style={S.emptyState}>
-            <p style={{ color: 'var(--text-muted)' }}>Memuat galeri...</p>
+          <div className="dashboard-grid-3" style={S.grid}>
+            {[...Array(6)].map((_, i) => (
+              <div key={i} style={{ ...S.card, cursor: 'default' }}>
+                <div className="skeleton-shimmer" style={{ width: '100%', height: '220px', borderTopLeftRadius: '12px', borderTopRightRadius: '12px' }} />
+                <div style={S.cardBody}>
+                  <div className="skeleton-shimmer" style={{ height: '18px', width: '70%', marginBottom: '0.5rem' }} />
+                  <div className="skeleton-shimmer" style={{ height: '12px', width: '40%' }} />
+                </div>
+              </div>
+            ))}
           </div>
         ) : gallery.length === 0 ? (
           <div style={S.emptyState}>

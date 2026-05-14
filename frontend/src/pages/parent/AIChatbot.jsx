@@ -78,16 +78,20 @@ export default function AIChatbot() {
   const [input, setInput]                     = useState('')
   const [loading, setLoading]                 = useState(false)
   const [showConfirm, setShowConfirm]         = useState(false)
+  const [isPageLoading, setIsPageLoading]     = useState(true)
   const bottomRef                             = useRef(null)
 
   // ── Load children ─────────────────────────────────────────────────────────
   useEffect(() => {
+    setIsPageLoading(true)
     api.get('/api/v1/children').then(r => {
       const list = r.data.data
       setChildren(list)
       const savedId = localStorage.getItem('selected_child_id')
       const defaultChild = list.find(c => c.id === savedId) || list[0]
       if (defaultChild) setSelectedChild(defaultChild)
+    }).finally(() => {
+      setIsPageLoading(false)
     })
   }, [])
 
@@ -221,117 +225,158 @@ export default function AIChatbot() {
 
         {/* ── Chat Layout (sidebar + main) ── */}
         <div className={`chat-layout ${activeSessionId ? 'has-active-chat' : ''}`} style={S.chatLayout}>
-
-          {/* ── Left Sidebar: Session History ── */}
-          <div className="chat-sidebar" style={S.sidebar}>
-            <div style={{ ...S.sidebarHeader, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-muted)' }}>Riwayat Chat</span>
-              <button style={{ ...S.plusBtn, width: 28, height: 28 }} onClick={() => setShowConfirm(true)} title="Percakapan baru">
-                <Plus size={16} />
-              </button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto', flex: 1 }}>
-              {[...sessions].reverse().map(session => (
-                <div
-                  key={session.id}
-                  style={{ ...S.sessionRow, ...(session.id === activeSessionId ? S.sessionRowActive : {}) }}
-                  onClick={() => switchSession(session)}
-                >
-                  <MessageSquare size={14} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {session.title}
+          {isPageLoading ? (
+            <>
+              {/* Left Sidebar Shimmer */}
+              <div className="chat-sidebar" style={{ ...S.sidebar, display: 'flex', flexDirection: 'column', gap: '1rem', padding: '1rem', borderRight: '1px solid var(--border)' }}>
+                <div className="skeleton-shimmer" style={{ height: '20px', width: '70%', borderRadius: '4px' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} style={{ display: 'flex', gap: '0.75rem', padding: '0.75rem', borderRadius: '12px', border: '1px solid var(--border)', background: '#fff' }}>
+                      <div className="skeleton-shimmer" style={{ width: '24px', height: '24px', borderRadius: '4px' }} />
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                        <div className="skeleton-shimmer" style={{ height: '14px', width: '80%', borderRadius: '3px' }} />
+                        <div className="skeleton-shimmer" style={{ height: '10px', width: '50%', borderRadius: '2px' }} />
+                      </div>
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{fmtDate(session.createdAt)}</div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Right Panel Shimmer */}
+              <div className="chat-panel" style={{ ...S.chatCard, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', background: '#fff' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+                  <div className="skeleton-shimmer" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <div className="skeleton-shimmer" style={{ height: '16px', width: '150px', borderRadius: '4px' }} />
+                    <div className="skeleton-shimmer" style={{ height: '12px', width: '220px', borderRadius: '3px' }} />
                   </div>
-                  <button
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '2px', flexShrink: 0, opacity: 0.6 }}
-                    onClick={e => deleteSession(e, session.id)}
-                    title="Hapus"
-                  >
-                    <Trash2 size={13} />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem', justifyContent: 'flex-start' }}>
+                  <div style={{ display: 'flex', gap: '0.75rem', maxWidth: '60%', alignItems: 'flex-start' }}>
+                    <div className="skeleton-shimmer" style={{ width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0 }} />
+                    <div className="skeleton-shimmer" style={{ height: '70px', flex: 1, borderRadius: '16px 16px 16px 4px' }} />
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.75rem', maxWidth: '60%', marginLeft: 'auto', alignItems: 'flex-start' }}>
+                    <div className="skeleton-shimmer" style={{ height: '60px', width: '240px', borderRadius: '16px 16px 4px 16px' }} />
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* ── Left Sidebar: Session History ── */}
+              <div className="chat-sidebar" style={S.sidebar}>
+                <div style={{ ...S.sidebarHeader, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-muted)' }}>Riwayat Chat</span>
+                  <button style={{ ...S.plusBtn, width: 28, height: 28 }} onClick={() => setShowConfirm(true)} title="Percakapan baru">
+                    <Plus size={16} />
                   </button>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Main Chat Area ── */}
-          <div className="chat-panel" style={S.chatCard}>
-            {/* Card Header */}
-            <div style={S.chatCardHeader}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <button className="mobile-back-btn" onClick={() => setActiveSessionId(null)}>
-                  <ChevronLeft size={20} />
-                </button>
-                <h3 style={{ margin: 0, fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>Tanya AI</h3>
-              </div>
-              <button style={S.plusBtn} onClick={() => setShowConfirm(true)} title="Percakapan baru">
-                <Plus size={18} />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div style={S.messages}>
-              {messages.map((msg, i) => {
-                const isUser = msg.role === 'user'
-                return (
-                  <div key={i} style={{ display: 'flex', flexDirection: isUser ? 'row-reverse' : 'row', alignItems: 'flex-start', gap: '0.7rem', marginBottom: '1.5rem' }}>
-                    <Avatar name={isUser ? profile?.full_name : 'AI'} size={36} bg={isUser ? 'var(--primary-dark)' : '#CBD5E1'} />
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: isUser ? 'flex-end' : 'flex-start', maxWidth: '78%', gap: '0.3rem' }}>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-                        {isUser ? (profile?.full_name ?? 'Anda') : 'Asisten AnaKu'}
-                      </span>
-                      {isUser ? (
-                        <div style={S.userBubble}>{msg.text}</div>
-                      ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
-                          {msg.text.split('\n\n').filter(p => p.trim()).map((para, pi) => (
-                            <div key={pi} style={S.aiBubble}>{para.trim()}</div>
-                          ))}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto', flex: 1 }}>
+                  {[...sessions].reverse().map(session => (
+                    <div
+                      key={session.id}
+                      style={{ ...S.sessionRow, ...(session.id === activeSessionId ? S.sessionRowActive : {}) }}
+                      onClick={() => switchSession(session)}
+                    >
+                      <MessageSquare size={14} style={{ flexShrink: 0, marginTop: 2 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {session.title}
                         </div>
-                      )}
+                        <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{fmtDate(session.createdAt)}</div>
+                      </div>
+                      <button
+                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '2px', flexShrink: 0, opacity: 0.6 }}
+                        onClick={e => deleteSession(e, session.id)}
+                        title="Hapus"
+                      >
+                        <Trash2 size={13} />
+                      </button>
                     </div>
-                  </div>
-                )
-              })}
+                  ))}
+                </div>
+              </div>
 
-              {loading && (
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.7rem', marginBottom: '1.5rem' }}>
-                  <Avatar name="AI" size={36} bg="#CBD5E1" />
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Asisten AnaKu</span>
-                    <div style={{ ...S.aiBubble, color: '#64748B', fontStyle: 'italic' }}>Sedang berpikir...</div>
+              {/* ── Main Chat Area ── */}
+              <div className="chat-panel" style={S.chatCard}>
+                {/* Card Header */}
+                <div style={S.chatCardHeader}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button className="mobile-back-btn" onClick={() => setActiveSessionId(null)}>
+                      <ChevronLeft size={20} />
+                    </button>
+                    <h3 style={{ margin: 0, fontWeight: 700, fontSize: '1.1rem', color: 'var(--text)' }}>Tanya AI</h3>
+                  </div>
+                  <button style={S.plusBtn} onClick={() => setShowConfirm(true)} title="Percakapan baru">
+                    <Plus size={18} />
+                  </button>
+                </div>
+
+                {/* Messages */}
+                <div style={S.messages}>
+                  {messages.map((msg, i) => {
+                    const isUser = msg.role === 'user'
+                    return (
+                      <div key={i} style={{ display: 'flex', flexDirection: isUser ? 'row-reverse' : 'row', alignItems: 'flex-start', gap: '0.7rem', marginBottom: '1.5rem' }}>
+                        <Avatar name={isUser ? profile?.full_name : 'AI'} size={36} bg={isUser ? 'var(--primary-dark)' : '#CBD5E1'} />
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: isUser ? 'flex-end' : 'flex-start', maxWidth: '78%', gap: '0.3rem' }}>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+                            {isUser ? (profile?.full_name ?? 'Anda') : 'Asisten AnaKu'}
+                          </span>
+                          {isUser ? (
+                            <div style={S.userBubble}>{msg.text}</div>
+                          ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
+                              {msg.text.split('\n\n').filter(p => p.trim()).map((para, pi) => (
+                                <div key={pi} style={S.aiBubble}>{para.trim()}</div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+
+                  {loading && (
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.7rem', marginBottom: '1.5rem' }}>
+                      <div className="skeleton-shimmer" style={{ width: 36, height: 36, borderRadius: '50%' }} />
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1, maxWidth: '65%' }}>
+                        <div className="skeleton-shimmer" style={{ height: '12px', width: '100px', borderRadius: '4px' }} />
+                        <div className="skeleton-shimmer" style={{ height: '46px', width: '100%', borderRadius: '16px 16px 16px 4px' }} />
+                      </div>
+                    </div>
+                  )}
+                  <div ref={bottomRef} />
+                </div>
+
+                {/* Quick Question Chips (Horizontal swipe row) */}
+                <div className="no-scrollbar" style={S.quickWrap}>
+                  {QUICK_QUESTIONS.map((q, i) => (
+                    <button key={i} style={S.quickChip} onClick={() => setInput(q)}>{q}</button>
+                  ))}
+                </div>
+
+                {/* Input Bar */}
+                <div style={S.inputBar}>
+                  <input
+                    style={S.input}
+                    placeholder="Type here..."
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onKeyDown={onKeyDown}
+                    disabled={loading}
+                  />
+                  <div style={S.inputActions}>
+                    <button style={{ ...S.iconBtn, ...S.sendIconBtn }} onClick={sendMessage} disabled={!input.trim() || loading}>
+                      <Send size={16} />
+                    </button>
                   </div>
                 </div>
-              )}
-              <div ref={bottomRef} />
-            </div>
-
-            {/* Quick Question Chips (Horizontal swipe row) */}
-            <div className="no-scrollbar" style={S.quickWrap}>
-              {QUICK_QUESTIONS.map((q, i) => (
-                <button key={i} style={S.quickChip} onClick={() => setInput(q)}>{q}</button>
-              ))}
-            </div>
-
-            {/* Input Bar */}
-            <div style={S.inputBar}>
-              <input
-                style={S.input}
-                placeholder="Type here..."
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={onKeyDown}
-                disabled={loading}
-              />
-              <div style={S.inputActions}>
-                <button style={{ ...S.iconBtn, ...S.sendIconBtn }} onClick={sendMessage} disabled={!input.trim() || loading}>
-                  <Send size={16} />
-                </button>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
 
         {/* ── Confirmation Modal ── */}

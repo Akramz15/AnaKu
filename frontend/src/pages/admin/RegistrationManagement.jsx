@@ -104,7 +104,26 @@ export default function RegistrationManagement() {
           {/* Table */}
           <div className="table-responsive" style={S.tableWrap}>
             {loading ? (
-              <div style={S.empty}>Memuat data...</div>
+              <table style={S.table}>
+                <thead>
+                  <tr>
+                    {['Nama', 'No. Telepon', 'Email', 'Tanggal Daftar', 'Status', 'Aksi'].map(h => (
+                      <th key={h} style={S.th}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...Array(5)].map((_, i) => (
+                    <tr key={i} style={{ background: i % 2 === 0 ? '#fff' : '#F8FAFC' }}>
+                      {[...Array(6)].map((_, j) => (
+                        <td key={j} style={S.td}>
+                          <div className="skeleton-shimmer" style={{ height: '16px', width: j === 0 ? '85%' : j === 5 ? '40%' : '60%' }} />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             ) : data.length === 0 ? (
               <div style={S.empty}>Tidak ada data untuk tab ini.</div>
             ) : (

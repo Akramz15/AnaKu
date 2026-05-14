@@ -40,6 +40,7 @@ export default function ParentDashboard() {
   const [todayAttendance, setTodayAttendance] = useState(null)
   const [showEdit, setShowEdit] = useState(false)
   const [caregivers, setCaregivers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   // Tanya AI state
   const STORAGE_KEY = (childId) => `anaku_ai_sessions_${childId}`
@@ -65,6 +66,7 @@ export default function ParentDashboard() {
   // Reset semua state saat anak berganti agar data tidak bocor antar anak
   useEffect(() => {
     if (!selectedChild) return
+    setIsLoading(true)
     setTodayLog(null)
     setTodayAttendance(null)
     setChatInput('')
@@ -94,6 +96,7 @@ export default function ParentDashboard() {
         setTodayLog(logRes.data.data[0] || null)
         const todayAtt = attRes.data.data.find(a => a.date === today)
         setTodayAttendance(todayAtt || null)
+        setIsLoading(false)
       })
     }
 
@@ -176,136 +179,165 @@ export default function ParentDashboard() {
         {/* Top Cards Row */}
         <div className="dashboard-grid-3" style={{ width: '100%' }}>
           
-          {/* 1. Kabar Anaku (Peach Background) */}
-          <div style={{ ...styles.card, background: '#F4A590', border: 'none' }}>
-            <h3 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', marginTop: 0 }}>Kabar Anaku</h3>
-            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
-              {todayLog?.ai_daily_summary || 'Si kecil melewati hari dengan sangat ceria dan kooperatif, mulai dari menghabiskan seluruh makanannya hingga tidur siang dengan sangat pulas. Secara keseluruhan, kondisinya terpantau sangat baik dan aktif.'}
-            </p>
-            <button style={styles.ovalWhiteBtn} onClick={() => navigate('/parent/daily-log')}>
-              Baca Laporan
-            </button>
-          </div>
+          {isLoading ? (
+            <>
+              {/* Skeleton Card 1: Kabar Anaku */}
+              <div style={{ ...styles.card, gap: '0.75rem' }}>
+                <div className="skeleton-shimmer" style={{ height: '22px', width: '60%' }} />
+                <div className="skeleton-shimmer" style={{ height: '14px', width: '100%', marginTop: '0.5rem' }} />
+                <div className="skeleton-shimmer" style={{ height: '14px', width: '90%' }} />
+                <div className="skeleton-shimmer" style={{ height: '14px', width: '80%' }} />
+                <div className="skeleton-shimmer" style={{ height: '38px', width: '120px', borderRadius: '20px', marginTop: 'auto' }} />
+              </div>
+              {/* Skeleton Card 2: Caregivers */}
+              <div style={styles.card}>
+                <div className="skeleton-shimmer" style={{ height: '22px', width: '70%', marginBottom: '1rem' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', flex: 1, justifyContent: 'center' }}>
+                  <div className="skeleton-shimmer" style={{ height: '64px', borderRadius: '16px' }} />
+                  <div className="skeleton-shimmer" style={{ height: '64px', borderRadius: '16px' }} />
+                </div>
+              </div>
+              {/* Skeleton Card 3: Attendance */}
+              <div style={styles.card}>
+                <div className="skeleton-shimmer" style={{ height: '22px', width: '50%', marginBottom: '1rem' }} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
+                  <div className="skeleton-shimmer" style={{ height: '74px', borderRadius: '12px' }} />
+                  <div className="skeleton-shimmer" style={{ height: '74px', borderRadius: '12px' }} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* 1. Kabar Anaku (Peach Background) */}
+              <div style={{ ...styles.card, background: '#F4A590', border: 'none' }}>
+                <h3 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', marginTop: 0 }}>Kabar Anaku</h3>
+                <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
+                  {todayLog?.ai_daily_summary || 'Si kecil melewati hari dengan sangat ceria dan kooperatif, mulai dari menghabiskan seluruh makanannya hingga tidur siang dengan sangat pulas. Secara keseluruhan, kondisinya terpantau sangat baik dan aktif.'}
+                </p>
+                <button style={styles.ovalWhiteBtn} onClick={() => navigate('/parent/daily-log')}>
+                  Baca Laporan
+                </button>
+              </div>
 
-          {/* 2. Pengasuh Yang Bertugas */}
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>Pengasuh Yang Bertugas</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', flex: 1 }}>
-              {caregivers.length > 0 ? (
-                caregivers.map(cg => (
-                  <div key={cg.id} style={{ 
-                    background: '#E2ECEB', borderRadius: '16px', 
-                    padding: '1rem 1.5rem', width: '100%', 
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    boxSizing: 'border-box'
-                  }}>
-                    <div>
-                      <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
-                        {cg.full_name}
+              {/* 2. Pengasuh Yang Bertugas */}
+              <div style={styles.card}>
+                <h3 style={styles.cardTitle}>Pengasuh Yang Bertugas</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', flex: 1 }}>
+                  {caregivers.length > 0 ? (
+                    caregivers.map(cg => (
+                      <div key={cg.id} style={{ 
+                        background: '#E2ECEB', borderRadius: '16px', 
+                        padding: '1rem 1.5rem', width: '100%', 
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        boxSizing: 'border-box'
+                      }}>
+                        <div>
+                          <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
+                            {cg.full_name}
+                          </div>
+                          <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Resmi</div>
+                        </div>
+                        <div 
+                          style={{ 
+                            background: '#fff', width: 36, height: 36, borderRadius: '50%', 
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                            flexShrink: 0
+                          }} 
+                          onClick={() => {
+                            localStorage.setItem('open_chat_user_id', cg.id)
+                            navigate('/parent/chat')
+                          }}
+                        >
+                          <MessageCircle size={18} color="#1E293B" />
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Resmi</div>
+                    ))
+                  ) : (
+                    <div style={{ 
+                      background: '#E2ECEB', borderRadius: '16px', 
+                      padding: '1.25rem 1.5rem', width: '100%', 
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      boxSizing: 'border-box'
+                    }}>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
+                          {todayLog?.caregiver?.full_name || 'Maggie Johnson'}
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Senior</div>
+                      </div>
+                      <div 
+                        style={{ 
+                          background: '#fff', width: 36, height: 36, borderRadius: '50%', 
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                          flexShrink: 0
+                        }} 
+                        onClick={() => navigate('/parent/chat')}
+                      >
+                        <MessageCircle size={18} color="#1E293B" />
+                      </div>
                     </div>
-                    <div 
-                      style={{ 
-                        background: '#fff', width: 36, height: 36, borderRadius: '50%', 
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-                        flexShrink: 0
-                      }} 
-                      onClick={() => {
-                        localStorage.setItem('open_chat_user_id', cg.id)
-                        navigate('/parent/chat')
-                      }}
-                    >
-                      <MessageCircle size={18} color="#1E293B" />
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div style={{ 
-                  background: '#E2ECEB', borderRadius: '16px', 
-                  padding: '1.25rem 1.5rem', width: '100%', 
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  boxSizing: 'border-box'
-                }}>
-                  <div>
-                    <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
-                      {todayLog?.caregiver?.full_name || 'Maggie Johnson'}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Senior</div>
-                  </div>
-                  <div 
-                    style={{ 
-                      background: '#fff', width: 36, height: 36, borderRadius: '50%', 
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-                      flexShrink: 0
-                    }} 
-                    onClick={() => navigate('/parent/chat')}
-                  >
-                    <MessageCircle size={18} color="#1E293B" />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* 3. Check In/Out */}
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>Check In/Out</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
-              
-              {/* IN */}
-              <div style={{ 
-                background: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#DCFCE7' : '#F4F4F5', 
-                borderStyle: 'solid', 
-                borderWidth: '1px', 
-                borderColor: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#A7F3D0' : '#E5E7EB',
-                borderRadius: '12px', padding: '1rem'
-              }}>
-                <div style={{ 
-                  fontSize: '0.7rem', fontWeight: 700, 
-                  color: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#15803D' : '#64748B', 
-                  marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem' 
-                }}>
-                  <div style={{
-                    width: 6, height: 6, 
-                    background: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#15803D' : '#64748B', 
-                    borderRadius: '50%'
-                  }}></div> Checking In
-                </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1E293B' }}>
-                  {todayAttendance?.check_in_at ? fmt12h(todayAttendance.check_in_at) : '—'}
+                  )}
                 </div>
               </div>
 
-              {/* OUT */}
-              <div style={{ 
-                background: todayAttendance?.check_out_at ? '#FEE2E2' : '#F4F4F5', 
-                borderRadius: '12px', padding: '1rem', 
-                borderStyle: 'solid',
-                borderWidth: '1px',
-                borderColor: todayAttendance?.check_out_at ? '#FECACA' : '#E5E7EB'
-              }}>
-                <div style={{ 
-                  fontSize: '0.7rem', fontWeight: 700, 
-                  color: todayAttendance?.check_out_at ? '#B91C1C' : '#64748B', 
-                  marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem' 
-                }}>
-                  <div style={{
-                    width: 6, height: 6, 
-                    background: todayAttendance?.check_out_at ? '#B91C1C' : '#64748B', 
-                    borderRadius: '50%'
-                  }}></div> Pick Up
-                </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: todayAttendance?.check_out_at ? '#1E293B' : '#94A3B8' }}>
-                  {todayAttendance?.check_out_at ? fmt12h(todayAttendance.check_out_at) : '17:00 PM'}
+              {/* 3. Check In/Out */}
+              <div style={styles.card}>
+                <h3 style={styles.cardTitle}>Check In/Out</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
+                  
+                  {/* IN */}
+                  <div style={{ 
+                    background: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#DCFCE7' : '#F4F4F5', 
+                    borderStyle: 'solid', 
+                    borderWidth: '1px', 
+                    borderColor: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#A7F3D0' : '#E5E7EB',
+                    borderRadius: '12px', padding: '1rem'
+                  }}>
+                    <div style={{ 
+                      fontSize: '0.7rem', fontWeight: 700, 
+                      color: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#15803D' : '#64748B', 
+                      marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem' 
+                    }}>
+                      <div style={{
+                        width: 6, height: 6, 
+                        background: (todayAttendance?.check_in_at && !todayAttendance?.check_out_at) ? '#15803D' : '#64748B', 
+                        borderRadius: '50%'
+                      }}></div> Checking In
+                    </div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1E293B' }}>
+                      {todayAttendance?.check_in_at ? fmt12h(todayAttendance.check_in_at) : '—'}
+                    </div>
+                  </div>
+
+                  {/* OUT */}
+                  <div style={{ 
+                    background: todayAttendance?.check_out_at ? '#FEE2E2' : '#F4F4F5', 
+                    borderRadius: '12px', padding: '1rem', 
+                    borderStyle: 'solid',
+                    borderWidth: '1px',
+                    borderColor: todayAttendance?.check_out_at ? '#FECACA' : '#E5E7EB'
+                  }}>
+                    <div style={{ 
+                      fontSize: '0.7rem', fontWeight: 700, 
+                      color: todayAttendance?.check_out_at ? '#B91C1C' : '#64748B', 
+                      marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.3rem' 
+                    }}>
+                      <div style={{
+                        width: 6, height: 6, 
+                        background: todayAttendance?.check_out_at ? '#B91C1C' : '#64748B', 
+                        borderRadius: '50%'
+                      }}></div> Pick Up
+                    </div>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: todayAttendance?.check_out_at ? '#1E293B' : '#94A3B8' }}>
+                      {todayAttendance?.check_out_at ? fmt12h(todayAttendance.check_out_at) : '17:00 PM'}
+                    </div>
+                  </div>
                 </div>
               </div>
-
-            </div>
-          </div>
-
+            </>
+          )}
         </div>
 
         {/* Split Content Row */}
@@ -314,86 +346,106 @@ export default function ParentDashboard() {
           {/* LEFT COLUMN (Mood & Daily Report) */}
           <div className="dashboard-col-main" style={{ gap: '1.25rem' }}>
             
-            {/* Mood Card */}
-            <div style={styles.card}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                <h3 style={{ ...styles.cardTitle, marginBottom: 0 }}>Mood Anak</h3>
-                <span style={{ ...styles.badgeGreen, background: getParentMoodColor(todayLog?.mood), color: '#fff' }}>{getParentMoodLabel(todayLog?.mood)}</span>
-              </div>
-              <p style={{ fontSize: '0.75rem', color: '#94A3B8', margin: '0 0 1rem' }}>Suasana hati stabil.</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#F8FAFC', padding: '0.75rem', borderRadius: '12px' }}>
-                <Smile size={24} color={getParentMoodColor(todayLog?.mood)} />
-                <div style={{ flex: 1, height: '8px', background: '#E2E8F0', borderRadius: '4px', overflow: 'hidden' }}>
-                  <div style={{ 
-                    width: todayLog?.mood === 'ceria' ? '100%' : todayLog?.mood === 'biasa' ? '70%' : todayLog?.mood === 'rewel' ? '40%' : todayLog?.mood === 'menangis' ? '15%' : '100%', 
-                    height: '100%', 
-                    background: getParentMoodColor(todayLog?.mood), 
-                    borderRadius: '4px',
-                    transition: 'width 0.5s ease'
-                  }} />
+            {isLoading ? (
+              <>
+                {/* Skeleton Mood Card */}
+                <div style={styles.card}>
+                  <div className="skeleton-shimmer" style={{ height: '22px', width: '40%', marginBottom: '1rem' }} />
+                  <div className="skeleton-shimmer" style={{ height: '48px', borderRadius: '12px' }} />
                 </div>
-              </div>
-            </div>
+                {/* Skeleton Daily Report Card */}
+                <div style={{ ...styles.card, flex: 1 }}>
+                  <div className="skeleton-shimmer" style={{ height: '22px', width: '35%', marginBottom: '1.5rem' }} />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div className="skeleton-shimmer" style={{ height: '58px', borderRadius: '12px' }} />
+                    <div className="skeleton-shimmer" style={{ height: '58px', borderRadius: '12px' }} />
+                    <div className="skeleton-shimmer" style={{ height: '58px', borderRadius: '12px' }} />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Mood Card */}
+                <div style={styles.card}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                    <h3 style={{ ...styles.cardTitle, marginBottom: 0 }}>Mood Anak</h3>
+                    <span style={{ ...styles.badgeGreen, background: getParentMoodColor(todayLog?.mood), color: '#fff' }}>{getParentMoodLabel(todayLog?.mood)}</span>
+                  </div>
+                  <p style={{ fontSize: '0.75rem', color: '#94A3B8', margin: '0 0 1rem' }}>Suasana hati stabil.</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#F8FAFC', padding: '0.75rem', borderRadius: '12px' }}>
+                    <Smile size={24} color={getParentMoodColor(todayLog?.mood)} />
+                    <div style={{ flex: 1, height: '8px', background: '#E2E8F0', borderRadius: '4px', overflow: 'hidden' }}>
+                      <div style={{ 
+                        width: todayLog?.mood === 'ceria' ? '100%' : todayLog?.mood === 'biasa' ? '70%' : todayLog?.mood === 'rewel' ? '40%' : todayLog?.mood === 'menangis' ? '15%' : '100%', 
+                        height: '100%', 
+                        background: getParentMoodColor(todayLog?.mood), 
+                        borderRadius: '4px',
+                        transition: 'width 0.5s ease'
+                      }} />
+                    </div>
+                  </div>
+                </div>
 
-            {/* Daily Report Card */}
-            <div style={{ ...styles.card, flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h3 style={styles.cardTitle}>Daily Report</h3>
-                <span style={{ fontSize: '0.75rem', color: '#64748B', cursor: 'pointer' }}>Detail</span>
-              </div>
+                {/* Daily Report Card */}
+                <div style={{ ...styles.card, flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h3 style={styles.cardTitle}>Daily Report</h3>
+                    <span style={{ fontSize: '0.75rem', color: '#64748B', cursor: 'pointer' }}>Detail</span>
+                  </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {(() => {
-                  const actives = []
-                  const history = []
-                  if (todayLog?.activities) {
-                    todayLog.activities.forEach(act => {
-                      if (act.startsWith('START|')) {
-                        const parts = act.split('|')
-                        actives.push({ name: parts[1], startTime: parts[2] })
-                      } else if (act.startsWith('DONE|')) {
-                        const parts = act.split('|')
-                        history.unshift({ name: parts[1], time: parts[2], duration: parts[3] })
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {(() => {
+                      const actives = []
+                      const history = []
+                      if (todayLog?.activities) {
+                        todayLog.activities.forEach(act => {
+                          if (act.startsWith('START|')) {
+                            const parts = act.split('|')
+                            actives.push({ name: parts[1], startTime: parts[2] })
+                          } else if (act.startsWith('DONE|')) {
+                            const parts = act.split('|')
+                            history.unshift({ name: parts[1], time: parts[2], duration: parts[3] })
+                          }
+                        })
                       }
-                    })
-                  }
-                  
-                  // Add mock default data to match visual mockup if empty
-                  if (actives.length === 0 && history.length === 0) {
-                     return <div style={{ padding: '2rem', textAlign: 'center', color: '#94A3B8', fontSize: '0.85rem' }}>Belum ada aktivitas hari ini.</div>
-                  }
+                      
+                      if (actives.length === 0 && history.length === 0) {
+                        return <div style={{ padding: '2rem', textAlign: 'center', color: '#94A3B8', fontSize: '0.85rem' }}>Belum ada aktivitas hari ini.</div>
+                      }
 
-                  return (
-                    <>
-                      {actives.map((task, i) => (
-                        <div key={i} style={{ background: '#93CFF5', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <div style={{ width: 44, height: 44, background: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
-                            <div>
-                              <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.85rem' }}>{task.name}</div>
-                              <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 800 }}><LiveTimer startTimeISO={task.startTime} /></div>
+                      return (
+                        <>
+                          {actives.map((task, i) => (
+                            <div key={i} style={{ background: '#93CFF5', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <div style={{ width: 44, height: 44, background: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
+                                <div>
+                                  <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.85rem' }}>{task.name}</div>
+                                  <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 800 }}><LiveTimer startTimeISO={task.startTime} /></div>
+                                </div>
+                              </div>
+                              <span style={{ background: '#fff', color: '#56A1D8', padding: '0.3rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 }}>Sekarang</span>
                             </div>
-                          </div>
-                          <span style={{ background: '#fff', color: '#56A1D8', padding: '0.3rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 }}>Sekarang</span>
-                        </div>
-                      ))}
-                      {history.map((task, i) => (
-                        <div key={i} style={{ border: '1px solid #E2E8F0', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <div style={{ width: 44, height: 44, background: '#F1F5F9', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
-                            <div>
-                              <div style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.name}</div>
-                              <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{task.duration} menit</div>
+                          ))}
+                          {history.map((task, i) => (
+                            <div key={i} style={{ border: '1px solid #E2E8F0', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                <div style={{ width: 44, height: 44, background: '#F1F5F9', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
+                                <div>
+                                  <div style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.name}</div>
+                                  <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{task.duration} menit</div>
+                                </div>
+                              </div>
+                              <span style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.time}</span>
                             </div>
-                          </div>
-                          <span style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.time}</span>
-                        </div>
-                      ))}
-                    </>
-                  )
-                })()}
-              </div>
-            </div>
+                          ))}
+                        </>
+                      )
+                    })()}
+                  </div>
+                </div>
+              </>
+            )}
 
           </div>
 

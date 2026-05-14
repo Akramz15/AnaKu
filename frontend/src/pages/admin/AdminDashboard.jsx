@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const { profile } = useAuth()
   const navigate = useNavigate()
   const [stats, setStats] = useState({ total:0, active:0, today:0, unpaid:0 })
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     Promise.all([
@@ -22,6 +23,7 @@ export default function AdminDashboard() {
         today:  a.data.data.filter(x => x.date === today && x.status === 'present').length,
         unpaid: b.data.data.filter(x => x.status === 'unpaid').length,
       })
+      setIsLoading(false)
     })
   }, [])
 
@@ -44,28 +46,50 @@ export default function AdminDashboard() {
 
         {/* Stats Row */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-          {CARDS.map(card => (
-            <div 
-              key={card.label} 
-              style={{ 
-                background: '#FFFFFF', 
-                borderRadius: '16px', 
-                padding: '1.5rem', 
-                cursor: 'pointer',
-                boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
-                border: '1px solid #F8F9FA',
-                borderLeft: `4px solid ${card.color}`,
-                transition: 'transform 0.2s ease'
-              }}
-              onClick={() => navigate(card.path)}
-              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-            >
-              <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem' }}>{card.icon}</div>
-              <div style={{ fontSize: '2rem', fontWeight: 800, color: '#1E293B' }}>{card.value}</div>
-              <div style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 600, marginTop: '0.25rem' }}>{card.label}</div>
-            </div>
-          ))}
+          {isLoading ? (
+            [...Array(4)].map((_, i) => (
+              <div 
+                key={i} 
+                style={{ 
+                  background: '#FFFFFF', 
+                  borderRadius: '16px', 
+                  padding: '1.5rem', 
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+                  border: '1px solid #F8F9FA',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem'
+                }}
+              >
+                <div className="skeleton-shimmer" style={{ height: '40px', width: '40px', borderRadius: '50%' }} />
+                <div className="skeleton-shimmer" style={{ height: '32px', width: '30%' }} />
+                <div className="skeleton-shimmer" style={{ height: '14px', width: '70%' }} />
+              </div>
+            ))
+          ) : (
+            CARDS.map(card => (
+              <div 
+                key={card.label} 
+                style={{ 
+                  background: '#FFFFFF', 
+                  borderRadius: '16px', 
+                  padding: '1.5rem', 
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+                  border: '1px solid #F8F9FA',
+                  borderLeft: `4px solid ${card.color}`,
+                  transition: 'transform 0.2s ease'
+                }}
+                onClick={() => navigate(card.path)}
+                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+              >
+                <div style={{ fontSize: '2.2rem', marginBottom: '0.5rem' }}>{card.icon}</div>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: '#1E293B' }}>{card.value}</div>
+                <div style={{ color: '#64748B', fontSize: '0.85rem', fontWeight: 600, marginTop: '0.25rem' }}>{card.label}</div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </PageLayout>

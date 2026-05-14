@@ -9,6 +9,7 @@ export default function ChildrenManagement() {
   const [parents, setParents] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState({
     full_name: '', birth_date: '', gender: 'male', parent_id: '', notes: ''
@@ -38,6 +39,8 @@ export default function ChildrenManagement() {
     } catch (err) {
       console.error(err)
       toast.error("Gagal mengambil data: " + (err.response?.data?.detail || err.message))
+    } finally {
+      setIsInitialLoading(false)
     }
   }
 
@@ -127,54 +130,81 @@ export default function ChildrenManagement() {
         </div>
 
         <div className="table-responsive" style={S.tableContainer}>
-          <table style={S.table}>
-            <thead>
-              <tr>
-                <th style={S.th}>Name</th>
-                <th style={S.th}>Kelompok Usia</th>
-                <th style={S.th}>Nama Orang Tua</th>
-                <th style={S.th}>No Telepon</th>
-                <th style={S.th}>Email address</th>
-                <th style={S.th}>Status</th>
-                <th style={S.th}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {children.map(child => {
-                const status = getStatus(child.today_attendance)
-                return (
-                  <tr key={child.id} style={S.tr}>
-                    <td style={S.td}>
-                      <div style={{ fontWeight: 600, color: '#1E293B', marginBottom: '0.2rem' }}>{child.full_name}</div>
-                      <div style={{ fontSize: '0.8rem', color: '#94A3B8' }}>@{child.full_name.split(' ')[0].toLowerCase()}</div>
-                    </td>
-                    <td style={S.td}>{getAgeGroup(child.birth_date)}</td>
-                    <td style={S.td}>{child.parent?.full_name || '-'}</td>
-                    <td style={S.td}>{child.parent?.phone || '-'}</td>
-                    <td style={S.td}>{child.parent?.email || '-'}</td>
-                    <td style={S.td}>
-                      <select 
-                        style={{ ...S.statusSelect, 
-                          background: status === 'Checked In' ? '#ECFDF5' : status === 'Checked Out' ? '#FEF2F2' : '#F0FDF4',
-                          color: status === 'Checked In' ? '#10B981' : status === 'Checked Out' ? '#EF4444' : '#22C55E'
-                        }}
-                        value={status}
-                        onChange={(e) => handleStatusChange(child.id, e.target.value)}
-                      >
-                        <option value="Active">Active</option>
-                        <option value="Checked In">Checked In</option>
-                        <option value="Checked Out">Checked Out</option>
-                      </select>
-                    </td>
-                    <td style={{ ...S.td, textAlign: 'right' }}>
-                      <button style={S.actionBtn} onClick={() => handleEditClick(child)}><Pencil size={18} /></button>
-                      <button style={S.actionBtn} onClick={() => handleDelete(child.id)}><Trash2 size={18} /></button>
-                    </td>
+          {isInitialLoading ? (
+            <table style={S.table}>
+              <thead>
+                <tr>
+                  <th style={S.th}>Name</th>
+                  <th style={S.th}>Kelompok Usia</th>
+                  <th style={S.th}>Nama Orang Tua</th>
+                  <th style={S.th}>No Telepon</th>
+                  <th style={S.th}>Email address</th>
+                  <th style={S.th}>Status</th>
+                  <th style={S.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i}>
+                    {[...Array(7)].map((_, j) => (
+                      <td key={j} style={S.td}>
+                        <div className="skeleton-shimmer" style={{ height: '16px', width: j === 0 ? '80%' : j === 6 ? '30%' : '60%' }} />
+                      </td>
+                    ))}
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <table style={S.table}>
+              <thead>
+                <tr>
+                  <th style={S.th}>Name</th>
+                  <th style={S.th}>Kelompok Usia</th>
+                  <th style={S.th}>Nama Orang Tua</th>
+                  <th style={S.th}>No Telepon</th>
+                  <th style={S.th}>Email address</th>
+                  <th style={S.th}>Status</th>
+                  <th style={S.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {children.map(child => {
+                  const status = getStatus(child.today_attendance)
+                  return (
+                    <tr key={child.id} style={S.tr}>
+                      <td style={S.td}>
+                        <div style={{ fontWeight: 600, color: '#1E293B', marginBottom: '0.2rem' }}>{child.full_name}</div>
+                        <div style={{ fontSize: '0.8rem', color: '#94A3B8' }}>@{child.full_name.split(' ')[0].toLowerCase()}</div>
+                      </td>
+                      <td style={S.td}>{getAgeGroup(child.birth_date)}</td>
+                      <td style={S.td}>{child.parent?.full_name || '-'}</td>
+                      <td style={S.td}>{child.parent?.phone || '-'}</td>
+                      <td style={S.td}>{child.parent?.email || '-'}</td>
+                      <td style={S.td}>
+                        <select 
+                          style={{ ...S.statusSelect, 
+                            background: status === 'Checked In' ? '#ECFDF5' : status === 'Checked Out' ? '#FEF2F2' : '#F0FDF4',
+                            color: status === 'Checked In' ? '#10B981' : status === 'Checked Out' ? '#EF4444' : '#22C55E'
+                          }}
+                          value={status}
+                          onChange={(e) => handleStatusChange(child.id, e.target.value)}
+                        >
+                          <option value="Active">Active</option>
+                          <option value="Checked In">Checked In</option>
+                          <option value="Checked Out">Checked Out</option>
+                        </select>
+                      </td>
+                      <td style={{ ...S.td, textAlign: 'right' }}>
+                        <button style={S.actionBtn} onClick={() => handleEditClick(child)}><Pencil size={18} /></button>
+                        <button style={S.actionBtn} onClick={() => handleDelete(child.id)}><Trash2 size={18} /></button>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
 
         <div style={S.pagination}>

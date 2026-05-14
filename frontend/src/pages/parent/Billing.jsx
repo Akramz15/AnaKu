@@ -28,6 +28,7 @@ export default function ParentBilling() {
   const [selectedChild, setSelectedChild] = useState(null)
   const [todayAtt, setTodayAtt]           = useState(null)
   const [billing, setBilling]             = useState(null)
+  const [isLoading, setIsLoading]         = useState(true)
 
   // ── Fetch children ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function ParentBilling() {
   // ── Fetch attendance and billing ───────────────────────────────────────────
   useEffect(() => {
     if (!selectedChild) return
+    setIsLoading(true)
     setTodayAtt(null)
     setBilling(null)
     
@@ -50,18 +52,19 @@ export default function ParentBilling() {
     const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
     const fetch = () => {
-      api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
-        .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
-        .catch(() => {})
-
-      // Ambil tagihan terbaru
-      api.get(`/api/v1/billings/?child_id=${selectedChild.id}`)
-        .then(r => {
-          if (r.data.data && r.data.data.length > 0) {
-            setBilling(r.data.data[0])
-          }
-        })
-        .catch(() => {})
+      Promise.all([
+        api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`),
+        api.get(`/api/v1/billings/?child_id=${selectedChild.id}`)
+      ]).then(([attRes, billRes]) => {
+        setTodayAtt(attRes.data.data.find(a => a.date === today) ?? null)
+        if (billRes.data.data && billRes.data.data.length > 0) {
+          setBilling(billRes.data.data[0])
+        } else {
+          setBilling(null)
+        }
+      }).catch(() => {}).finally(() => {
+        setIsLoading(false)
+      })
     }
     fetch()
     const interval = setInterval(fetch, 5000)
@@ -125,7 +128,13 @@ export default function ParentBilling() {
         </div>
 
         {/* ── QR Code Section / Billing ── */}
-        {billing ? (
+        {isLoading ? (
+          <div style={{ ...S.qrSection, padding: '3rem 1.5rem', minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: '1.5rem', background: '#fff', borderRadius: 12, border: '1px solid var(--border)', marginTop: '2rem' }}>
+             <div className="skeleton-shimmer" style={{ height: '36px', width: '60%', borderRadius: '8px' }} />
+             <div className="skeleton-shimmer" style={{ height: '220px', width: '220px', borderRadius: '12px' }} />
+             <div className="skeleton-shimmer" style={{ height: '42px', width: '45%', borderRadius: '20px' }} />
+          </div>
+        ) : billing ? (
           billing.status === 'paid' ? (
             <div style={{ textAlign: 'center', padding: '4rem 1rem', background: '#ECFDF5', borderRadius: 12, border: '1px solid #A7F3D0', marginTop: '2rem' }}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
@@ -138,14 +147,22 @@ export default function ParentBilling() {
             <div style={S.qrSection}>
               <div style={{ textAlign: 'center', marginBottom: '1.5rem', marginTop: '1rem' }}>
                 <h2 style={{ margin: 0, fontSize: '2rem', fontWeight: 800, color: '#1E293B' }}>{formatRp(billing.total_amount)}</h2>
-                <p style={{ margin: '0.2rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Tagihan penitipan anak bulan ini. Silakan scan QRIS di bawah ini untuk membayar.</p>
+                <p style={{ color: '#64748B', margin: '0.5rem 0 0', fontSize: '0.9rem' }}>Silakan scan QRIS di bawah ini untuk melakukan pembayaran.</p>
               </div>
-              <div style={S.qrCard}>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem', background: '#fff', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
                 <img 
-                  src="/QrisAnaKu.jpeg" 
-                  alt="QRIS Pembayaran AnaKuu" 
-                  style={{ width: '300px', height: 'auto', borderRadius: '8px', display: 'block' }} 
+                  src="https://res.cloudinary.com/df727q6z3/image/upload/v1735156125/qris-dummy_mscq9h.png" 
+                  alt="QRIS QR Code" 
+                  style={{ width: '100%', maxWidth: '260px', height: 'auto' }}
                 />
+              </div>
+
+              <div style={{ marginTop: '1.5rem', background: '#EFF6FF', padding: '1rem', borderRadius: '12px', border: '1px solid #BFDBFE', display: 'flex', alignItems: 'start', gap: '0.75rem' }}>
+                <AlertCircle size={20} color="#3B82F6" style={{ flexShrink: 0, marginTop: '2px' }} />
+                <p style={{ margin: 0, color: '#1E40AF', fontSize: '0.8rem', lineHeight: 1.5 }}>
+                  Sistem akan secara otomatis memproses pembayaran setelah Anda mentransfer sesuai jumlah di atas. Silakan hubungi Admin jika ada kendala.
+                </p>
               </div>
             </div>
           )

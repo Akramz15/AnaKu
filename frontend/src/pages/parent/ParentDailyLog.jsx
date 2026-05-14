@@ -48,6 +48,7 @@ export default function ParentDailyLog() {
   const [detailLog, setDetailLog]           = useState(null)
   const [allAtts, setAllAtts]               = useState([])
   const [allLogs, setAllLogs]               = useState([]) // Simpan seluruh data untuk lokal filtering
+  const [isLoading, setIsLoading]           = useState(true)
 
   const isInRange = (dateStr, filter) => {
     if (!dateStr) return false
@@ -86,6 +87,7 @@ export default function ParentDailyLog() {
   // ── reset & fetch data saat anak berganti ─────────────────────────────────
   useEffect(() => {
     if (!selectedChild) return
+    setIsLoading(true)
     setTodayLog(null)
     setTodayAtt(null)
     setWeekLogs([])
@@ -110,6 +112,7 @@ export default function ParentDailyLog() {
         // Legacy hook update just in case, but we'll replace mapped logic below
         const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0]
         setWeekLogs(allHistory.filter(l => l.log_date >= sevenDaysAgo))
+        setIsLoading(false)
       })
     }
 
@@ -184,55 +187,74 @@ export default function ParentDailyLog() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {/* Active Items — real-time */}
-            {activeItems.map(task => {
-              const ic = getIconStyle(task.name)
-              return (
-                <div key={task.name} style={{ ...S.activeCard }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-                      {getTaskIcon(task.name, 24)}
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '1rem' }}>{task.name}</div>
-                      <div style={{ fontWeight: 800, fontSize: '1rem', letterSpacing: 1 }}>
-                        <LiveTimer startTimeISO={task.startTime} />
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} style={{ ...S.historyCard, border: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <div className="skeleton-shimmer" style={{ width: '48px', height: '48px', borderRadius: '14px' }} />
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        <div className="skeleton-shimmer" style={{ height: '16px', width: '120px' }} />
+                        <div className="skeleton-shimmer" style={{ height: '12px', width: '80px' }} />
                       </div>
                     </div>
+                    <div className="skeleton-shimmer" style={{ height: '16px', width: '60px' }} />
                   </div>
-                  <button style={S.sekarangBtn}>Sekarang</button>
-                </div>
-              )
-            })}
-
-            {/* History Items */}
-            {historyItems.map((task, i) => {
-              const ic = getIconStyle(task.name)
-              return (
-                <div key={i} style={S.historyCard}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <div style={{ width: 48, height: 48, borderRadius: 14, background: ic.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ic.color, flexShrink: 0 }}>
-                      {getTaskIcon(task.name, 22)}
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: 600, color: 'var(--text)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                        {task.name}
-                        {activityFilter !== 'Hari Ini' && (
-                          <span style={{ fontSize: '0.65rem', background: '#F1F5F9', color: '#64748B', padding: '0.15rem 0.4rem', borderRadius: '6px' }}>{new Date(task.date).toLocaleDateString('id-ID', {day:'numeric', month:'short'})}</span>
-                        )}
+                ))}
+              </>
+            ) : (
+              <>
+                {/* Active Items — real-time */}
+                {activeItems.map(task => {
+                  const ic = getIconStyle(task.name)
+                  return (
+                    <div key={task.name} style={{ ...S.activeCard }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                          {getTaskIcon(task.name, 24)}
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '1rem' }}>{task.name}</div>
+                          <div style={{ fontWeight: 800, fontSize: '1rem', letterSpacing: 1 }}>
+                            <LiveTimer startTimeISO={task.startTime} />
+                          </div>
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{task.duration} menit</div>
+                      <button style={S.sekarangBtn}>Sekarang</button>
                     </div>
-                  </div>
-                  <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.95rem' }}>{task.time}</div>
-                </div>
-              )
-            })}
+                  )
+                })}
 
-            {activeItems.length === 0 && historyItems.length === 0 && (
-              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                Belum ada kegiatan hari ini.
-              </div>
+                {/* History Items */}
+                {historyItems.map((task, i) => {
+                  const ic = getIconStyle(task.name)
+                  return (
+                    <div key={i} style={S.historyCard}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 14, background: ic.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ic.color, flexShrink: 0 }}>
+                          {getTaskIcon(task.name, 22)}
+                        </div>
+                        <div>
+                          <div style={{ fontWeight: 600, color: 'var(--text)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            {task.name}
+                            {activityFilter !== 'Hari Ini' && (
+                              <span style={{ fontSize: '0.65rem', background: '#F1F5F9', color: '#64748B', padding: '0.15rem 0.4rem', borderRadius: '6px' }}>{new Date(task.date).toLocaleDateString('id-ID', {day:'numeric', month:'short'})}</span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{task.duration} menit</div>
+                        </div>
+                      </div>
+                      <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.95rem' }}>{task.time}</div>
+                    </div>
+                  )
+                })}
+
+                {activeItems.length === 0 && historyItems.length === 0 && (
+                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    Belum ada kegiatan hari ini.
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -257,40 +279,60 @@ export default function ParentDailyLog() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {filteredReports.length === 0 && (
-              <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                Belum ada laporan untuk periode ini.
-              </div>
+            {isLoading ? (
+              <>
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} style={{ ...S.reportRow, display: 'flex', alignItems: 'center', padding: '0.75rem 1rem' }}>
+                    <div className="skeleton-shimmer" style={{ width: '40px', height: '40px', borderRadius: '10px', marginRight: '1rem' }} />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div className="skeleton-shimmer" style={{ height: '16px', width: '180px' }} />
+                      <div className="skeleton-shimmer" style={{ height: '12px', width: '120px' }} />
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <div className="skeleton-shimmer" style={{ width: '64px', height: '34px', borderRadius: '20px' }} />
+                      <div className="skeleton-shimmer" style={{ width: '64px', height: '34px', borderRadius: '20px' }} />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                {filteredReports.length === 0 && (
+                  <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    Belum ada laporan untuk periode ini.
+                  </div>
+                )}
+                {filteredReports.map(log => (
+                  <div key={log.id} style={S.reportRow}>
+                    <div style={S.reportIcon}>
+                      <ClipboardList size={20} color="var(--primary-dark)" />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.95rem' }}>
+                        {formatDateFull(log.log_date)}
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                        Pengasuh : {log.caregiver?.full_name ?? 'Tidak diketahui'}
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                      <button
+                        style={S.detailBtn}
+                        onClick={() => setDetailLog(log)}
+                      >
+                        Detail
+                      </button>
+                      <button
+                        style={S.downloadBtn}
+                        onClick={() => setDetailLog({ ...log, _autoDownload: true })}
+                      >
+                        <Download size={14} /> Unduh
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </>
             )}
-            {filteredReports.map(log => (
-              <div key={log.id} style={S.reportRow}>
-                <div style={S.reportIcon}>
-                  <ClipboardList size={20} color="var(--primary-dark)" />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 600, color: 'var(--text)', fontSize: '0.95rem' }}>
-                    {formatDateFull(log.log_date)}
-                  </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Pengasuh : {log.caregiver?.full_name ?? 'Tidak diketahui'}
-                  </div>
-                </div>
-                <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-                  <button
-                    style={S.detailBtn}
-                    onClick={() => setDetailLog(log)}
-                  >
-                    Detail
-                  </button>
-                  <button
-                    style={S.downloadBtn}
-                    onClick={() => setDetailLog({ ...log, _autoDownload: true })}
-                  >
-                    <Download size={14} /> Unduh
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 
