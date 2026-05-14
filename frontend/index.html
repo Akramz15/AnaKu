@@ -15,7 +15,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=2')
+          navigator.serviceWorker.register('/sw.js?v=3')
             .then(reg => {
               console.log('AnaKu PWA: ServiceWorker registered successfully!');
               // Trigger auto reload to immediately take control when the new fix installs

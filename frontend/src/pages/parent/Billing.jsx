@@ -156,7 +156,7 @@ export default function ParentBilling() {
               
               <div style={{ display: 'flex', justifyContent: 'center', padding: '1rem', background: '#fff', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
                 <img 
-                  src="https://res.cloudinary.com/df727q6z3/image/upload/v1735156125/qris-dummy_mscq9h.png" 
+                  src="/QrisAnaKu.jpeg" 
                   alt="QRIS QR Code" 
                   style={{ width: '100%', maxWidth: '260px', height: 'auto' }}
                 />

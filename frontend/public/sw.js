@@ -1,9 +1,10 @@
-const CACHE_NAME = 'anaku-cache-v2';
+const CACHE_NAME = 'anaku-cache-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/Logo AnaKu.png',
-  '/favicon.svg'
+  '/favicon.svg',
+  '/QrisAnaKu.jpeg'
 ];
 
 // Install event: cache initial critical assets
