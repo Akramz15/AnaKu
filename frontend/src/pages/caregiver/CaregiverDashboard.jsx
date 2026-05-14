@@ -324,16 +324,18 @@ export default function CaregiverDashboard() {
                   </p>
                   <input 
                     type="range" 
+                    className="mood-range-slider"
                     min="0" 
                     max="100" 
                     value={moodScore}
                     onChange={e => setMoodScore(parseInt(e.target.value))}
-                    onMouseUp={updateMood}
-                    onTouchEnd={updateMood}
+                    onMouseUp={() => updateMood(moodScore)}
+                    onTouchEnd={() => updateMood(moodScore)}
                     style={{ 
                       width: '100%', 
                       cursor: 'pointer', 
-                      accentColor: getMoodColor(moodScore)
+                      '--thumb-color': getMoodColor(moodScore),
+                      background: `linear-gradient(to right, ${getMoodColor(moodScore)} 0%, ${getMoodColor(moodScore)} ${moodScore}%, #F1F5F9 ${moodScore}%, #F1F5F9 100%)`
                     }}
                   />
                   <div style={{ display: 'flex', justifyContent:'space-between', marginTop:'0.5rem', fontSize:'0.75rem', color:'var(--text-muted)' }}>

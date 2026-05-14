@@ -316,3 +316,43 @@ body.modal-open .mobile-bottom-nav {
   animation: shimmer 1.5s infinite linear;
   border-radius: 8px;
 }
+
+/* ── PREMIUM RANGE SLIDER UNTUK MOOD ── */
+.mood-range-slider {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 100%;
+  height: 10px !important;
+  border-radius: 10px !important;
+  background: #F1F5F9; /* Fallback dasar jika inline gradient gagal */
+  outline: none !important;
+  border: 1px solid #E2E8F0 !important; /* Border tipis sangat premium */
+}
+
+.mood-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  background: var(--thumb-color, #E07A5F) !important; /* Mengambil warna mood secara dinamis! */
+  cursor: pointer !important;
+  border: 3px solid #FFFFFF !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+  transition: transform 0.15s, background 0.2s !important;
+}
+
+.mood-range-slider::-webkit-slider-thumb:active {
+  transform: scale(1.2) !important;
+}
+
+.mood-range-slider::-moz-range-thumb {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--thumb-color, #E07A5F) !important;
+  cursor: pointer !important;
+  border: 3px solid #FFFFFF !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+}
+
