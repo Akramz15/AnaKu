@@ -11,6 +11,34 @@ const UserAvatar = ({ name, size = 36, bg = 'var(--primary)' }) => (
   </div>
 )
 
+const formatChatTime = (isoStr) => {
+  if (!isoStr) return ''
+  const date = new Date(isoStr)
+  const now = new Date()
+  
+  const isToday = date.toDateString() === now.toDateString()
+  
+  const yesterday = new Date(now)
+  yesterday.setDate(now.getDate() - 1)
+  const isYesterday = date.toDateString() === yesterday.toDateString()
+  
+  const timeStr = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+  
+  if (isToday) {
+    return timeStr
+  } else if (isYesterday) {
+    return `Kemarin, ${timeStr}`
+  }
+  
+  const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24))
+  if (diffDays < 7) {
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
+    return `${days[date.getDay()]}, ${timeStr}`
+  }
+  
+  return `${date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}, ${timeStr}`
+}
+
 export default function ChatWindow({ roomId, receiverId, receiverName, receiverRole, onBack, onRoomCreated }) {
   const { profile } = useAuth()
   const [messages, setMessages]   = useState([])
@@ -116,7 +144,7 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
         {messages.map(msg => {
           const isOwn  = msg.sender_id === profile?.id
           const sender = msg.users?.full_name ?? (isOwn ? profile?.full_name : receiverName)
-          const time   = new Date(msg.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+          const time   = formatChatTime(msg.created_at)
           return (
             <div key={msg.id} style={{ display: 'flex', flexDirection: isOwn ? 'row-reverse' : 'row', alignItems: 'flex-end', gap: '0.6rem', marginBottom: '1.25rem' }}>
               <UserAvatar name={isOwn ? profile?.full_name : receiverName} size={36} bg={isOwn ? 'var(--primary-dark)' : '#CBD5E1'} />

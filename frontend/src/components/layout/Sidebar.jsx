@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, cloneElement } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Home, ClipboardList, Image, Users, MessageCircle, CreditCard, UserCheck, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -89,10 +89,21 @@ export default function Sidebar() {
               justifyContent: isCollapsed ? 'center' : 'flex-start',
               padding: isCollapsed ? '0.8rem 0' : '0.8rem 1rem'
             })}>
-              <span style={{ color: 'var(--text-muted)' }}>{item.icon}</span>
-              {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>}
-              {!isCollapsed && item.badge > 0 && (
-                <span style={styles.badge}>{item.badge}</span>
+              {({ isActive }) => (
+                <>
+                  <span style={{ 
+                    color: isActive ? '#0F172A' : '#64748B', 
+                    display: 'flex', 
+                    alignItems: 'center',
+                    transition: 'color 0.2s' 
+                  }}>
+                    {cloneElement(item.icon, { strokeWidth: isActive ? 2.8 : 2 })}
+                  </span>
+                  {!isCollapsed && <span className="nav-text" style={{ flex: 1 }}>{item.label}</span>}
+                  {!isCollapsed && item.badge > 0 && (
+                    <span style={styles.badge}>{item.badge}</span>
+                  )}
+                </>
               )}
             </NavLink>
           ))}

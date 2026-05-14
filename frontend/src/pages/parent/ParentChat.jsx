@@ -17,6 +17,31 @@ const ContactAvatar = ({ name, size = 42 }) => (
   </div>
 )
 
+const getRelativeTime = (isoStr) => {
+  if (!isoStr) return ''
+  const date = new Date(isoStr)
+  const now = new Date()
+  const diffSec = Math.floor((now - date) / 1000)
+  
+  if (diffSec < 60) return 'Baru saja'
+  const diffMin = Math.floor(diffSec / 60)
+  if (diffMin < 60) return `${diffMin}m lalu`
+  const diffHr = Math.floor(diffMin / 60)
+  if (diffHr < 24) return `${diffHr} jam lalu`
+  
+  const yesterday = new Date(now)
+  yesterday.setDate(now.getDate() - 1)
+  if (date.toDateString() === yesterday.toDateString()) return 'Kemarin'
+  
+  const diffDay = Math.floor(diffHr / 24)
+  if (diffDay < 7) {
+    const days = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab']
+    return days[date.getDay()]
+  }
+  
+  return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })
+}
+
 export default function ParentChat() {
   const { profile }  = useAuth()
   const [contacts, setContacts]     = useState([])
@@ -84,6 +109,7 @@ export default function ParentChat() {
     return {
       ...c,
       last_time: room ? new Date(room.last_time).getTime() : 0,
+      last_time_iso: room?.last_time || null,
       last_message: room?.last_message || ''
     }
   }).sort((a, b) => b.last_time - a.last_time)
@@ -141,7 +167,14 @@ export default function ParentChat() {
                       >
                         <ContactAvatar name={c.full_name} size={42} />
                         <div style={{ overflow: 'hidden', flex: 1 }}>
-                          <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.full_name}</div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', marginBottom: '0.15rem' }}>
+                            <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.full_name}</div>
+                            {c.last_time_iso && (
+                              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', flexShrink: 0 }}>
+                                {getRelativeTime(c.last_time_iso)}
+                              </div>
+                            )}
+                          </div>
                           
                           {c.last_message ? (
                              <div style={{ fontSize: '0.75rem', color: isActive ? 'var(--primary)' : '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 500 }}>
