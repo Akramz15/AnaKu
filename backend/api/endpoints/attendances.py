@@ -69,27 +69,28 @@ async def toggle_attendance(payload: dict):
                 "check_out_at": now
             }).execute()
         
-        # -- AUTOMATION: Create billing for the month if not exists --
-        current_month = datetime.now().month
-        current_year = datetime.now().year
-        
+        current_month = now_local.month
+        current_year = now_local.year
+
+        # -- AUTOMATION: Create DAILY billing for the visit if not exists --
+        # Cek apakah hari ini sudah terbit tagihan harian untuk anak ini?
         existing_bill = sb.table("billings").select("id")\
             .eq("child_id", child_id)\
-            .eq("period_month", current_month)\
-            .eq("period_year", current_year).execute()
+            .ilike("notes", f"%Tanggal: {today}%").execute()
         
         eb_data = existing_bill.data if isinstance(existing_bill.data, list) else []
         
         if not eb_data:
-            # Create default monthly bill automatically
+            # Create a fresh daily billing record automatically for this checkout session!
             sb.table("billings").insert({
                 "child_id": child_id,
                 "period_month": current_month,
                 "period_year": current_year,
-                "base_fee": 150000, # Default fee example
+                "base_fee": 150000, # Default daily fee example
                 "total_amount": 150000,
                 "status": "unpaid",
-                "attendance_days": 1
+                "attendance_days": 1,
+                "notes": f"Tagihan Harian Presensi - Tanggal: {today}"
             }).execute()
         
         r_list = res.data if isinstance(res.data, list) else []

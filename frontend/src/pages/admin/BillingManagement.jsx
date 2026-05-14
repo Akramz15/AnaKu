@@ -92,6 +92,7 @@ export default function BillingManagement() {
                     <td style={S.td}>{b.children?.parent?.full_name || '-'}</td>
                     <td style={S.td}>
                       <div style={{ fontWeight: 600, color: '#1E293B' }}>{MONTHS[b.period_month-1]} {b.period_year}</div>
+                      {b.notes && <div style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600, marginTop: '0.15rem' }}>{b.notes}</div>}
                       <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '0.2rem' }}>
                         {b.status === 'paid' ? `Lunas: ${fmtDate(b.paid_at)}` : `Terbit: ${fmtDate(b.created_at)}`}
                       </div>

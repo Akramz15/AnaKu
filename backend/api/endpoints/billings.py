@@ -15,13 +15,6 @@ async def create_billing(payload: BillingCreate):
     [Admin] Generate tagihan bulanan untuk satu anak.
     Otomatis hitung hari hadir dari tabel attendances.
     """
-    # Cek apakah sudah ada tagihan bulan ini
-    existing = sb.table("billings").select("id") \
-        .eq("child_id", payload.child_id) \
-        .eq("period_month", payload.period_month) \
-        .eq("period_year", payload.period_year).execute()
-    if existing.data:
-        raise HTTPException(409, "Tagihan bulan ini sudah ada untuk anak tersebut")
 
     # Hitung hari kehadiran dari tabel attendances
     m = payload.period_month
@@ -75,7 +68,7 @@ async def list_billings(
     elif child_id:
         query = query.eq("child_id", child_id)
 
-    res = query.order("period_year", desc=True).order("period_month", desc=True).execute()
+    res = query.order("created_at", desc=True).execute()
     return {"status": "success", "data": res.data}
 
 @router.patch("/{billing_id}", dependencies=[Depends(require_role("admin"))])
