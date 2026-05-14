@@ -308,8 +308,8 @@ export default function AIChatbot() {
               <div ref={bottomRef} />
             </div>
 
-            {/* Quick Question Chips */}
-            <div style={S.quickWrap}>
+            {/* Quick Question Chips (Horizontal swipe row) */}
+            <div className="no-scrollbar" style={S.quickWrap}>
               {QUICK_QUESTIONS.map((q, i) => (
                 <button key={i} style={S.quickChip} onClick={() => setInput(q)}>{q}</button>
               ))}
@@ -441,8 +441,9 @@ const S = {
     padding: '0.75rem 1rem', fontSize: '0.875rem', lineHeight: 1.6, color: '#1E293B',
   },
   quickWrap: {
-    display: 'flex', flexWrap: 'wrap', gap: '0.5rem',
-    padding: '0.75rem 1.5rem', borderTop: '1px solid #F1F5F9', flexShrink: 0,
+    display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', gap: '0.6rem',
+    padding: '0.6rem 1.25rem', borderTop: '1px solid #F1F5F9', flexShrink: 0,
+    WebkitOverflowScrolling: 'touch',
   },
   quickChip: {
     background: '#F8FAFC', border: '1px solid #F1F5F9', borderRadius: 999,

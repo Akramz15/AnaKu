@@ -320,7 +320,6 @@ export default function GalleryUpload() {
                     <input 
                       style={S.inp} 
                       type="date" 
-                      max={new Date().toISOString().split('T')[0]}
                       value={form.activity_date} 
                       onChange={e => {
                         const val = e.target.value;
@@ -350,7 +349,6 @@ export default function GalleryUpload() {
         {showCamera && (
           <div style={{
             position: 'fixed', inset: 0, background: '#000', zIndex: 9999, // Pastikan di atas navbar mana pun
-            display: 'flex', flexDirection: 'column',
           }}>
             {/* Live video feed */}
             <video
@@ -358,16 +356,16 @@ export default function GalleryUpload() {
               autoPlay
               playsInline
               muted
-              style={{ flex: 1, width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-            {/* Controls bar */}
+            {/* Controls bar (Menempel penuh dari tepi paling bawah layar untuk menghilangkan ilusi layar terbelah) */}
             <div style={{
-              position: 'absolute', bottom: '95px', left: 0, right: 0, // Ditinggikan jauh dari bottom-nav putih
-              padding: '1.5rem 2rem',
+              position: 'absolute', bottom: 0, left: 0, right: 0,
+              padding: '3.5rem 2rem calc(2.5rem + env(safe-area-inset-bottom, 16px))',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.5))',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)',
             }}>
               {/* Cancel Button */}
               <button

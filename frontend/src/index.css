@@ -124,14 +124,32 @@ a { color: var(--primary); }
     flex-direction: column !important;
   }
   
-  /* When Chat is Active */
+  /* When Chat is Active (Kunci penuh di layar HP agar hanya isi chat yang scroll) */
+  .chat-layout.has-active-chat {
+    position: fixed !important;
+    top: 0.75rem !important;
+    left: 0.75rem !important;
+    right: 0.75rem !important;
+    bottom: calc(80px + env(safe-area-inset-bottom, 20px)) !important; /* Tepat di atas menu bawah */
+    height: auto !important;
+    z-index: 100 !important;
+    background: #fff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+    overflow: hidden !important;
+  }
   .chat-layout.has-active-chat .chat-sidebar {
     display: none !important;
   }
   .chat-layout.has-active-chat .chat-panel {
     display: flex !important;
     width: 100% !important;
+    height: 100% !important;
     border-radius: 16px !important;
+    overflow: hidden !important;
+  }
+  .chat-layout.has-active-chat .chat-panel > div {
+    border-radius: 16px !important; /* Paksa chat window melengkung sempurna di keempat sisinya */
   }
   
   /* When No Chat is Active (Show Contact List) */
@@ -267,4 +285,13 @@ body.modal-open .mobile-bottom-nav {
   position: fixed !important;
   inset: 0 !important;
   z-index: 99999 !important; /* Memastikan berada di atas segalanya */
+}
+
+/* Sembunyikan scrollbar pada kontainer swipe horizontal (seperti chip AI) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE & Edge */
+  scrollbar-width: none !important;  /* Firefox */
 }

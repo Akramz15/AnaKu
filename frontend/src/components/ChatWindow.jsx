@@ -18,6 +18,7 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
   const [sending, setSending]     = useState(false)
   const [showEmoji, setShowEmoji] = useState(false)
   const bottomRef                 = useRef(null)
+  const prevCountRef              = useRef(0)
 
   // ── Load & Realtime Messages ─────────────────────────────────────────────────
   const fetchMessages = () => {
@@ -26,6 +27,7 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
   }
 
   useEffect(() => {
+    prevCountRef.current = 0 // Reset hitungan saat berganti ruangan agar chat baru otomatis scroll ke dasar
     if (!roomId) { setMessages([]); return }
     
     fetchMessages() // Ambil chat awal secara instan
@@ -49,9 +51,13 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
     }
   }, [roomId])
 
-  // ── Auto-scroll ───────────────────────────────────────────────────────────
+  // ── Auto-scroll Cerdas ────────────────────────────────────────────────────
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Hanya scroll otomatis jika jumlah pesan bertambah (menghindari benturan snap saat short polling 2.5s)
+    if (messages.length > prevCountRef.current) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+    prevCountRef.current = messages.length
   }, [messages])
 
   const send = async (e) => {
