@@ -76,17 +76,14 @@ export default function RegistrationManagement() {
   return (
     <PageLayout>
       <div style={S.page}>
-        {/* Header */}
         <div className="header-card" style={{...S.header, flexWrap: 'wrap'}}>
-          <div>
-            <h2 style={S.pageTitle}>Persetujuan Akun</h2>
-            <p style={S.pageSubtitle}>Kelola pendaftaran orang tua yang menunggu verifikasi</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <h1 style={S.pageTitle}>Persetujuan Akun</h1>
+            {pendingCount > 0 && (
+              <span style={S.countBadge}>{pendingCount} Menunggu</span>
+            )}
           </div>
-          {pendingCount > 0 && (
-            <div style={S.countBadge}>{pendingCount} Menunggu</div>
-          )}
-        </div>        {/* Content Wrapper Card */}
-        <div style={S.contentCard}>
+        </div>
           {/* Tabs */}
           <div style={S.tabBar}>
             {TABS.map(t => (
@@ -181,7 +178,6 @@ export default function RegistrationManagement() {
               </table>
             )}
           </div>
-        </div>
       </div>
 
       {/* Reject Modal */}
@@ -227,42 +223,27 @@ export default function RegistrationManagement() {
 /* ── Styles ──────────────────────────────────────────────────────────────── */
 const S = {
   page: { 
-    padding: '0', 
-    maxWidth: '1200px', 
-    margin: '0 auto', 
+    padding: '1.5rem', 
     boxSizing: 'border-box', 
     width: '100%',
+    background: '#FFFFFF',
+    borderRadius: '16px',
+    border: '1px solid #F8F9FA',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
+    minHeight: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    gap: '1.25rem',
-    height: '100%'
+    flexDirection: 'column'
   },
   header: { 
     display: 'flex', 
     justifyContent: 'space-between', 
     alignItems: 'center', 
-    background: '#FFFFFF', 
-    padding: '1.25rem 1.5rem', 
-    borderRadius: '16px', 
-    boxShadow: '0 1px 4px rgba(0,0,0,0.03)', 
-    border: '1px solid #F8F9FA' 
+    marginBottom: '2rem' 
   },
-  pageTitle: { margin: 0, fontSize: '1.4rem', fontWeight: 800, color: '#1E293B' },
+  pageTitle: { fontSize: '1.5rem', fontWeight: 700, color: '#1E293B', margin: 0 },
   pageSubtitle: { margin: '0.25rem 0 0', fontSize: '0.85rem', color: '#64748B' },
   countBadge: {
-    background: '#FEE2E2', color: '#B91C1C', fontWeight: 700, fontSize: '0.75rem',
-    padding: '0.4rem 0.8rem', borderRadius: 12,
-  },
-  contentCard: {
-    background: '#FFFFFF',
-    borderRadius: '16px',
-    padding: '1.5rem',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.03)',
-    border: '1px solid #F8F9FA',
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: 0
+    background: '#E0F2FE', color: '#0369A1', padding: '0.2rem 0.6rem', borderRadius: 20, fontSize: '0.8rem', fontWeight: 600
   },
   tabBar: { display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' },
   tabBtn: {
