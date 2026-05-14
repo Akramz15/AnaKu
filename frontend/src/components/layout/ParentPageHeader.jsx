@@ -36,7 +36,7 @@ export default function ParentPageHeader({ selectedChild, children = [], todayAt
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.15rem' }}>
-                {selectedChild?.full_name ?? '...'}
+                {selectedChild?.full_name ?? 'Nama AnaKu'}
               </h2>
               {todayAtt?.check_in_at && <span style={S.badgeGreen}>Checked In</span>}
             </div>

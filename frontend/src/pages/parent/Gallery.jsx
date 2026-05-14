@@ -46,12 +46,16 @@ export default function ParentGallery() {
   // ── Fetch children (filtered per parent by backend) ───────────────────────
   useEffect(() => {
     api.get('/api/v1/children').then(r => {
-      const list = r.data.data
+      const list = r.data.data || []
       setChildren(list)
+      if (list.length === 0) {
+        setLoading(false)
+        return
+      }
       const savedId = localStorage.getItem('selected_child_id')
       const defaultChild = list.find(c => c.id === savedId) || list[0]
       if (defaultChild) setSelectedChild(defaultChild)
-    })
+    }).catch(() => setLoading(false))
   }, [])
 
   // ── Fetch gallery + attendance when child changes ─────────────────────────

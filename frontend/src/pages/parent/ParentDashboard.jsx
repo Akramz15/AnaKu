@@ -51,12 +51,16 @@ export default function ParentDashboard() {
 
   useEffect(() => {
     api.get('/api/v1/children').then(r => {
-      const list = r.data.data
+      const list = r.data.data || []
       setChildren(list)
+      if (list.length === 0) {
+        setIsLoading(false)
+        return
+      }
       const savedId = localStorage.getItem('selected_child_id')
       const defaultChild = list.find(c => c.id === savedId) || list[0]
       if (defaultChild) setSelectedChild(defaultChild)
-    })
+    }).catch(() => setIsLoading(false))
     // Ambil daftar pengasuh resmi dari server secara dinamis
     api.get('/api/v1/chats/users/contacts')
       .then(r => setCaregivers(r.data.data))
@@ -65,7 +69,10 @@ export default function ParentDashboard() {
 
   // Reset semua state saat anak berganti agar data tidak bocor antar anak
   useEffect(() => {
-    if (!selectedChild) return
+    if (!selectedChild) {
+      setMessages([{ role: 'model', text: 'Halo! Selamat datang di AnaKu. Jika anak Anda sudah terdaftar oleh admin daycare, fitur chatbot analisis AI kami siap membantu memantau perkembangan anak Anda di sini.', time: new Date().toISOString() }])
+      return
+    }
     setIsLoading(true)
     setTodayLog(null)
     setTodayAttendance(null)
@@ -118,7 +125,7 @@ export default function ParentDashboard() {
   }
 
   const sendChat = async () => {
-    if (!chatInput.trim() || isSending) return
+    if (!chatInput.trim() || isSending || !selectedChild) return
     const userMsg = { role: 'user', text: chatInput.trim(), time: new Date().toISOString() }
     const next = [...messages, userMsg]
     syncMessages(next)
@@ -484,14 +491,28 @@ export default function ParentDashboard() {
               padding: '0.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', background: '#fff' 
             }}>
               <input 
-                type="text" placeholder="Type here..." 
-                value={chatInput} onChange={e => setChatInput(e.target.value)}
+                type="text" 
+                placeholder={selectedChild ? "Type here..." : "Hubungi admin untuk menghubungkan anak..."}
+                value={chatInput} 
+                onChange={e => setChatInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && sendChat()}
-                style={{ flex: 1, border: 'none', outline: 'none', fontSize: '0.85rem', color: '#1E293B' }}
+                disabled={!selectedChild}
+                style={{ flex: 1, border: 'none', outline: 'none', fontSize: '0.85rem', color: '#1E293B', cursor: !selectedChild ? 'not-allowed' : 'text' }}
               />
               <button 
-                onClick={sendChat} disabled={!chatInput.trim() || isSending} 
-                style={{ ...styles.roundBtn, background: '#60B8D4', width: 32, height: 32, border: 'none', display:'flex', alignItems:'center', justifyContent:'center' }}
+                onClick={sendChat} 
+                disabled={!chatInput.trim() || isSending || !selectedChild} 
+                style={{ 
+                  ...styles.roundBtn, 
+                  background: selectedChild ? '#60B8D4' : '#CBD5E1', 
+                  width: 32, 
+                  height: 32, 
+                  border: 'none', 
+                  display:'flex', 
+                  alignItems:'center', 
+                  justifyContent:'center', 
+                  cursor: !selectedChild ? 'not-allowed' : 'pointer' 
+                }}
               >
                 <Send size={14} color="#fff"/>
               </button>

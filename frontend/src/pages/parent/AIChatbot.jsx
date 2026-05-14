@@ -97,7 +97,13 @@ export default function AIChatbot() {
 
   // ── Load attendance + sessions when child changes ─────────────────────────
   useEffect(() => {
-    if (!selectedChild) return
+    if (!selectedChild) {
+      const welcomeMsg = { role: 'model', text: 'Halo! Selamat datang di Tanya AI. Jika anak Anda sudah terdaftar oleh admin daycare, asisten AI pintar kami siap menemani dan menganalisis riwayat perkembangan anak Anda di sini.', time: new Date().toISOString() }
+      setSessions([])
+      setActiveSessionId(null)
+      setMessages([welcomeMsg])
+      return
+    }
     const today = new Date().toISOString().split('T')[0]
 
     api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
@@ -354,22 +360,22 @@ export default function AIChatbot() {
                 {/* Quick Question Chips (Horizontal swipe row) */}
                 <div className="no-scrollbar" style={S.quickWrap}>
                   {QUICK_QUESTIONS.map((q, i) => (
-                    <button key={i} style={S.quickChip} onClick={() => setInput(q)}>{q}</button>
+                    <button key={i} style={S.quickChip} onClick={() => setInput(q)} disabled={!selectedChild}>{q}</button>
                   ))}
                 </div>
 
                 {/* Input Bar */}
                 <div style={S.inputBar}>
                   <input
-                    style={S.input}
-                    placeholder="Type here..."
+                    style={{ ...S.input, cursor: !selectedChild ? 'not-allowed' : 'text' }}
+                    placeholder={selectedChild ? "Type here..." : "Hubungi admin untuk mendaftarkan anak..."}
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={onKeyDown}
-                    disabled={loading}
+                    disabled={loading || !selectedChild}
                   />
                   <div style={S.inputActions}>
-                    <button style={{ ...S.iconBtn, ...S.sendIconBtn }} onClick={sendMessage} disabled={!input.trim() || loading}>
+                    <button style={{ ...S.iconBtn, ...S.sendIconBtn, background: selectedChild ? '#60B8D4' : '#CBD5E1', cursor: !selectedChild ? 'not-allowed' : 'pointer' }} onClick={sendMessage} disabled={!input.trim() || loading || !selectedChild}>
                       <Send size={16} />
                     </button>
                   </div>
