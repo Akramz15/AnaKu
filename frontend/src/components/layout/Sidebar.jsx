@@ -25,6 +25,12 @@ export default function Sidebar() {
   const [pendingCount, setPendingCount] = useState(0)
   const [isCollapsed, setIsCollapsed] = useState(false)
 
+  const getLogoutText = () => {
+    if (profile?.role === 'caregiver') return 'Anda harus login kembali untuk mengelola aktivitas harian anak.'
+    if (profile?.role === 'admin') return 'Anda harus login kembali untuk mengakses panel manajemen sistem.'
+    return 'Anda harus login kembali untuk mengakses dashboard si kecil.'
+  }
+
   // Fetch pending badge for admin
   useEffect(() => {
     if (profile?.role !== 'admin') return
@@ -136,7 +142,7 @@ export default function Sidebar() {
               Apakah anda yakin ingin logout?
             </h3>
             <p style={{ fontSize: '0.88rem', color: '#64748B', marginBottom: '1.75rem', lineHeight: 1.5 }}>
-              Anda harus login kembali untuk mengakses dashboard si kecil.
+              {getLogoutText()}
             </p>
             
             <div style={{ display: 'flex', gap: '0.75rem' }}>

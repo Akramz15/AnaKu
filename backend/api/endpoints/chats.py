@@ -53,9 +53,11 @@ async def list_rooms(current_user = Depends(get_current_user)):
     # Ambil info nama lawan bicara
     result = []
     for r in rooms.values():
-        user_res = sb.table("users").select("id, full_name, role").eq("id", r["other_user_id"]).single().execute()
-        r["other_user"] = user_res.data
-        result.append(r)
+        user_res = sb.table("users").select("id, full_name, role, status").eq("id", r["other_user_id"]).single().execute()
+        # Proteksi keamanan: Hanya tampilkan riwayat chat jika akun lawan bicara berstatus AKTIF
+        if user_res.data and isinstance(user_res.data, dict) and user_res.data.get("status") == "active":
+            r["other_user"] = user_res.data
+            result.append(r)
 
     return {"status": "success", "data": result}
 
@@ -103,7 +105,8 @@ async def get_contacts(current_user = Depends(get_current_user)):
         # Khusus untuk role admin tidak bisa dichat oleh siapapun dan tidak bisa chat siapapun
         return {"status": "success", "data": []}
 
-    res = sb.table("users").select("id, full_name, role").in_("role", query_roles).execute()
+    # Hanya tampilkan pengguna yang status akunnya AKTIF (menghilangkan user yang dinonaktifkan/diblokir/pending)
+    res = sb.table("users").select("id, full_name, role").in_("role", query_roles).eq("status", "active").execute()
     users_data = res.data
 
     # Jika yang login adalah caregiver, tambahkan informasi nama anak ke nama orang tua
