@@ -137,12 +137,14 @@ a { color: var(--primary); }
   /* When No Chat is Active (Show Contact List) */
   .chat-layout:not(.has-active-chat) .chat-sidebar {
     width: 100% !important;
-    max-height: none !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
     border-right: none !important;
     border-bottom: none !important;
     display: flex !important;
     flex-direction: column !important;
-    padding: 1rem 0.75rem !important;
+    padding: 1rem 0.75rem 100px !important;
   }
   .chat-layout:not(.has-active-chat) .chat-panel {
     display: none !important;
