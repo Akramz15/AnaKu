@@ -96,7 +96,11 @@ async def get_current_user(auth_user: dict = Depends(get_auth_user)):
                 reason = user.get("rejection_reason") or ""
                 raise HTTPException(status_code=403, detail=f"ACCOUNT_REJECTED:{reason}")
 
-        return user
+        # 💡 Ambil email asli dari JWT token (karena tidak ada di public.users) lalu injeksi ke data profil
+        user_dict = dict(user)
+        user_dict["email"] = auth_user.get("email", "")
+        
+        return user_dict
 
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Sesi Anda telah berakhir, silakan login kembali")

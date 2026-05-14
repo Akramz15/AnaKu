@@ -308,7 +308,25 @@ export default function GalleryUpload() {
                   </div>
                   <div style={S.fld}>
                     <label style={S.lbl}>Tanggal</label>
-                    <input style={S.inp} type="date" value={form.activity_date} onChange={e => setForm(f => ({ ...f, activity_date: e.target.value }))} required />
+                    <input 
+                      style={S.inp} 
+                      type="date" 
+                      max={new Date().toISOString().split('T')[0]}
+                      value={form.activity_date} 
+                      onChange={e => {
+                        const val = e.target.value;
+                        if (val) {
+                          const parts = val.split('-');
+                          if (parts[0] && parts[0].length > 4) {
+                            parts[0] = parts[0].slice(0, 4);
+                            setForm(f => ({ ...f, activity_date: parts.join('-') }));
+                            return;
+                          }
+                        }
+                        setForm(f => ({ ...f, activity_date: val }));
+                      }} 
+                      required 
+                    />
                   </div>
                 </div>
                 <button type="submit" style={S.submitBtn} disabled={loading}>

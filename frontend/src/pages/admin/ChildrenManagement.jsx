@@ -9,6 +9,7 @@ export default function ChildrenManagement() {
   const [parents, setParents] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState({
     full_name: '', birth_date: '', gender: 'male', parent_id: '', notes: ''
   })
@@ -31,17 +32,39 @@ export default function ChildrenManagement() {
     }
   }
 
+  const handleEditClick = (child) => {
+    setEditingId(child.id)
+    setForm({
+      full_name: child.full_name || '',
+      birth_date: child.birth_date || '',
+      gender: child.gender || 'male',
+      parent_id: child.parent_id || '',
+      notes: child.notes || ''
+    })
+    setShowModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setEditingId(null)
+    setForm({ full_name: '', birth_date: '', gender: 'male', parent_id: '', notes: '' })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-      await api.post('/api/v1/children', form)
-      toast.success('Data anak berhasil ditambahkan!')
-      setShowModal(false)
-      setForm({ full_name: '', birth_date: '', gender: 'male', parent_id: '', notes: '' })
+      if (editingId) {
+        await api.put(`/api/v1/children/${editingId}`, form)
+        toast.success('Data anak berhasil diperbarui!')
+      } else {
+        await api.post('/api/v1/children', form)
+        toast.success('Data anak berhasil ditambahkan!')
+      }
+      handleCloseModal()
       fetchData()
     } catch (err) {
-      toast.error('Gagal menambah data')
+      toast.error(editingId ? 'Gagal memperbarui data' : 'Gagal menambah data')
     } finally {
       setLoading(false)
     }
@@ -91,7 +114,7 @@ export default function ChildrenManagement() {
             <h1 style={S.title}>Daftar Anak</h1>
             <span style={S.userCount}>{children.length} anak</span>
           </div>
-          <button style={S.addBtn} onClick={() => setShowModal(true)}>+</button>
+          <button style={S.addBtn} onClick={() => { setEditingId(null); setForm({ full_name: '', birth_date: '', gender: 'male', parent_id: '', notes: '' }); setShowModal(true); }}>+</button>
         </div>
 
         <div className="table-responsive" style={S.tableContainer}>
@@ -135,7 +158,7 @@ export default function ChildrenManagement() {
                       </select>
                     </td>
                     <td style={{ ...S.td, textAlign: 'right' }}>
-                      <button style={S.actionBtn}><Pencil size={18} /></button>
+                      <button style={S.actionBtn} onClick={() => handleEditClick(child)}><Pencil size={18} /></button>
                       <button style={S.actionBtn} onClick={() => handleDelete(child.id)}><Trash2 size={18} /></button>
                     </td>
                   </tr>
@@ -166,11 +189,11 @@ export default function ChildrenManagement() {
                 <div style={S.modalIconBox}>
                   <ClipboardList size={20} color="#334155" />
                 </div>
-                <button style={S.closeBtn} onClick={() => setShowModal(false)}>&times;</button>
+                <button style={S.closeBtn} onClick={handleCloseModal}>&times;</button>
               </div>
               
-              <h2 style={S.modalTitle}>Tambahkan Anggota Baru</h2>
-              <p style={S.modalSubtitle}>Masukkan data profil anak ke dalam sistem</p>
+              <h2 style={S.modalTitle}>{editingId ? 'Edit Data Anak' : 'Tambahkan Anggota Baru'}</h2>
+              <p style={S.modalSubtitle}>{editingId ? 'Perbarui data profil anak yang dipilih' : 'Masukkan data profil anak ke dalam sistem'}</p>
 
               <form onSubmit={handleSubmit} style={S.form}>
                 <div style={S.field}>
@@ -181,8 +204,25 @@ export default function ChildrenManagement() {
 
                 <div style={S.field}>
                   <label style={S.label}>Tanggal Lahir</label>
-                  <input style={S.input} type="date" required
-                    value={form.birth_date} onChange={e => setForm({ ...form, birth_date: e.target.value })} />
+                  <input 
+                    style={S.input} 
+                    type="date" 
+                    required
+                    max={new Date().toISOString().split('T')[0]}
+                    value={form.birth_date} 
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val) {
+                        const parts = val.split('-');
+                        if (parts[0] && parts[0].length > 4) {
+                          parts[0] = parts[0].slice(0, 4);
+                          setForm({ ...form, birth_date: parts.join('-') });
+                          return;
+                        }
+                      }
+                      setForm({ ...form, birth_date: val });
+                    }} 
+                  />
                 </div>
 
                 <div style={S.field}>

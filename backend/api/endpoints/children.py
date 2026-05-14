@@ -32,12 +32,32 @@ async def list_children(current_user=Depends(get_current_user)):
             if cid:
                 att_map[cid] = att
 
+    # 💡 Enrich parent profile data with email address from Auth SDK
+    auth_email_map = {}
+    try:
+        all_auth_users = sb.auth.admin.list_users()
+        if isinstance(all_auth_users, list):
+            for au in all_auth_users:
+                if hasattr(au, 'id') and hasattr(au, 'email'):
+                    auth_email_map[str(au.id)] = str(au.email or "")
+    except Exception as e:
+        print(f"[WARNING] Gagal fetching list_users untuk email: {e}")
+
     final_data = []
     raw_children = children_data if isinstance(children_data, list) else []
     
     for child in raw_children:
         if isinstance(child, dict):
             child_dict = dict(child) # Copy to mutable dict
+            
+            # Ambil & salin parent dict lalu injeksi email
+            p_id = child_dict.get("parent_id")
+            p_dict = child_dict.get("parent")
+            if isinstance(p_dict, dict) and p_id:
+                p_dict_mut = dict(p_dict) # make copy to modify
+                p_dict_mut["email"] = auth_email_map.get(str(p_id), "-")
+                child_dict["parent"] = p_dict_mut
+
             cid = child_dict.get("id")
             if cid:
                 child_dict["today_attendance"] = att_map.get(cid)
