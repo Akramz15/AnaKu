@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone
@@ -116,7 +116,7 @@ def _pending_email(full_name: str, email: str) -> bool:
 
 # ── POST /api/v1/registrations/complete-profile ───────────────────────────────
 @router.post("/complete-profile")
-async def complete_profile(payload: CompleteProfilePayload, auth_user=Depends(get_auth_user)):
+async def complete_profile(payload: CompleteProfilePayload, background_tasks: BackgroundTasks, auth_user=Depends(get_auth_user)):
     """User baru (via Google) melengkapi profil dan masuk antrean pending."""
     # Cek data user saat ini
     existing = sb.table("users").select("id, status").eq("id", auth_user["id"]).execute()
@@ -154,7 +154,7 @@ async def complete_profile(payload: CompleteProfilePayload, auth_user=Depends(ge
     if final_status == "pending":
         email_target = auth_user.get("email")
         if email_target:
-            _pending_email(payload.full_name, email_target)
+            background_tasks.add_task(_pending_email, payload.full_name, email_target)
         
     return {
         "status": "success", 
@@ -203,7 +203,7 @@ async def count_pending(current_user=Depends(require_role("admin"))):
 
 # ── POST /api/v1/registrations/{user_id}/approve ─────────────────────────────
 @router.post("/{user_id}/approve")
-async def approve_registration(user_id: str, current_user=Depends(require_role("admin"))):
+async def approve_registration(user_id: str, background_tasks: BackgroundTasks, current_user=Depends(require_role("admin"))):
     """[Admin] Setujui pendaftaran → update status active + kirim email."""
     # Ambil data user
     user_res = sb.table("users").select("full_name,status").eq("id", user_id).single().execute()
@@ -232,9 +232,9 @@ async def approve_registration(user_id: str, current_user=Depends(require_role("
         "rejection_reason": None,
     }).eq("id", user_id).execute()
 
-    # Kirim email notifikasi
+    # Kirim email notifikasi (Latar belakang agar tidak block 502 timeout)
     full_name = str(user.get("full_name") or "Pengguna")
-    _approve_email(full_name, user_email)
+    background_tasks.add_task(_approve_email, full_name, user_email)
 
     return {"status": "success", "message": f"Akun {full_name} berhasil diaktifkan"}
 
@@ -244,6 +244,7 @@ async def approve_registration(user_id: str, current_user=Depends(require_role("
 async def reject_registration(
     user_id: str,
     payload: RejectPayload,
+    background_tasks: BackgroundTasks,
     current_user=Depends(require_role("admin"))
 ):
     """[Admin] Tolak pendaftaran → update status rejected + kirim email."""
@@ -268,8 +269,11 @@ async def reject_registration(
         "rejection_reason": payload.reason,
     }).eq("id", user_id).execute()
 
-    # Kirim email notifikasi
+    # Hapus daftar anak yang terhubung ke akun tersebut (Cascading Reject)
+    sb.table("children").delete().eq("parent_id", user_id).execute()
+
+    # Kirim email notifikasi (Latar belakang agar tidak block 502 timeout)
     full_name = str(user.get("full_name") or "Pengguna")
-    _reject_email(full_name, user_email, payload.reason or "")
+    background_tasks.add_task(_reject_email, full_name, user_email, payload.reason or "")
 
     return {"status": "success", "message": f"Pendaftaran {full_name} telah ditolak"}

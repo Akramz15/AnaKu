@@ -11,4 +11,4 @@ httpx
 qrcode
 pillow
 groq
-
+pytz

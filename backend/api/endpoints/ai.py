@@ -38,6 +38,10 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
     3. Kirim ke Gemini dengan konteks log.
     4. Simpan pesan user & respons AI ke chats_ai.
     """
+    # 0. Validasi jika child_id belum dipilih/kosong
+    if not payload.child_id or str(payload.child_id).strip() == "" or str(payload.child_id) == "null" or str(payload.child_id) == "undefined":
+        return {"status": "success", "data": {"reply": "Maaf, Anda belum memilih atau belum mendaftarkan anak. Silakan daftarkan anak Anda terlebih dahulu agar AI bisa membantu memantau perkembangannya."}}
+
     target_date = payload.log_date or date.today().isoformat()
 
     # 1. Ambil data anak
@@ -45,7 +49,7 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
         .eq("id", payload.child_id).single().execute()
     child_data = child_res.data
     if not isinstance(child_data, dict) or child_data.get("parent_id") != current_user["id"]:
-        return {"status": "error", "message": "Anak tidak ditemukan atau bukan milik Anda"}
+        return {"status": "success", "data": {"reply": "Maaf, Anda belum memilih atau belum mendaftarkan anak. Silakan daftarkan anak Anda terlebih dahulu agar AI bisa membantu memantau perkembangannya."}}
     child_name = str(child_data.get("full_name") or "Anak")
 
     # 2. Ambil daily log hari ini

@@ -156,8 +156,30 @@ export default function EditProfileModal({ isOpen, onClose, childData }) {
 
         {/* ── Form Fields ── */}
         <div style={S.form}>
-          <Field label="Nama Anak" value={childName} onChange={setChildName} placeholder="Nama anak" />
-          <Field label="Usia" value={childAge} onChange={setChildAge} placeholder="Contoh: 5 Tahun" />
+          <Field 
+            label="Nama Anak" 
+            value={childName} 
+            onChange={(val) => {
+              if (!childData) {
+                toast.error('Pilih anak atau daftar dulu ke admin')
+                return
+              }
+              setChildName(val)
+            }} 
+            placeholder="Nama anak" 
+          />
+          <Field 
+            label="Usia" 
+            value={childAge} 
+            onChange={(val) => {
+              if (!childData) {
+                toast.error('Pilih anak atau daftar dulu ke admin')
+                return
+              }
+              setChildAge(val)
+            }} 
+            placeholder="Contoh: 5 Tahun" 
+          />
           <Field label="Nama Orang Tua" value={parentName} onChange={setParentName} placeholder="Nama orang tua" />
           <Field label="Email" value={email} onChange={setEmail} placeholder="email@gmail.com" icon={<HelpCircle size={16} color="#CBD5E1" />} disabled />
           <Field label="No Telp" value={phone} onChange={setPhone} placeholder="081234567890" icon={<HelpCircle size={16} color="#CBD5E1" />} />
