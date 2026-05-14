@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
+from typing import Optional
 from api.deps import get_current_user, require_role
 from services.cloudinary_service import upload_media, delete_media
 from supabase import create_client
@@ -34,11 +35,6 @@ async def upload_gallery(
     # Upload ke Cloudinary
     cloud_result = upload_media(content, unique_name)
 
-    # Menggabungkan caption dan tempat karena tabel galleries mungkin tidak punya kolom tempat
-    final_caption = caption
-    if location:
-        final_caption = f"{caption} (Lokasi: {location})" if caption else f"Lokasi: {location}"
-
     # Simpan metadata ke database
     gallery_data = {
         "child_id": child_id,
@@ -46,7 +42,7 @@ async def upload_gallery(
         "cloudinary_url": cloud_result["url"],
         "public_id": cloud_result["public_id"],
         "media_type": "photo",
-        "caption": final_caption,
+        "caption": caption,
         "activity_date": activity_date or None,
     }
     res = sb.table("galleries").insert(gallery_data).execute()
@@ -54,7 +50,7 @@ async def upload_gallery(
 
 @router.get("/")
 async def list_gallery(
-    child_id: str = None,
+    child_id: Optional[str] = None,
     current_user = Depends(get_current_user)
 ):
     """Ambil galeri. Parent hanya lihat anaknya sendiri."""
@@ -63,7 +59,8 @@ async def list_gallery(
         query = query.eq("child_id", child_id)
     elif current_user["role"] == "parent":
         kids = sb.table("children").select("id").eq("parent_id", current_user["id"]).execute()
-        ids = [k["id"] for k in kids.data]
+        raw_kids = kids.data if isinstance(kids.data, list) else []
+        ids = [k.get("id") for k in raw_kids if isinstance(k, dict) and k.get("id")]
         if not ids:
             return {"status": "success", "data": []}
         query = query.in_("child_id", ids)
@@ -79,7 +76,11 @@ async def delete_gallery(gallery_id: str):
         raise HTTPException(404, "Media tidak ditemukan")
         
     # Hapus file fisik dari Cloudinary
-    delete_media(item.data["public_id"])
+    data_dict = item.data
+    if isinstance(data_dict, dict):
+        pub_id = str(data_dict.get("public_id") or "")
+        if pub_id:
+            delete_media(pub_id)
     
     # Hapus record dari Database
     sb.table("galleries").delete().eq("id", gallery_id).execute()

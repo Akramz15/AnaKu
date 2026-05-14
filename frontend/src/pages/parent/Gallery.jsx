@@ -20,6 +20,13 @@ const formatTime = (dateStr) => {
   return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
 }
 
+const formatDate = (dateStr) => {
+  if (!dateStr) return ''
+  const d = new Date(dateStr)
+  if (isNaN(d)) return ''
+  return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
 // ─── Hapus suffix lokasi yang tidak perlu dari caption ────────────────────────
 const cleanCaption = (caption) => {
   if (!caption) return 'Nama Aktivitas'
@@ -109,9 +116,9 @@ export default function ParentGallery() {
                 </div>
                 {/* Caption below */}
                 <div style={S.cardBody}>
-                  <div style={S.cardTitle}>{item.caption ?? 'Nama Aktivitas'}</div>
+                  <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
                   <div style={S.cardMeta}>
-                    {formatTime(item.activity_date)} | {item.caregiver?.full_name ?? 'Pengasuh'}, Daycare
+                    {formatTime(item.activity_date || item.created_at)} | {formatDate(item.activity_date || item.created_at)}
                   </div>
                 </div>
               </div>
@@ -136,8 +143,7 @@ export default function ParentGallery() {
               <div style={S.lbBody}>
                 <div style={S.lbTitle}>{cleanCaption(lightbox.caption)}</div>
                 <div style={S.lbMeta}>
-                  {formatTime(lightbox.activity_date ?? lightbox.created_at)}
-                  {lightbox.location ? ` | ${lightbox.location}` : ' | Daycare ABC, 1st Floor'}
+                  {formatTime(lightbox.activity_date ?? lightbox.created_at)} | {formatDate(lightbox.activity_date ?? lightbox.created_at)}
                 </div>
               </div>
 

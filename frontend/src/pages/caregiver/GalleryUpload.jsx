@@ -18,6 +18,19 @@ const fmtTime = (dateStr) => {
   return d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
 }
 
+const fmtDate = (dateStr) => {
+  if (!dateStr) return ''
+  const d = new Date(dateStr)
+  if (isNaN(d)) return ''
+  return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
+const cleanCaption = (caption) => {
+  if (!caption) return 'Nama Aktivitas'
+  // Hapus pola " (Lokasi: ...)" yang tersimpan otomatis di DB
+  return caption.replace(/\s*\(Lokasi:.*?\)/gi, '').trim() || caption
+}
+
 export default function GalleryUpload() {
   const { profile }                       = useAuth()
   const [children, setChildren]           = useState([])
@@ -196,9 +209,9 @@ export default function GalleryUpload() {
                 </button>
               </div>
               <div style={S.cardBody}>
-                <div style={S.cardTitle}>{item.caption || 'Nama Aktivitas'}</div>
+                <div style={S.cardTitle}>{cleanCaption(item.caption)}</div>
                 <div style={S.cardMeta}>
-                  {fmtTime(item.created_at)} | {item.location || 'Daycare ABC, 1st Floor'}
+                  {fmtTime(item.created_at || item.activity_date)} | {fmtDate(item.created_at || item.activity_date)}
                 </div>
               </div>
             </div>
@@ -358,8 +371,10 @@ export default function GalleryUpload() {
             <div style={{ maxWidth: '80vw', maxHeight: '80vh', borderRadius: 16, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
               <img src={lightbox.cloudinary_url} alt={lightbox.caption} style={{ display: 'block', maxWidth: '100%', maxHeight: '70vh', objectFit: 'contain' }} />
               <div style={{ background: '#fff', padding: '1rem 1.25rem' }}>
-                <div style={{ fontWeight: 600 }}>{lightbox.caption || 'Nama Aktivitas'}</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{lightbox.location || 'Daycare ABC, 1st Floor'}</div>
+                <div style={{ fontWeight: 600 }}>{cleanCaption(lightbox.caption)}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  {fmtTime(lightbox.created_at || lightbox.activity_date)} | {fmtDate(lightbox.created_at || lightbox.activity_date)}
+                </div>
               </div>
             </div>
           </div>
