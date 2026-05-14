@@ -180,6 +180,15 @@ export default function DailyLogDetailModal({ log, childName, att, onClose, auto
     }
   }, [])
 
+  useEffect(() => {
+    if (log && !autoDownload) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    return () => document.body.classList.remove('modal-open')
+  }, [log, autoDownload])
+
   if (!log || autoDownload) return null
 
   const dateLabel = `Laporan ${formatDateFull(log.log_date)}`
@@ -189,7 +198,7 @@ export default function DailyLogDetailModal({ log, childName, att, onClose, auto
   const mood = getMoodConfig(log.mood)
 
   return (
-    <div style={M.overlay} onClick={onClose}>
+    <div className="modal-overlay" style={M.overlay} onClick={onClose}>
       <div style={M.modal} onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div style={M.header}>
@@ -300,7 +309,7 @@ const M = {
   },
   modal: {
     background: '#fff', borderRadius: 16, width: '100%', maxWidth: '520px',
-    maxHeight: '90vh', display: 'flex', flexDirection: 'column',
+    maxHeight: '100%', display: 'flex', flexDirection: 'column',
     boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
   },
   header: {

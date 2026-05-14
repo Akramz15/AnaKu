@@ -213,10 +213,9 @@ a { color: var(--primary); }
     z-index: 1000 !important;
   }
   
+  
   /* 💡 Angkat modal agar tidak tertabrak menu bawah pada ponsel */
-  .modal-overlay {
-    padding-bottom: calc(90px + env(safe-area-inset-bottom, 20px)) !important;
-  }
+  /* Dihapus untuk dialihkan ke sistem global yang menyembunyikan menu bawah sepenuhnya demi kenyamanan user */
 }
 
 
@@ -250,4 +249,22 @@ a { color: var(--primary); }
   .mobile-back-btn {
     display: none !important;
   }
+}
+
+/* ── Global Modal State Control (Body Scroll Lock & Underbar Auto-Hide) ─────── */
+body.modal-open {
+  overflow: hidden !important;
+}
+body.modal-open .main-content {
+  overflow: hidden !important; /* Hentikan scroll background pada container utama mobile */
+}
+body.modal-open .mobile-bottom-nav {
+  display: none !important; /* Sembunyikan navigation bar sepenuhnya demi fokus visual */
+}
+
+/* Utilitas helper modal overlay yang mutlak menutupi seluruh viewport */
+.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important; /* Memastikan berada di atas segalanya */
 }

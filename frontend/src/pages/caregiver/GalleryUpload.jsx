@@ -110,6 +110,15 @@ export default function GalleryUpload() {
   }, [])
 
   useEffect(() => {
+    if (showUpload) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    return () => document.body.classList.remove('modal-open')
+  }, [showUpload])
+
+  useEffect(() => {
     if (!selectedChild) return
     const today = new Date().toISOString().split('T')[0]
     api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)

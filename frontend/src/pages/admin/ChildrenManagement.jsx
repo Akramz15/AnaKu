@@ -18,6 +18,15 @@ export default function ChildrenManagement() {
     fetchData()
   }, [])
 
+  useEffect(() => {
+    if (showModal) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    return () => document.body.classList.remove('modal-open')
+  }, [showModal])
+
   const fetchData = async () => {
     try {
       const [resChild, resUsers] = await Promise.all([

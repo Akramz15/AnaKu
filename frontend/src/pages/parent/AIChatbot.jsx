@@ -36,7 +36,7 @@ const Avatar = ({ name, size = 50, bg = 'var(--primary)' }) => (
 
 // ─── Confirmation Modal ────────────────────────────────────────────────────────
 const ConfirmModal = ({ onConfirm, onCancel }) => (
-  <div style={M.overlay}>
+  <div className="modal-overlay" style={M.overlay}>
     <div style={M.box}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
         <AlertCircle size={22} color="#F59E0B" />
@@ -122,6 +122,15 @@ export default function AIChatbot() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
+
+  useEffect(() => {
+    if (showConfirm) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    return () => document.body.classList.remove('modal-open')
+  }, [showConfirm])
 
   // ── Persist session changes to localStorage ───────────────────────────────
   const persistSessions = useCallback((updatedSessions) => {

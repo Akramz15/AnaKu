@@ -39,6 +39,15 @@ export default function DailyLogForm() {
     if (savedDrafts) setDrafts(JSON.parse(savedDrafts))
   }, [])
 
+  useEffect(() => {
+    if (showForm) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+    return () => document.body.classList.remove('modal-open')
+  }, [showForm])
+
   const fetchLogs = () => api.get('/api/v1/daily-logs').then(r => {
     setLogs([...r.data.data].sort((a,b) => b.log_date.localeCompare(a.log_date)))
   })
