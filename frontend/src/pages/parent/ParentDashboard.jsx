@@ -354,7 +354,6 @@ export default function ParentDashboard() {
           <div className="dashboard-col-side" style={{ ...styles.card, height: 'auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
               <h3 style={styles.cardTitle}>Tanya AI</h3>
-              <button style={styles.roundBtn}><Plus size={16} /></button>
             </div>
 
             <div style={{ height: '350px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem' }}>

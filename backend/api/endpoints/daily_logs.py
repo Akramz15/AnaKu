@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, BackgroundTasks
+from typing import Optional
 from datetime import date as date_type
 from api.deps import get_current_user, require_role
 from schemas.daily_log import DailyLogCreate
@@ -28,22 +29,25 @@ async def create_daily_log(
 
     # Simpan log ke database
     res = sb.table("daily_logs").upsert(data, on_conflict="child_id,log_date").execute()
-    log_id = res.data[0]["id"]
+    
+    raw_data = res.data if isinstance(res.data, list) and len(res.data) > 0 else []
+    first_item = raw_data[0] if raw_data and isinstance(raw_data[0], dict) else {}
+    log_id = str(first_item.get("id") or "")
 
     # Jalankan sentiment analysis di background (non-blocking)
     text_to_analyze = f"{payload.special_notes or ''} {payload.mood or ''}"
-    if text_to_analyze.strip():
+    if text_to_analyze.strip() and log_id:
         background_tasks.add_task(analyze_sentiment, log_id, text_to_analyze)
     
     # Jalankan juga pembuatan AI Daily Summary
     background_tasks.add_task(generate_daily_summary, data["child_id"], data["log_date"])
 
-    return {"status": "success", "data": res.data[0]}
+    return {"status": "success", "data": first_item}
 
 @router.get("/")
 async def get_daily_logs(
-    child_id: str = None,
-    log_date: str = None,
+    child_id: Optional[str] = None,
+    log_date: Optional[str] = None,
     current_user = Depends(get_current_user)
 ):
     """Ambil daily logs. Filter: child_id, log_date."""
@@ -55,7 +59,8 @@ async def get_daily_logs(
     if current_user["role"] == "parent":
         # Parent hanya lihat anaknya sendiri
         kids = sb.table("children").select("id").eq("parent_id", current_user["id"]).execute()
-        child_ids = [k["id"] for k in kids.data]
+        raw_kids = kids.data if isinstance(kids.data, list) else []
+        child_ids = [k.get("id") for k in raw_kids if isinstance(k, dict) and k.get("id")]
         if not child_ids:
             return {"status": "success", "data": []}
         query = query.in_("child_id", child_ids)

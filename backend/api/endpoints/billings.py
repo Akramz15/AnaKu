@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
 from api.deps import get_current_user, require_role
 from schemas.billing import BillingCreate, BillingStatusUpdate
 from supabase import create_client
@@ -56,7 +57,7 @@ async def create_billing(payload: BillingCreate):
 
 @router.get("/")
 async def list_billings(
-    child_id: str = None,
+    child_id: Optional[str] = None,
     current_user = Depends(get_current_user)
 ):
     """
@@ -66,7 +67,8 @@ async def list_billings(
     query = sb.table("billings").select("*, children(full_name, users!parent_id(full_name))")
     if current_user["role"] == "parent":
         kids = sb.table("children").select("id").eq("parent_id", current_user["id"]).execute()
-        ids = [k["id"] for k in kids.data]
+        raw_kids = kids.data if isinstance(kids.data, list) else []
+        ids = [k.get("id") for k in raw_kids if isinstance(k, dict) and k.get("id")]
         if not ids:
             return {"status": "success", "data": []}
         query = query.in_("child_id", ids)

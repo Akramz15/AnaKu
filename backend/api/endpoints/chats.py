@@ -17,8 +17,10 @@ def get_or_create_room(user1: str, user2: str) -> str:
     res = sb.table("chats_human").select("room_id") \
         .or_(f"and(sender_id.eq.{user1},receiver_id.eq.{user2}),and(sender_id.eq.{user2},receiver_id.eq.{user1})") \
         .limit(1).execute()
-    if res.data:
-        return res.data[0]["room_id"]
+    if res.data and len(res.data) > 0:
+        first_item = res.data[0]
+        if isinstance(first_item, dict):
+            return str(first_item.get("room_id") or "")
     return str(uuid.uuid4())
 
 @router.get("/rooms")
@@ -34,12 +36,19 @@ async def list_rooms(current_user = Depends(get_current_user)):
 
     # Kelompokkan per room, ambil pesan terakhir
     rooms = {}
-    for msg in res.data:
-        rid = msg["room_id"]
-        if rid not in rooms:
-            other_id = msg["receiver_id"] if msg["sender_id"] == uid else msg["sender_id"]
-            rooms[rid] = {"room_id": rid, "other_user_id": other_id,
-                          "last_message": msg["message"], "last_time": msg["created_at"]}
+    raw_msgs = res.data if isinstance(res.data, list) else []
+    for msg in raw_msgs:
+        if not isinstance(msg, dict):
+            continue
+        rid = msg.get("room_id")
+        if rid and rid not in rooms:
+            other_id = msg.get("receiver_id") if msg.get("sender_id") == uid else msg.get("sender_id")
+            rooms[rid] = {
+                "room_id": rid,
+                "other_user_id": other_id,
+                "last_message": msg.get("message"),
+                "last_time": msg.get("created_at")
+            }
 
     # Ambil info nama lawan bicara
     result = []
@@ -98,21 +107,38 @@ async def get_contacts(current_user = Depends(get_current_user)):
     users_data = res.data
 
     # Jika yang login adalah caregiver, tambahkan informasi nama anak ke nama orang tua
+    final_contacts = []
+    raw_users = users_data if isinstance(users_data, list) else []
+    
     if role == "caregiver":
         children_res = sb.table("children").select("parent_id, full_name").execute()
         parent_children_map = {}
-        for child in children_res.data:
+        raw_kids = children_res.data if isinstance(children_res.data, list) else []
+        
+        for child in raw_kids:
+            if not isinstance(child, dict):
+                continue
             pid = child.get("parent_id")
             if pid:
                 if pid not in parent_children_map:
                     parent_children_map[pid] = []
-                parent_children_map[pid].append(child.get("full_name"))
+                parent_children_map[pid].append(str(child.get("full_name") or ""))
         
-        for u in users_data:
-            kids = parent_children_map.get(u["id"])
-            if kids:
-                kids_str = ", ".join(kids)
-                u["full_name"] = f"{u['full_name']} (Ortu dari {kids_str})"
+        for u in raw_users:
+            if not isinstance(u, dict):
+                continue
+            contact = dict(u) # Copy to mutable dict
+            uid = contact.get("id")
+            if uid:
+                kids = parent_children_map.get(uid)
+                if kids:
+                    kids_str = ", ".join(kids)
+                    contact["full_name"] = f"{contact.get('full_name')} (Ortu dari {kids_str})"
+            final_contacts.append(contact)
+    else:
+        for u in raw_users:
+            if isinstance(u, dict):
+                final_contacts.append(dict(u))
 
-    return {"status": "success", "data": users_data}
+    return {"status": "success", "data": final_contacts}
 

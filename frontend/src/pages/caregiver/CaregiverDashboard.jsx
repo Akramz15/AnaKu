@@ -269,7 +269,6 @@ export default function CaregiverDashboard() {
                   <span style={{...styles.badgeGreen, background: getMoodColor(moodScore), color:'#fff'}}>{getMoodLabel(moodScore)}</span>
                   {isUpdatingMood && <span style={{fontSize:'0.75rem', color:'var(--text-muted)'}}>Updating...</span>}
                 </div>
-                <button style={{...styles.outlineBtn, display:'flex', alignItems:'center', gap:'0.25rem'}}>Switch <ChevronDown size={14} /></button>
               </div>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem', marginTop: '0.5rem' }}>
                 Geser untuk memperbarui mood anak secara real-time.

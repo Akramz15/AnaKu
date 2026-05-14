@@ -45,7 +45,7 @@ async def upload_avatar(
     current_user=Depends(get_current_user)
 ):
     """Upload foto profil user ke Cloudinary lalu simpan URL ke tabel users."""
-    if not file.content_type.startswith("image/"):
+    if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File harus berupa gambar")
 
     contents = await file.read()

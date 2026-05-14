@@ -22,12 +22,27 @@ async def list_children(current_user=Depends(get_current_user)):
     # Tambahkan status presensi hari ini
     today = datetime.now().date().isoformat()
     att_res = sb.table("attendances").select("*").eq("date", today).execute()
-    att_map = {att["child_id"]: att for att in att_res.data}
+    raw_atts = att_res.data if isinstance(att_res.data, list) else []
+    att_map = {}
+    
+    for att in raw_atts:
+        if isinstance(att, dict):
+            cid = att.get("child_id")
+            if cid:
+                att_map[cid] = att
 
-    for child in children_data:
-        child["today_attendance"] = att_map.get(child["id"])
+    final_data = []
+    raw_children = children_data if isinstance(children_data, list) else []
+    
+    for child in raw_children:
+        if isinstance(child, dict):
+            child_dict = dict(child) # Copy to mutable dict
+            cid = child_dict.get("id")
+            if cid:
+                child_dict["today_attendance"] = att_map.get(cid)
+            final_data.append(child_dict)
 
-    return {"status": "success", "data": children_data}
+    return {"status": "success", "data": final_data}
 
 @router.post("/", dependencies=[Depends(require_role("admin"))])
 async def create_child(payload: dict):
@@ -43,7 +58,8 @@ async def update_child(child_id: str, payload: dict, current_user=Depends(get_cu
     if current_user["role"] == "parent":
         # Verifikasi kepemilikan anak
         child_res = sb.table("children").select("parent_id").eq("id", child_id).single().execute()
-        if not child_res.data or child_res.data["parent_id"] != current_user["id"]:
+        child_data = child_res.data
+        if not isinstance(child_data, dict) or child_data.get("parent_id") != current_user["id"]:
             raise HTTPException(status_code=403, detail="Akses ditolak")
     elif current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Akses ditolak")
@@ -63,7 +79,8 @@ async def upload_child_photo(
 ):
     if current_user["role"] == "parent":
         child_res = sb.table("children").select("parent_id").eq("id", child_id).single().execute()
-        if not child_res.data or child_res.data["parent_id"] != current_user["id"]:
+        child_data = child_res.data
+        if not isinstance(child_data, dict) or child_data.get("parent_id") != current_user["id"]:
             raise HTTPException(status_code=403, detail="Akses ditolak")
     elif current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Akses ditolak")

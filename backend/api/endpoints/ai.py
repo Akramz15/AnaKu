@@ -39,7 +39,7 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
     4. Simpan pesan user & respons AI ke chats_ai.
     """
     # 0. Validasi jika child_id belum dipilih/kosong
-    if not payload.child_id or str(payload.child_id).strip() == "" or str(payload.child_id) == "null" or str(payload.child_id) == "undefined":
+    if not payload.child_id or payload.child_id.strip() in ("", "null", "undefined"):
         return {"status": "success", "data": {"reply": "Maaf, Anda belum memilih atau belum mendaftarkan anak. Silakan daftarkan anak Anda terlebih dahulu agar AI bisa membantu memantau perkembangannya."}}
 
     target_date = payload.log_date or date.today().isoformat()
