@@ -141,6 +141,8 @@ a { color: var(--primary); }
     border-right: none !important;
     border-bottom: none !important;
     display: flex !important;
+    flex-direction: column !important;
+    padding: 1rem 0.75rem !important;
   }
   .chat-layout:not(.has-active-chat) .chat-panel {
     display: none !important;
