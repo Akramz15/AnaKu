@@ -5,21 +5,6 @@ import ParentPageHeader from '../../components/layout/ParentPageHeader'
 import { useAuth } from '../../context/AuthContext'
 import { CheckCircle } from 'lucide-react'
 
-// ─── QR Code renderer (SVG via Google Charts or a simple placeholder) ─────────
-// Using an SVG-based QR via a public API (no npm needed)
-const QRCode = ({ value, size = 280 }) => {
-  const encoded = encodeURIComponent(value)
-  const src = `https://api.qrserver.com/v1/create-qr-code/?data=${encoded}&size=${size}x${size}&margin=10`
-  return (
-    <img
-      src={src}
-      alt="QR Code"
-      width={size}
-      height={size}
-      style={{ display: 'block' }}
-    />
-  )
-}
 
 const Avatar = ({ name, size = 50 }) => (
   <div style={{ width: size, height: size, borderRadius: '50%', background: 'var(--primary)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.1rem', flexShrink: 0 }}>
@@ -63,7 +48,7 @@ export default function ParentBilling() {
     const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
     const fetch = () => {
-      api.get(`/api/v1/attendances?child_id=${selectedChild.id}`)
+      api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
         .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
         .catch(() => {})
 
@@ -83,9 +68,6 @@ export default function ParentBilling() {
 
   const formatRp = (num) => `Rp ${Number(num).toLocaleString('id-ID')}`
 
-  const qrValue = billing 
-    ? `anaku:billing:${billing.id}:${billing.total_amount}`
-    : 'anaku:qr'
 
   return (
     <PageLayout>
@@ -157,7 +139,11 @@ export default function ParentBilling() {
                 <p style={{ margin: '0.2rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Tagihan penitipan anak bulan ini. Silakan scan QRIS di bawah ini untuk membayar.</p>
               </div>
               <div style={S.qrCard}>
-                <QRCode value={qrValue} size={300} />
+                <img 
+                  src="/QrisAnaKu.jpeg" 
+                  alt="QRIS Pembayaran AnaKuu" 
+                  style={{ width: '300px', height: 'auto', borderRadius: '8px', display: 'block' }} 
+                />
               </div>
             </div>
           )

@@ -94,7 +94,7 @@ export default function ParentDailyLog() {
     const fetchAll = () => {
       Promise.all([
         api.get(`/api/v1/daily-logs?child_id=${cid}&log_date=${today}`),
-        api.get(`/api/v1/attendances?child_id=${cid}`),
+        api.get(`/api/v1/attendances/?child_id=${cid}`),
         api.get(`/api/v1/daily-logs?child_id=${cid}`),
       ]).then(([logRes, attRes, historyRes]) => {
         setTodayLog(logRes.data.data[0] ?? null)

@@ -64,7 +64,7 @@ export default function ChildrenManagement() {
 
   const handleStatusChange = async (childId, newStatus) => {
     try {
-      await api.post('/api/v1/attendances', { child_id: childId, status: newStatus })
+      await api.post('/api/v1/attendances/', { child_id: childId, status: newStatus })
       toast.success('Status berhasil diubah!')
       fetchData()
     } catch (err) {

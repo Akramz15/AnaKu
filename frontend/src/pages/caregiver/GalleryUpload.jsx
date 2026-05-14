@@ -94,7 +94,7 @@ export default function GalleryUpload() {
   useEffect(() => {
     if (!selectedChild) return
     const today = new Date().toISOString().split('T')[0]
-    api.get(`/api/v1/attendances?child_id=${selectedChild.id}`)
+    api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
       .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
   }, [selectedChild?.id])
 
@@ -135,6 +135,10 @@ export default function GalleryUpload() {
     catch { toast.error('Gagal menghapus') }
   }
 
+  const filteredGallery = selectedChild
+    ? gallery.filter(item => String(item.child_id) === String(selectedChild.id))
+    : gallery
+
   return (
     <PageLayout>
       <div style={S.page}>
@@ -152,7 +156,9 @@ export default function GalleryUpload() {
                   <span style={S.badge}>Checked In</span>
                 )}
               </div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Daycare ABC, 1st Floor</div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                Orang Tua: {selectedChild?.parent?.full_name ?? '-'}
+              </div>
             </div>
           </div>
           {/* Switch anak */}
@@ -172,12 +178,12 @@ export default function GalleryUpload() {
 
         {/* ── Gallery Grid ── */}
         <div className="dashboard-grid-3" style={S.grid}>
-          {gallery.length === 0 && (
+          {filteredGallery.length === 0 && (
             <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '4rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              Belum ada foto. Klik + untuk mengunggah.
+              Belum ada foto untuk anak ini. Klik + untuk mengunggah.
             </div>
           )}
-          {gallery.map(item => (
+          {filteredGallery.map(item => (
             <div key={item.id} style={S.card} onClick={() => setLightbox(item)}>
               <div style={S.imgBox}>
                 <img src={item.cloudinary_url} alt={item.caption} style={S.img} />

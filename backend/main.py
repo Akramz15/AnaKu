@@ -5,19 +5,45 @@ from fastapi.exceptions import RequestValidationError
 
 from api.endpoints import users, children, daily_logs, attendances, galleries, billings, chats, ai, registrations
 
+from core.config import settings
+
 app = FastAPI(
     title="AnaKu API",
     description="Backend API untuk Aplikasi Monitoring Anak AnaKu",
     version="1.0.0" 
 )
 
+origins = [origin.strip() for origin in settings.ALLOWED_ORIGINS.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Middleware to handle FastAPI CORS redirect issue by internally adding trailing slashes to API roots before routing
+@app.middleware("http")
+async def rewrite_trailing_slashes(request: Request, call_next):
+    path = request.url.path
+    # Primary API base resources that map to a "/" root route requiring trailing slash
+    target_roots = {
+        "/api/v1/users",
+        "/api/v1/children",
+        "/api/v1/daily-logs",
+        "/api/v1/attendances",
+        "/api/v1/galleries",
+        "/api/v1/billings",
+        "/api/v1/chats",
+        "/api/v1/ai",
+        "/api/v1/registrations"
+    }
+    if path in target_roots:
+        request.scope["path"] = path + "/"
+    
+    response = await call_next(request)
+    return response
 
 # Error handlers
 @app.exception_handler(RequestValidationError)

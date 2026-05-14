@@ -30,6 +30,7 @@ export default function DailyLogForm() {
   const [form, setForm]         = useState(EMPTY_FORM)
   const [loading, setLoading]   = useState(false)
   const [drafts, setDrafts]     = useState([])
+  const [filterChildId, setFilterChildId] = useState('all')
 
   useEffect(() => {
     api.get('/api/v1/children/').then(r => setChildren(r.data.data))
@@ -42,7 +43,15 @@ export default function DailyLogForm() {
     setLogs([...r.data.data].sort((a,b) => b.log_date.localeCompare(a.log_date)))
   })
 
-  const openForm = () => { setForm(EMPTY_FORM); setStep(1); setShowForm(true) }
+  const openForm = () => { 
+    const initialForm = { 
+      ...EMPTY_FORM, 
+      child_id: filterChildId !== 'all' ? filterChildId : '' 
+    }
+    setForm(initialForm)
+    setStep(1)
+    setShowForm(true)
+  }
   const closeForm = () => setShowForm(false)
 
   const handleSaveDraft = () => {
@@ -196,18 +205,42 @@ export default function DailyLogForm() {
     setLoading(false)
   }
 
+  const filteredLogs = filterChildId === 'all' 
+    ? logs 
+    : logs.filter(l => String(l.child_id) === String(filterChildId))
+
   return (
     <PageLayout>
       <div style={S.page}>
         <div style={S.card}>
           <div style={S.cardHeader}>
             <h2 style={S.cardTitle}>Laporan Harian</h2>
-            <button style={S.plusBtn} onClick={openForm}><Plus size={18}/></button>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              <select 
+                style={{ 
+                  padding: '0.4rem 0.75rem', 
+                  borderRadius: '8px', 
+                  border: '1px solid #E2E8F0',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  color: '#374151',
+                  background: '#fff',
+                  outline: 'none',
+                  cursor: 'pointer'
+                }}
+                value={filterChildId}
+                onChange={e => setFilterChildId(e.target.value)}
+              >
+                <option value="all">Semua Anak</option>
+                {children.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
+              </select>
+              <button style={S.plusBtn} onClick={openForm}><Plus size={18}/></button>
+            </div>
           </div>
           <div>
-            {logs.length === 0 && <div style={{ padding:'3rem', textAlign:'center', color:'var(--text-muted)', fontSize:'0.9rem' }}>Belum ada laporan. Tekan + untuk menambahkan.</div>}
-            {logs.map((log,i) => (
-              <div key={log.id} style={{ ...S.logRow, borderBottom: i<logs.length-1?'1px solid var(--border)':'none' }}>
+            {filteredLogs.length === 0 && <div style={{ padding:'3rem', textAlign:'center', color:'var(--text-muted)', fontSize:'0.9rem' }}>Belum ada laporan untuk filter ini. Tekan + untuk menambahkan.</div>}
+            {filteredLogs.map((log,i) => (
+              <div key={log.id} style={{ ...S.logRow, borderBottom: i<filteredLogs.length-1?'1px solid var(--border)':'none' }}>
                 <div style={S.logIcon}><ClipboardList size={20} color="#E07A5F"/></div>
                 <div style={{ flex: 1 }}>
                   <div style={S.logDate}>{fmtDate(log.log_date)}</div>

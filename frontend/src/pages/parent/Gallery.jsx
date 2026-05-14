@@ -56,7 +56,7 @@ export default function ParentGallery() {
 
     Promise.all([
       api.get(`/api/v1/galleries/?child_id=${cid}`),
-      api.get(`/api/v1/attendances?child_id=${cid}`),
+      api.get(`/api/v1/attendances/?child_id=${cid}`),
     ]).then(([galRes, attRes]) => {
       setGallery(galRes.data.data)
       setTodayAtt(attRes.data.data.find(a => a.date === today) ?? null)

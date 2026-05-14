@@ -76,7 +76,8 @@ async def toggle_attendance(payload: dict):
         existing_bill = sb.table("billings").select("id")\
             .eq("child_id", child_id)\
             .eq("period_month", current_month)\
-            .eq("period_year", current_year).execute()
+            .eq("period_year", current_year)\
+            .neq("status", "paid").execute()
         
         eb_data = existing_bill.data if isinstance(existing_bill.data, list) else []
         
@@ -86,8 +87,8 @@ async def toggle_attendance(payload: dict):
                 "child_id": child_id,
                 "period_month": current_month,
                 "period_year": current_year,
-                "base_fee": 500000, # Default fee example
-                "total_amount": 500000,
+                "base_fee": 150000, # Default fee example
+                "total_amount": 150000,
                 "status": "unpaid",
                 "attendance_days": 1
             }).execute()

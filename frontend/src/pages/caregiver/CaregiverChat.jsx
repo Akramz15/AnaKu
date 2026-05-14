@@ -50,7 +50,7 @@ export default function CaregiverChat() {
   useEffect(() => {
     if (!selectedChild) return
     const today = new Date().toISOString().split('T')[0]
-    api.get(`/api/v1/attendances?child_id=${selectedChild.id}`)
+    api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
       .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
   }, [selectedChild?.id])
 
@@ -78,33 +78,7 @@ export default function CaregiverChat() {
     <PageLayout>
       <div style={S.page}>
 
-        {/* ── Header Card (mirroring parent style) ── */}
-        <div className="header-card" style={S.headerCard}>
-          <div className="header-card-left" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Avatar name={profile?.full_name} size={50} />
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.15rem' }}>
-                  {profile?.full_name ?? 'Nama Pengasuh'}
-                </h2>
-                <span style={S.badge}>Pengasuh</span>
-              </div>
-              <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                {selectedChild ? `Mengasuh: ${selectedChild.full_name}` : 'Daycare ABC'}
-              </p>
-            </div>
-          </div>
 
-          {/* Switch anak */}
-          <select
-            className="header-card-right"
-            style={S.outlineBtn}
-            value={selectedChild?.id ?? ''}
-            onChange={e => setSelectedChild(children.find(c => c.id === e.target.value))}
-          >
-            {children.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
-          </select>
-        </div>
 
         {/* ── Chat Layout (2-column, identical to ParentChat) ── */}
         <div className={`chat-layout ${selected ? 'has-active-chat' : ''}`} style={S.chatLayout}>

@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str
     CLOUDINARY_API_SECRET: str
     
+    # CORS and Host Configurations
+    ALLOWED_ORIGINS: str = "http://localhost:5173"
+    FRONTEND_URL: str = "http://localhost:5173"
+    
     # SMTP for Email Notifications (Optional)
     SMTP_HOST: str | None = None
     SMTP_PORT: int | None = 587

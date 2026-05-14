@@ -64,7 +64,7 @@ export default function CaregiverDashboard() {
     
     Promise.all([
       api.get(`/api/v1/daily-logs?child_id=${selectedChild.id}&log_date=${today}`),
-      api.get(`/api/v1/attendances?child_id=${selectedChild.id}`)
+      api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
     ]).then(([resLog, resAtt]) => {
       const log = resLog.data.data[0]
       setTodayLog(log || null)

@@ -9,6 +9,13 @@ const TEXT_COLOR = { paid:'#10B981', unpaid:'#D97706', overdue:'#EF4444' }
 const STATUS_LABEL = { paid:'Lunas', unpaid:'Belum Bayar', overdue:'Terlambat' }
 const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
 
+const fmtDate = (isoStr) => {
+  if (!isoStr) return '-'
+  const d = new Date(isoStr)
+  if (isNaN(d.getTime())) return '-'
+  return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+}
+
 export default function BillingManagement() {
   const [billings, setBillings] = useState([])
   const [loading, setLoading] = useState(true)
@@ -83,7 +90,12 @@ export default function BillingManagement() {
                       <div style={{ fontSize: '0.8rem', color: '#94A3B8' }}>@{b.children?.full_name.split(' ')[0].toLowerCase()}</div>
                     </td>
                     <td style={S.td}>{b.children?.parent?.full_name || '-'}</td>
-                    <td style={S.td}>{MONTHS[b.period_month-1]} {b.period_year}</td>
+                    <td style={S.td}>
+                      <div style={{ fontWeight: 600, color: '#1E293B' }}>{MONTHS[b.period_month-1]} {b.period_year}</div>
+                      <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '0.2rem' }}>
+                        {b.status === 'paid' ? `Lunas: ${fmtDate(b.paid_at)}` : `Terbit: ${fmtDate(b.created_at)}`}
+                      </div>
+                    </td>
                     <td style={{...S.td, fontWeight:600, color:'#1E293B'}}>{formatRp(b.total_amount)}</td>
                     <td style={S.td}>
                       <span style={{ 

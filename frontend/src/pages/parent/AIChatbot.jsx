@@ -94,7 +94,7 @@ export default function AIChatbot() {
     if (!selectedChild) return
     const today = new Date().toISOString().split('T')[0]
 
-    api.get(`/api/v1/attendances?child_id=${selectedChild.id}`)
+    api.get(`/api/v1/attendances/?child_id=${selectedChild.id}`)
       .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
 
     // Load saved sessions from localStorage

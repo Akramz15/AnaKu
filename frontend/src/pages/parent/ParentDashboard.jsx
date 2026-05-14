@@ -81,7 +81,7 @@ export default function ParentDashboard() {
     const fetchData = () => {
       Promise.all([
         api.get(`/api/v1/daily-logs?child_id=${cid}&log_date=${today}`),
-        api.get(`/api/v1/attendances?child_id=${cid}`),
+        api.get(`/api/v1/attendances/?child_id=${cid}`),
       ]).then(([logRes, attRes]) => {
         setTodayLog(logRes.data.data[0] || null)
         const todayAtt = attRes.data.data.find(a => a.date === today)

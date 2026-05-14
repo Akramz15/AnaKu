@@ -12,7 +12,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     Promise.all([
       api.get('/api/v1/children'),
-      api.get('/api/v1/attendances'),
+      api.get('/api/v1/attendances/'),
       api.get('/api/v1/billings'),
     ]).then(([c, a, b]) => {
       const today = new Date().toISOString().split('T')[0]

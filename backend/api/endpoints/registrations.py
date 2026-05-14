@@ -68,7 +68,7 @@ def _approve_email(full_name: str, email: str) -> bool:
       <h2 style="color:#1A3A6B;">Selamat, {full_name}! 🎉</h2>
       <p style="color:#475569;">Admin daycare telah menyetujui akun AnaKuu Anda.</p>
       <p style="color:#475569;">Sekarang Anda sudah bisa login dan memantau aktivitas si kecil.</p>
-      <a href="http://localhost:5173/login"
+      <a href="{settings.FRONTEND_URL}/login"
          style="display:inline-block;margin-top:1rem;padding:0.75rem 2rem;background:#84D6FE;color:#fff;border-radius:10px;text-decoration:none;font-weight:700;">
         Masuk ke AnaKuu
       </a>
