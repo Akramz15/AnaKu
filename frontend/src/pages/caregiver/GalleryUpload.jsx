@@ -219,7 +219,7 @@ export default function GalleryUpload() {
         </div>
 
         {/* ── FAB Upload ── */}
-        <button style={S.fab} onClick={() => setShowUpload(true)} title="Upload foto">
+        <button className="gallery-fab" style={S.fab} onClick={() => setShowUpload(true)} title="Upload foto">
           <Plus size={22} />
         </button>
 
