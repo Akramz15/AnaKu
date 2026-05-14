@@ -11,7 +11,8 @@ from datetime import datetime
 @router.get("/")
 async def list_children(current_user=Depends(get_current_user)):
     """List anak (Admin/Caregiver lihat semua, Parent lihat miliknya)"""
-    query = sb.table("children").select("*, parent:users(full_name, phone)")
+    query = sb.table("children").select("*, parent:users!parent_id!inner(full_name, phone, status)")\
+        .eq("parent.status", "active")
     
     if current_user["role"] == "parent":
         query = query.eq("parent_id", current_user["id"])
