@@ -301,12 +301,12 @@ export default function GalleryUpload() {
                   <label style={S.lbl}>Nama Aktivitas / Keterangan</label>
                   <input style={S.inp} placeholder="Misal: Bermain lego bersama teman" value={form.caption} onChange={e => setForm(f => ({ ...f, caption: e.target.value }))} />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                  <div style={S.fld}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div style={{ ...S.fld, flex: '1 1 180px' }}>
                     <label style={S.lbl}>Lokasi</label>
                     <input style={S.inp} placeholder="Daycare ABC, 1st Floor" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} />
                   </div>
-                  <div style={S.fld}>
+                  <div style={{ ...S.fld, flex: '1 1 180px' }}>
                     <label style={S.lbl}>Tanggal</label>
                     <input 
                       style={S.inp} 
@@ -337,10 +337,10 @@ export default function GalleryUpload() {
           </div>
         )}
 
-        {/* ── Camera Overlay (fullscreen, terpisah dari modal upload) ── */}
+        {/* ── Camera Overlay (fullscreen, iOS Modern Style) ── */}
         {showCamera && (
           <div style={{
-            position: 'fixed', inset: 0, background: '#000', zIndex: 3000,
+            position: 'fixed', inset: 0, background: '#000', zIndex: 9999, // Pastikan di atas navbar mana pun
             display: 'flex', flexDirection: 'column',
           }}>
             {/* Live video feed */}
@@ -349,52 +349,62 @@ export default function GalleryUpload() {
               autoPlay
               playsInline
               muted
-              style={{ flex: 1, width: '100%', objectFit: 'cover' }}
+              style={{ flex: 1, width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 
             {/* Controls bar */}
             <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '2rem 1.5rem',
+              position: 'absolute', bottom: '95px', left: 0, right: 0, // Ditinggikan jauh dari bottom-nav putih
+              padding: '1.5rem 2rem',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+              background: 'linear-gradient(transparent, rgba(0,0,0,0.5))',
             }}>
-              {/* Cancel */}
+              {/* Cancel Button */}
               <button
                 type="button"
                 onClick={stopCamera}
                 style={{
-                  position: 'absolute', left: '1.5rem',
-                  background: 'rgba(255,255,255,0.2)', border: '1.5px solid rgba(255,255,255,0.5)',
-                  borderRadius: '50%', width: 44, height: 44, color: '#fff',
+                  position: 'absolute', left: '2rem',
+                  background: 'rgba(255,255,255,0.25)', border: '1px solid rgba(255,255,255,0.35)',
+                  borderRadius: '50%', width: 48, height: 48, color: '#fff',
                   cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  backdropFilter: 'blur(4px)',
+                  backdropFilter: 'blur(8px)', transition: 'all 0.15s', outline: 'none',
                 }}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.9)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.9)'}
+                onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
-                <X size={20} />
+                <X size={22} strokeWidth={2.5} />
               </button>
 
-              {/* Shutter */}
+              {/* Shutter Button */}
               <button
                 type="button"
                 onClick={capturePhoto}
                 style={{
-                  width: 72, height: 72, borderRadius: '50%',
-                  background: '#fff', border: '4px solid rgba(255,255,255,0.5)',
-                  cursor: 'pointer', boxShadow: '0 0 0 3px rgba(255,255,255,0.3)',
-                  outline: 'none',
+                  width: 76, height: 76, borderRadius: '50%',
+                  background: '#fff', border: '6px solid rgba(255,255,255,0.35)',
+                  cursor: 'pointer', boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+                  outline: 'none', transition: 'all 0.15s',
                 }}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.85)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onTouchStart={(e) => e.currentTarget.style.transform = 'scale(0.85)'}
+                onTouchEnd={(e) => e.currentTarget.style.transform = 'scale(1)'}
               />
             </div>
 
-            {/* Hint */}
+            {/* Hint Glass Badge */}
             <div style={{
-              position: 'absolute', top: '1.25rem', left: 0, right: 0,
-              textAlign: 'center', color: 'rgba(255,255,255,0.8)',
-              fontSize: '0.85rem', fontWeight: 500,
+              position: 'absolute', top: '2.5rem', left: '50%', transform: 'translateX(-50%)',
+              color: '#fff', fontSize: '0.85rem', fontWeight: 600,
+              background: 'rgba(0,0,0,0.55)', padding: '0.6rem 1.25rem', borderRadius: '30px',
+              backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.15)',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.2)', whiteSpace: 'nowrap', textAlign: 'center'
             }}>
-              Arahkan kamera lalu tekan tombol untuk mengambil foto
+              Arahkan kamera & ketuk tombol
             </div>
           </div>
         )}
