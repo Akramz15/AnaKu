@@ -33,8 +33,12 @@ def _send_email(to_email: str, subject: str, html_body: str):
         smtp_pass_raw = getattr(settings, "SMTP_PASS", None)
         smtp_from_raw = getattr(settings, "SMTP_FROM", smtp_user_raw)
 
+        if not to_email:
+            print(f"[EMAIL SKIP] Cannot send email because destination to_email is empty/missing. Subject: {subject}")
+            return False
+
         if not all([smtp_host_raw, smtp_user_raw, smtp_pass_raw]):
-            print(f"[EMAIL SKIP] SMTP not configured. To: {to_email} | Subject: {subject}")
+            print(f"[EMAIL SKIP] SMTP not configured. Add SMTP_HOST, SMTP_USER, SMTP_PASS in .env. To: {to_email} | Subject: {subject}")
             return False
         
         # Type guarantee for pyright
@@ -215,7 +219,8 @@ async def approve_registration(user_id: str, background_tasks: BackgroundTasks, 
     try:
         u_auth = sb.auth.admin.get_user_by_id(user_id)
         user_email = (u_auth.user.email or "") if u_auth and u_auth.user else ""
-    except: pass
+    except Exception as e:
+        print(f"[AUTH ERROR] Gagal mengambil data email dari Supabase Auth SDK untuk ID {user_id}: {e}")
 
     user = user_res.data
     if not isinstance(user, dict):
@@ -257,7 +262,8 @@ async def reject_registration(
     try:
         u_auth = sb.auth.admin.get_user_by_id(user_id)
         user_email = (u_auth.user.email or "") if u_auth and u_auth.user else ""
-    except: pass
+    except Exception as e:
+        print(f"[AUTH ERROR] Gagal mengambil data email dari Supabase Auth SDK untuk ID {user_id}: {e}")
 
     user = user_res.data
     if not isinstance(user, dict):

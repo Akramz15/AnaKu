@@ -98,7 +98,12 @@ export default function GalleryUpload() {
     api.get('/api/v1/children/').then(r => {
       const list = r.data.data
       setChildren(list)
-      if (list[0]) { setSelectedChild(list[0]); setForm(f => ({ ...f, child_id: list[0].id })) }
+      const savedId = localStorage.getItem('selected_child_id')
+      const defaultChild = list.find(c => c.id === savedId) || list[0]
+      if (defaultChild) {
+        setSelectedChild(defaultChild)
+        setForm(f => ({ ...f, child_id: defaultChild.id }))
+      }
     })
     loadGallery()
     return () => stopCamera() // Cleanup on unmount
@@ -181,8 +186,11 @@ export default function GalleryUpload() {
             value={selectedChild?.id ?? ''}
             onChange={e => {
               const child = children.find(c => c.id === e.target.value)
-              setSelectedChild(child)
-              setForm(f => ({ ...f, child_id: child.id }))
+              if (child) {
+                localStorage.setItem('selected_child_id', child.id)
+                setSelectedChild(child)
+                setForm(f => ({ ...f, child_id: child.id }))
+              }
             }}
           >
             {children.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}

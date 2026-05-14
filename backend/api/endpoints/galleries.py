@@ -43,6 +43,7 @@ async def upload_gallery(
         "public_id": cloud_result["public_id"],
         "media_type": "photo",
         "caption": caption,
+        "location": location,
         "activity_date": activity_date or None,
     }
     res = sb.table("galleries").insert(gallery_data).execute()

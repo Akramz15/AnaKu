@@ -56,7 +56,13 @@ export default function ParentPageHeader({ selectedChild, children = [], todayAt
           <select
             style={S.outlineBtn}
             value={selectedChild?.id ?? ''}
-            onChange={e => onChildChange && onChildChange(children.find(c => c.id === e.target.value))}
+            onChange={e => {
+              const child = children.find(c => c.id === e.target.value)
+              if (child) {
+                localStorage.setItem('selected_child_id', child.id)
+                if (onChildChange) onChildChange(child)
+              }
+            }}
           >
             {children.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
           </select>

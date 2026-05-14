@@ -11,7 +11,7 @@ const UserAvatar = ({ name, size = 36, bg = 'var(--primary)' }) => (
   </div>
 )
 
-export default function ChatWindow({ roomId, receiverId, receiverName, receiverRole, onBack }) {
+export default function ChatWindow({ roomId, receiverId, receiverName, receiverRole, onBack, onRoomCreated }) {
   const { profile } = useAuth()
   const [messages, setMessages]   = useState([])
   const [text, setText]           = useState('')
@@ -19,18 +19,34 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
   const [showEmoji, setShowEmoji] = useState(false)
   const bottomRef                 = useRef(null)
 
-  // ── Load & Polling Messages ─────────────────────────────────────────────────
+  // ── Load & Realtime Messages ─────────────────────────────────────────────────
+  const fetchMessages = () => {
+    if (!roomId) return
+    api.get(`/api/v1/chats/${roomId}/messages`).then(r => setMessages(r.data.data)).catch(console.error)
+  }
+
   useEffect(() => {
     if (!roomId) { setMessages([]); return }
     
-    const fetchMessages = () => {
-      api.get(`/api/v1/chats/${roomId}/messages`).then(r => setMessages(r.data.data)).catch(console.error)
+    fetchMessages() // Ambil chat awal secara instan
+    
+    // 🚀 Live-wire Supabase Realtime Channel Subscription
+    const channel = supabase
+      .channel(`room_chat_${roomId}`)
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'chats_human', filter: `room_id=eq.${roomId}` },
+        () => { fetchMessages() } // Panggil API ulang secara instan saat data masuk
+      )
+      .subscribe()
+
+    // 🛡️ Short Polling Fallback (jika Realtime Supabase dinonaktifkan oleh replikasi)
+    const interval = setInterval(fetchMessages, 2500) 
+    
+    return () => {
+      clearInterval(interval)
+      supabase.removeChannel(channel)
     }
-    
-    fetchMessages() // initial fetch
-    const interval = setInterval(fetchMessages, 2000) // short polling every 2s
-    
-    return () => clearInterval(interval)
   }, [roomId])
 
   // ── Auto-scroll ───────────────────────────────────────────────────────────
@@ -43,12 +59,24 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
     if (!text.trim() || sending) return
     setSending(true)
     try {
-      await api.post('/api/v1/chats/send', {
+      const res = await api.post('/api/v1/chats/send', {
         receiver_id: receiverId,
         message: text.trim(),
         room_id: roomId ?? null,
       })
+      
       setText('')
+      
+      // Tangkap room_id baru jika room_id awalnya null
+      const newRoomId = res.data?.data?.room_id
+      
+      if (!roomId && newRoomId && onRoomCreated) {
+        onRoomCreated(newRoomId) // Beritahu Parent untuk mengunci Room ID baru
+      } else {
+        fetchMessages() // Ambil ulang pesan secara instan untuk visualisasi kilat
+      }
+    } catch (err) {
+      console.error(err)
     } finally {
       setSending(false)
     }

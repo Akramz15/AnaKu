@@ -39,7 +39,9 @@ export default function ParentChat() {
     api.get('/api/v1/children').then(r => {
       const list = r.data.data
       setChildren(list)
-      if (list[0]) setSelectedChild(list[0])
+      const savedId = localStorage.getItem('selected_child_id')
+      const defaultChild = list.find(c => c.id === savedId) || list[0]
+      if (defaultChild) setSelectedChild(defaultChild)
     })
     
     return () => clearInterval(interval)
@@ -127,7 +129,14 @@ export default function ParentChat() {
           {/* Right: Chat Window */}
           <div className="chat-panel" style={S.chatPanel}>
             {selected
-              ? <ChatWindow roomId={selected.roomId} receiverId={selected.receiverId} receiverName={selected.name} receiverRole={selected.role} onBack={() => setSelected(null)} />
+              ? <ChatWindow 
+                  roomId={selected.roomId} 
+                  receiverId={selected.receiverId} 
+                  receiverName={selected.name} 
+                  receiverRole={selected.role} 
+                  onBack={() => setSelected(null)} 
+                  onRoomCreated={(newId) => setSelected(prev => prev ? { ...prev, roomId: newId } : null)}
+                />
               : (
                 <div style={S.emptyChat}>
                   <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>

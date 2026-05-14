@@ -43,8 +43,11 @@ export default function CaregiverDashboard() {
   // Fetch children on load
   useEffect(() => {
     api.get('/api/v1/children').then(r => {
-      setChildren(r.data.data.filter(c => c.is_active))
-      if (r.data.data[0]) setSelectedChild(r.data.data[0])
+      const list = r.data.data.filter(c => c.is_active)
+      setChildren(list)
+      const savedId = localStorage.getItem('selected_child_id')
+      const defaultChild = list.find(c => c.id === savedId) || list[0]
+      if (defaultChild) setSelectedChild(defaultChild)
     })
   }, [])
 
@@ -229,7 +232,13 @@ export default function CaregiverDashboard() {
             <button style={styles.outlineBtn} onClick={() => setShowEdit(true)} disabled={!selectedChild}>
               Edit Profil <Pencil size={14} style={{marginLeft: '0.5rem'}}/>
             </button>
-            <select style={styles.outlineBtn} value={selectedChild?.id || ''} onChange={e => setSelectedChild(children.find(c => c.id === e.target.value))}>
+            <select style={styles.outlineBtn} value={selectedChild?.id || ''} onChange={e => {
+              const child = children.find(c => c.id === e.target.value)
+              if (child) {
+                localStorage.setItem('selected_child_id', child.id)
+                setSelectedChild(child)
+              }
+            }}>
               <option value="">-- Pilih --</option>
               {children.map(c => <option key={c.id} value={c.id}>{c.full_name}</option>)}
             </select>
