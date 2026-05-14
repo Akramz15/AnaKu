@@ -39,6 +39,7 @@ export default function ParentDashboard() {
   const [todayLog, setTodayLog] = useState(null)
   const [todayAttendance, setTodayAttendance] = useState(null)
   const [showEdit, setShowEdit] = useState(false)
+  const [caregivers, setCaregivers] = useState([])
 
   // Tanya AI state
   const STORAGE_KEY = (childId) => `anaku_ai_sessions_${childId}`
@@ -55,6 +56,10 @@ export default function ParentDashboard() {
       const defaultChild = list.find(c => c.id === savedId) || list[0]
       if (defaultChild) setSelectedChild(defaultChild)
     })
+    // Ambil daftar pengasuh resmi dari server secara dinamis
+    api.get('/api/v1/chats/users/contacts')
+      .then(r => setCaregivers(r.data.data))
+      .catch(() => {})
   }, [])
 
   // Reset semua state saat anak berganti agar data tidak bocor antar anak
@@ -185,30 +190,63 @@ export default function ParentDashboard() {
           {/* 2. Pengasuh Yang Bertugas */}
           <div style={styles.card}>
             <h3 style={styles.cardTitle}>Pengasuh Yang Bertugas</h3>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-              <div style={{ 
-                background: '#E2ECEB', borderRadius: '16px', 
-                padding: '1.5rem 2rem', width: '100%', 
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                marginTop: 'auto', marginBottom: 'auto'
-              }}>
-                <div>
-                  <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1E293B', marginBottom: '0.25rem' }}>
-                    {todayLog?.caregiver?.full_name || 'Maggie Johnson'}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', justifyContent: 'center', flex: 1 }}>
+              {caregivers.length > 0 ? (
+                caregivers.map(cg => (
+                  <div key={cg.id} style={{ 
+                    background: '#E2ECEB', borderRadius: '16px', 
+                    padding: '1rem 1.5rem', width: '100%', 
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    boxSizing: 'border-box'
+                  }}>
+                    <div>
+                      <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
+                        {cg.full_name}
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Resmi</div>
+                    </div>
+                    <div 
+                      style={{ 
+                        background: '#fff', width: 36, height: 36, borderRadius: '50%', 
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                        flexShrink: 0
+                      }} 
+                      onClick={() => {
+                        localStorage.setItem('open_chat_user_id', cg.id)
+                        navigate('/parent/chat')
+                      }}
+                    >
+                      <MessageCircle size={18} color="#1E293B" />
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Senior</div>
+                ))
+              ) : (
+                <div style={{ 
+                  background: '#E2ECEB', borderRadius: '16px', 
+                  padding: '1.25rem 1.5rem', width: '100%', 
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  boxSizing: 'border-box'
+                }}>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1E293B', marginBottom: '0.2rem' }}>
+                      {todayLog?.caregiver?.full_name || 'Maggie Johnson'}
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 500 }}>Pengasuh Senior</div>
+                  </div>
+                  <div 
+                    style={{ 
+                      background: '#fff', width: 36, height: 36, borderRadius: '50%', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                      flexShrink: 0
+                    }} 
+                    onClick={() => navigate('/parent/chat')}
+                  >
+                    <MessageCircle size={18} color="#1E293B" />
+                  </div>
                 </div>
-                <div 
-                  style={{ 
-                    background: '#fff', width: 40, height: 40, borderRadius: '50%', 
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' 
-                  }} 
-                  onClick={() => navigate('/parent/chat')}
-                >
-                  <MessageCircle size={20} color="#1E293B" />
-                </div>
-              </div>
+              )}
             </div>
           </div>
 

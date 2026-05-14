@@ -54,6 +54,24 @@ export default function ParentChat() {
       .then(r => setTodayAtt(r.data.data.find(a => a.date === today) ?? null))
   }, [selectedChild?.id])
 
+  // Otomatis buka obrolan jika diarahkan dari dashboard dengan handoff ID
+  useEffect(() => {
+    const targetId = localStorage.getItem('open_chat_user_id')
+    if (targetId && contacts.length > 0) {
+      const found = contacts.find(c => String(c.id) === String(targetId))
+      if (found) {
+        localStorage.removeItem('open_chat_user_id') // Hapus token agar tidak loop
+        const existing = rooms.find(r => String(r.other_user_id) === String(found.id))
+        setSelected({
+          roomId:       existing?.room_id ?? null,
+          receiverId:   found.id,
+          name:         found.full_name,
+          role:         found.role,
+        })
+      }
+    }
+  }, [contacts, rooms])
+
   // ── Merge Contacts with Latest Room Activity & Sort (identical logic) ──
   const sortedContacts = [...contacts].map(c => {
     const room = rooms.find(r => String(r.other_user_id) === String(c.id))
