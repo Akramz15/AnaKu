@@ -47,7 +47,7 @@ export default function PendingPage() {
           <div style={S.tag}>Status: Menunggu Persetujuan</div>
 
           <p style={S.body}>
-            Terima kasih telah bergabung dengan AnaKuu! Akun Anda sedang dalam proses verifikasi oleh Admin Daycare.
+            Terima kasih telah bergabung dengan AnaKu! Akun Anda sedang dalam proses verifikasi oleh Admin Daycare.
           </p>
           <p style={S.body}>
             Anda akan menerima <strong>email notifikasi</strong> segera setelah akun diaktifkan. Proses ini biasanya membutuhkan waktu maksimal 1×24 jam.

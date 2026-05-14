@@ -77,7 +77,7 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="logo" style={{...styles.logo, justifyContent: isCollapsed ? 'center' : 'flex-start'}}>
           <img src="/Logo AnaKu.png" alt="AnaKu Logo" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
-          {!isCollapsed && <span style={{color: '#1E293B'}}>AnaKuu</span>}
+          {!isCollapsed && <span style={{color: '#1E293B'}}>AnaKu</span>}
         </div>
 
         {/* Navigation */}

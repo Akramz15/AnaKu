@@ -1,0 +1,30 @@
+{
+  "name": "AnaKu Daycare Management",
+  "short_name": "AnaKu",
+  "description": "Solusi cerdas monitoring tumbuh kembang si kecil di daycare secara realtime.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#E07A5F",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/Logo AnaKu.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Logo AnaKu.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Logo AnaKu.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

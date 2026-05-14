@@ -3,11 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#E07A5F" />
+    <link rel="apple-touch-icon" href="/Logo AnaKu.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>AnaKu - Daycare Management System</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('AnaKu PWA: ServiceWorker registered successfully!'))
+            .catch(err => console.log('AnaKu PWA: ServiceWorker registration failed:', err));
+        });
+      }
+    </script>
   </body>
 </html>

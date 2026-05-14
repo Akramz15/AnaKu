@@ -156,7 +156,7 @@ ${log.health_notes ? `
   <div class="field-box">${log.health_notes}</div>
 </div>` : ''}
 
-<div class="footer">Diunduh dari Aplikasi AnaKuu · ${new Date().toLocaleDateString('id-ID')}</div>
+<div class="footer">Diunduh dari Aplikasi AnaKu · ${new Date().toLocaleDateString('id-ID')}</div>
 </body>
 </html>`
 
