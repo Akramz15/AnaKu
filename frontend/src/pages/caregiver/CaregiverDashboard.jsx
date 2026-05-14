@@ -229,9 +229,7 @@ export default function CaregiverDashboard() {
             </div>
           </div>
           <div className="header-card-right" style={{ display: 'flex', gap: '0.75rem' }}>
-            <button style={styles.outlineBtn} onClick={() => setShowEdit(true)} disabled={!selectedChild}>
-              Edit Profil <Pencil size={14} style={{marginLeft: '0.5rem'}}/>
-            </button>
+
             <select style={styles.outlineBtn} value={selectedChild?.id || ''} onChange={e => {
               const child = children.find(c => c.id === e.target.value)
               if (child) {

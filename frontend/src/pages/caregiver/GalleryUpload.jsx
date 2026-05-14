@@ -143,7 +143,7 @@ export default function GalleryUpload() {
     fd.append('child_id', form.child_id)
     fd.append('caption', form.caption)
     fd.append('location', form.location)
-    fd.append('activity_date', form.activity_date)
+    fd.append('activity_date', new Date().toISOString().split('T')[0]) // Ambil paksa tanggal real-time komputer untuk menghindari kebohongan tanggal
     try {
       await api.post('/api/v1/galleries/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
       toast.success('Foto berhasil diunggah!')
@@ -249,7 +249,7 @@ export default function GalleryUpload() {
         </button>
 
         {/* ── Upload Modal ── */}
-        {showUpload && (
+        {showUpload && !showCamera && (
           <div className="modal-overlay" style={S.overlay} onClick={handleCloseModal}>
             <div style={S.modal} onClick={e => e.stopPropagation()}>
               <div style={S.modalHeader}>
@@ -310,32 +310,9 @@ export default function GalleryUpload() {
                   <label style={S.lbl}>Nama Aktivitas / Keterangan</label>
                   <input style={S.inp} placeholder="Misal: Bermain lego bersama teman" value={form.caption} onChange={e => setForm(f => ({ ...f, caption: e.target.value }))} />
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                  <div style={{ ...S.fld, flex: '1 1 180px' }}>
-                    <label style={S.lbl}>Lokasi</label>
-                    <input style={S.inp} placeholder="Daycare ABC, 1st Floor" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} />
-                  </div>
-                  <div style={{ ...S.fld, flex: '1 1 180px' }}>
-                    <label style={S.lbl}>Tanggal</label>
-                    <input 
-                      style={S.inp} 
-                      type="date" 
-                      value={form.activity_date} 
-                      onChange={e => {
-                        const val = e.target.value;
-                        if (val) {
-                          const parts = val.split('-');
-                          if (parts[0] && parts[0].length > 4) {
-                            parts[0] = parts[0].slice(0, 4);
-                            setForm(f => ({ ...f, activity_date: parts.join('-') }));
-                            return;
-                          }
-                        }
-                        setForm(f => ({ ...f, activity_date: val }));
-                      }} 
-                      required 
-                    />
-                  </div>
+                <div style={S.fld}>
+                  <label style={S.lbl}>Lokasi</label>
+                  <input style={S.inp} placeholder="Daycare ABC, 1st Floor" value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} />
                 </div>
                 <button type="submit" style={S.submitBtn} disabled={loading}>
                   {loading ? 'Mengunggah...' : 'Upload Foto'}
@@ -348,7 +325,7 @@ export default function GalleryUpload() {
         {/* ── Camera Overlay (fullscreen, iOS Modern Style) ── */}
         {showCamera && (
           <div style={{
-            position: 'fixed', inset: 0, background: '#000', zIndex: 9999, // Pastikan di atas navbar mana pun
+            position: 'fixed', inset: 0, background: '#000', zIndex: 100000, // Prioritas mutlak di atas segalanya
           }}>
             {/* Live video feed */}
             <video
@@ -360,12 +337,12 @@ export default function GalleryUpload() {
             />
             <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-            {/* Controls bar (Menempel penuh dari tepi paling bawah layar untuk menghilangkan ilusi layar terbelah) */}
+            {/* Controls bar (Faint elegant shadow agar kamera terlihat 100% jernih dan jangkauan pandang maksimal) */}
             <div style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '3.5rem 2rem calc(2.5rem + env(safe-area-inset-bottom, 16px))',
+              padding: '2rem 2rem calc(1.5rem + env(safe-area-inset-bottom, 16px))',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 60%, transparent 100%)',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)',
             }}>
               {/* Cancel Button */}
               <button
