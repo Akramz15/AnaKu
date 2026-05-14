@@ -46,7 +46,18 @@ async def upload_gallery(
         "location": location,
         "activity_date": activity_date or None,
     }
-    res = sb.table("galleries").insert(gallery_data).execute()
+    try:
+        res = sb.table("galleries").insert(gallery_data).execute()
+    except Exception as e:
+        # Defensive fallback: Jika kolom location ternyata belum ditambahkan ke Supabase
+        err_msg = str(e)
+        if "location" in err_msg or "PGRST204" in err_msg:
+            print("[WARNING] Kolom 'location' tidak ditemukan di database. Mencoba upload tanpanya...")
+            gallery_data.pop("location", None)
+            res = sb.table("galleries").insert(gallery_data).execute()
+        else:
+            raise e
+
     return {"status": "success", "data": res.data[0]}
 
 @router.get("/")
