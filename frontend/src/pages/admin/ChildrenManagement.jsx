@@ -183,7 +183,7 @@ export default function ChildrenManagement() {
         </div>
 
         {showModal && (
-          <div style={S.overlay}>
+          <div className="modal-overlay" style={S.overlay}>
             <div style={S.modal}>
               <div style={S.modalHeader}>
                 <div style={S.modalIconBox}>
@@ -297,7 +297,7 @@ const S = {
   pageActive: { fontSize: '0.85rem', color: '#1E293B', background: '#F1F5F9', fontWeight: 700, padding: '0.3rem 0.6rem', borderRadius: 6 },
   
   overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
-  modal: { background: '#fff', padding: '2rem', borderRadius: 16, width: '100%', maxWidth: '480px', boxShadow: '0 10px 40px rgba(0,0,0,0.1)' },
+  modal: { background: '#fff', padding: '2rem', borderRadius: 16, width: '100%', maxWidth: '480px', maxHeight: '100%', overflowY: 'auto', boxShadow: '0 10px 40px rgba(0,0,0,0.1)' },
   modalHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' },
   modalIconBox: { width: 44, height: 44, borderRadius: 10, border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center' },
   closeBtn: { background: 'transparent', border: 'none', fontSize: '1.5rem', color: '#64748B', cursor: 'pointer', padding: 0, lineHeight: 1 },

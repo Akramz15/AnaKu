@@ -206,10 +206,16 @@ a { color: var(--primary); }
   }
   .mobile-bottom-nav > div:last-child { display: none !important; } /* hide logout from bottom nav */
   
+  
   /* Push Gallery Floating Action Button above bottom navbar safely */
   .gallery-fab {
     bottom: calc(75px + env(safe-area-inset-bottom, 0px) + 1.5rem) !important;
     z-index: 1000 !important;
+  }
+  
+  /* 💡 Angkat modal agar tidak tertabrak menu bawah pada ponsel */
+  .modal-overlay {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom, 20px)) !important;
   }
 }
 

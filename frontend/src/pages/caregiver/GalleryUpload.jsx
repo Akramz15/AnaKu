@@ -241,7 +241,7 @@ export default function GalleryUpload() {
 
         {/* ── Upload Modal ── */}
         {showUpload && (
-          <div style={S.overlay} onClick={handleCloseModal}>
+          <div className="modal-overlay" style={S.overlay} onClick={handleCloseModal}>
             <div style={S.modal} onClick={e => e.stopPropagation()}>
               <div style={S.modalHeader}>
                 <h3 style={{ margin: 0, fontWeight: 700, fontSize: '1.05rem' }}>Upload Foto Aktivitas</h3>
@@ -460,7 +460,7 @@ const S = {
 
   // Modal
   overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000, padding: '1rem' },
-  modal: { background: '#fff', borderRadius: 16, width: '100%', maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' },
+  modal: { background: '#fff', borderRadius: 16, width: '100%', maxWidth: '480px', maxHeight: '100%', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.15)' },
   modalHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.25rem', borderBottom: '1px solid var(--border)' },
   closeBtn: { background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', padding: '0.2rem', borderRadius: 6 },
   dropZone: { border: '1.5px dashed #CBD5E1', borderRadius: 10, height: 160, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden' },

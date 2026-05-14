@@ -282,7 +282,7 @@ export default function DailyLogForm() {
 
         {/* ── MODAL ── */}
         {showForm && (
-          <div style={S.overlay} onClick={closeForm}>
+          <div className="modal-overlay" style={S.overlay} onClick={closeForm}>
             <div style={S.modal} onClick={e=>e.stopPropagation()}>
 
               {/* Modal static header */}
