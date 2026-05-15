@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import api from '../lib/axios'
 import { useAuth } from '../context/AuthContext'
-import { Smile, Send, ChevronLeft } from 'lucide-react'
+import { Smile, Send, ChevronLeft, Check, CheckCheck } from 'lucide-react'
 import EmojiPicker from 'emoji-picker-react'
 
 const UserAvatar = ({ name, size = 36, bg = 'var(--primary)' }) => (
@@ -65,8 +65,8 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
       .channel(`room_chat_${roomId}`)
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'chats_human', filter: `room_id=eq.${roomId}` },
-        () => { fetchMessages() } // Panggil API ulang secara instan saat data masuk
+        { event: '*', schema: 'public', table: 'chats_human', filter: `room_id=eq.${roomId}` },
+        () => { fetchMessages() } // Panggil API ulang secara instan saat data masuk/berubah
       )
       .subscribe()
 
@@ -155,7 +155,16 @@ export default function ChatWindow({ roomId, receiverId, receiverName, receiverR
                 <div style={{ ...S.bubble, ...(isOwn ? S.bubbleOwn : S.bubbleOther) }}>
                   {msg.message}
                 </div>
-                <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>{time}</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  {time}
+                  {isOwn && (
+                    msg.is_read ? (
+                      <CheckCheck size={14} color="#0EA5E9" style={{ flexShrink: 0 }} title="Dibaca" /> // Biru cerah WhatsApp
+                    ) : (
+                      <CheckCheck size={14} color="#94A3B8" style={{ flexShrink: 0 }} title="Terkirim" /> // Abu-abu Terkirim
+                    )
+                  )}
+                </div>
               </div>
             </div>
           )
