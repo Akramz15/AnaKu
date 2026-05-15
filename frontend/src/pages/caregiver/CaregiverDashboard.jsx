@@ -255,7 +255,7 @@ export default function CaregiverDashboard() {
               <div className="dashboard-col-main" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minHeight: 0 }}>
                 <div className="dashboard-grid">
                   {[...Array(4)].map((_, i) => (
-                    <div key={i} style={{ ...styles.card, height: '120px', padding: '1.2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#fff', border: '1px solid var(--border)' }}>
+                    <div key={i} style={{ ...styles.card, height: '120px', padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: '#fff', border: '1px solid var(--border)' }}>
                       <div className="skeleton-shimmer" style={{ height: '44px', width: '44px', borderRadius: '50%' }} />
                       <div className="skeleton-shimmer" style={{ height: '18px', width: '70%' }} />
                     </div>
@@ -296,8 +296,8 @@ export default function CaregiverDashboard() {
                   {TOGGLES.map(t => {
                     const isActive = !!activeTasks[t.label]
                     return (
-                      <div key={t.label} style={{...styles.card, padding:'1.2rem', border: isActive ? `2px solid var(--accent)` : '1px solid var(--border)', background:'#fff'}}>
-                        <div style={{ width: '48px', height: '48px', background: 'var(--bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', position:'relative', color: t.bg }}>
+                      <div key={t.label} style={{...styles.card, padding:'1rem', border: isActive ? `2px solid var(--accent)` : '1px solid var(--border)', background:'#fff'}}>
+                        <div style={{ width: '48px', height: '48px', background: 'var(--bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', position:'relative', color: t.bg }}>
                           {t.icon}
                           <span style={{position:'absolute', top:-2, right:-2, color:'var(--warning)'}}><Sparkles size={12} /></span>
                         </div>

@@ -170,7 +170,8 @@ a { color: var(--primary); }
   
   /* Removed from media query to make it global below */
 
-  .dashboard-grid, .dashboard-grid-3 { grid-template-columns: 1fr !important; }
+  .dashboard-grid-3 { grid-template-columns: 1fr !important; }
+  .dashboard-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.75rem !important; }
   
   /* Header Card Mobile */
   .header-card {
