@@ -85,7 +85,7 @@ export default function RegistrationManagement() {
           </div>
         </div>
           {/* Tabs */}
-          <div style={S.tabBar}>
+          <div className="no-scrollbar" style={S.tabBar}>
             {TABS.map(t => (
               <button
                 key={t.key}
@@ -264,13 +264,23 @@ const S = {
   countBadge: {
     background: '#E0F2FE', color: '#0369A1', padding: '0.2rem 0.6rem', borderRadius: 20, fontSize: '0.8rem', fontWeight: 600
   },
-  tabBar: { display: 'flex', gap: '0.5rem', marginBottom: '1.25rem' },
+  tabBar: { 
+    display: 'flex', 
+    gap: '0.5rem', 
+    marginBottom: '1.25rem', 
+    overflowX: 'auto', 
+    flexWrap: 'nowrap',
+    WebkitOverflowScrolling: 'touch',
+    paddingBottom: '0.25rem'
+  },
   tabBtn: {
     display: 'flex', alignItems: 'center', gap: '0.5rem',
     background: '#F8FAFC', borderStyle: 'solid', borderWidth: '1px', borderColor: '#E2E8F0',
     borderRadius: 12, padding: '0.6rem 1.25rem', cursor: 'pointer',
     fontWeight: 600, fontSize: '0.85rem', color: '#64748B',
-    position: 'relative', transition: 'all 0.2s'
+    position: 'relative', transition: 'all 0.2s',
+    flexShrink: 0,
+    whiteSpace: 'nowrap'
   },
   tabActive: { background: '#1E293B', color: '#fff', borderColor: '#1E293B' },
   tabBadge: {

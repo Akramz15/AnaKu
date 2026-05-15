@@ -379,4 +379,11 @@ body.modal-open .mobile-bottom-nav {
   padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)) !important;
 }
 
-
+/* Utility to hide scrollbars but keep scrolling enabled */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
