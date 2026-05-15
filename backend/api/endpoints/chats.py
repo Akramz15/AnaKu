@@ -30,25 +30,33 @@ async def list_rooms(current_user = Depends(get_current_user)):
     Return: list room dengan pesan terakhir + info lawan bicara.
     """
     uid = current_user["id"]
-    res = sb.table("chats_human").select("room_id, sender_id, receiver_id, message, created_at") \
+    res = sb.table("chats_human").select("room_id, sender_id, receiver_id, message, is_read, created_at") \
         .or_(f"sender_id.eq.{uid},receiver_id.eq.{uid}") \
         .order("created_at", desc=True).execute()
 
-    # Kelompokkan per room, ambil pesan terakhir
+    # Kelompokkan per room, ambil pesan terakhir & hitung pesan yang belum dibaca
     rooms = {}
     raw_msgs = res.data if isinstance(res.data, list) else []
     for msg in raw_msgs:
         if not isinstance(msg, dict):
             continue
         rid = msg.get("room_id")
-        if rid and rid not in rooms:
+        if not rid:
+            continue
+            
+        if rid not in rooms:
             other_id = msg.get("receiver_id") if msg.get("sender_id") == uid else msg.get("sender_id")
             rooms[rid] = {
                 "room_id": rid,
                 "other_user_id": other_id,
                 "last_message": msg.get("message"),
-                "last_time": msg.get("created_at")
+                "last_time": msg.get("created_at"),
+                "unread_count": 0
             }
+            
+        # Hitung pesan yang dikirim orang lain KE kita dan statusnya belum dibaca
+        if msg.get("receiver_id") == uid and msg.get("is_read") is False:
+            rooms[rid]["unread_count"] += 1
 
     # Ambil info nama lawan bicara
     result = []

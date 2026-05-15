@@ -94,7 +94,8 @@ export default function CaregiverChat() {
       ...c,
       last_time: room ? new Date(room.last_time).getTime() : 0,
       last_time_iso: room?.last_time || null,
-      last_message: room?.last_message || ''
+      last_message: room?.last_message || '',
+      unread_count: room?.unread_count || 0
     }
   }).sort((a, b) => b.last_time - a.last_time)
 
@@ -154,16 +155,39 @@ export default function CaregiverChat() {
                             )}
                           </div>
                           
-                          {/* Tampilkan preview pesan terakhir seperti WhatsApp jika ada */}
-                          {c.last_message ? (
-                             <div style={{ fontSize: '0.75rem', color: isActive ? 'var(--primary)' : '#64748B', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: 500 }}>
-                               {c.last_message}
-                             </div>
-                          ) : (
-                             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                               {c.role === 'parent' ? 'Orang Tua' : c.role === 'admin' ? 'Admin' : 'Pengasuh'}
-                             </div>
-                          )}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>
+                            <div style={{ overflow: 'hidden', flex: 1 }}>
+                              {c.last_message ? (
+                                 <div style={{ fontSize: '0.75rem', color: (c.unread_count > 0 && !isActive) ? 'var(--text)' : (isActive ? 'var(--primary)' : '#64748B'), whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: (c.unread_count > 0 && !isActive) ? 800 : 500 }}>
+                                   {c.last_message}
+                                 </div>
+                              ) : (
+                                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                   {c.role === 'parent' ? 'Orang Tua' : c.role === 'admin' ? 'Admin' : 'Pengasuh'}
+                                 </div>
+                              )}
+                            </div>
+                            
+                            {c.unread_count > 0 && !isActive && (
+                              <div style={{ 
+                                background: '#22C55E', // Hijau cerah ceria ala WhatsApp
+                                color: '#fff', 
+                                minWidth: '18px', 
+                                height: '18px', 
+                                borderRadius: '9px', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                fontSize: '0.65rem', 
+                                fontWeight: 800,
+                                padding: '0 4px',
+                                flexShrink: 0,
+                                boxShadow: '0 1px 3px rgba(34, 197, 94, 0.3)'
+                              }}>
+                                {c.unread_count}
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )
