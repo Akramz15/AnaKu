@@ -206,10 +206,10 @@ export default function CaregiverDashboard() {
   }
 
   const TOGGLES = [
-    { label: 'Makan', icon: <Baby size={24} />, bg: 'var(--info)' },
-    { label: 'Tidur', icon: <Moon size={24} />, bg: 'var(--warning)' },
-    { label: 'Ganti Popok', icon: <Shirt size={24} />, bg: 'var(--success)' },
-    { label: 'Bermain', icon: <Puzzle size={24} />, bg: 'var(--primary-dark)' },
+    { label: 'Makan', icon: <Baby size={24} />, bgInactive: '#E0F2FE', bgActive: '#0284C7', fgActive: '#0284C7' },
+    { label: 'Tidur', icon: <Moon size={24} />, bgInactive: '#FEF3C7', bgActive: '#D97706', fgActive: '#D97706' },
+    { label: 'Ganti Popok', icon: <Shirt size={24} />, bgInactive: '#DCFCE7', bgActive: '#16A34A', fgActive: '#16A34A' },
+    { label: 'Bermain', icon: <Puzzle size={24} />, bgInactive: '#F3E8FF', bgActive: '#9333EA', fgActive: '#9333EA' },
   ]
 
   const CHECKLIST = ['Makan', 'Tidur', 'Ganti Popok 1']
@@ -296,13 +296,32 @@ export default function CaregiverDashboard() {
                   {TOGGLES.map(t => {
                     const isActive = !!activeTasks[t.label]
                     return (
-                      <div key={t.label} style={{...styles.card, padding:'1rem', border: isActive ? `2px solid var(--accent)` : '1px solid var(--border)', background:'#fff'}}>
-                        <div style={{ width: '48px', height: '48px', background: 'var(--bg)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem', position:'relative', color: t.bg }}>
+                      <div key={t.label} style={{
+                        ...styles.card, 
+                        padding: '1rem', 
+                        border: isActive ? `2px solid ${t.bgActive}` : '1px solid var(--border)', 
+                        background: isActive ? '#F8FAFC' : '#fff',
+                        transition: 'all 0.3s ease',
+                        boxShadow: isActive ? `0 4px 12px ${t.bgActive}15` : '0 1px 4px rgba(0,0,0,0.03)'
+                      }}>
+                        <div style={{ 
+                          width: '48px', 
+                          height: '48px', 
+                          background: isActive ? t.bgActive : t.bgInactive, 
+                          borderRadius: '50%', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          marginBottom: '1rem', 
+                          position: 'relative', 
+                          color: isActive ? '#FFF' : t.fgActive,
+                          transition: 'all 0.3s ease'
+                        }}>
                           {t.icon}
                           <span style={{position:'absolute', top:-2, right:-2, color:'var(--warning)'}}><Sparkles size={12} /></span>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop:'auto' }}>
-                          <span style={{ fontWeight: 600, color: 'var(--text-muted)', fontSize:'0.9rem' }}>{t.label}</span>
+                          <span style={{ fontWeight: 700, color: isActive ? '#1E293B' : 'var(--text-muted)', fontSize:'0.9rem', transition: 'color 0.3s' }}>{t.label}</span>
                           <ToggleBtn active={isActive} onClick={() => toggleTask(t.label)} />
                         </div>
                       </div>
