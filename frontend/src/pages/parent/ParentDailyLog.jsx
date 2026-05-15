@@ -18,13 +18,13 @@ const getTaskIcon = (name, size = 22) => {
   }
 }
 
-const ICON_BG = {
-  Makan:       { bg: '#84D6FE', color: '#0369A1' },
-  Tidur:       { bg: '#C7D2FE', color: '#4338CA' },
-  'Ganti Popok':{ bg: '#BBF7D0', color: '#15803D' },
-  Bermain:     { bg: '#FDE68A', color: '#92400E' },
+const ACT_COLORS = {
+  Makan:       { bgInactive: '#E0F2FE', bgActive: '#0284C7', fgActive: '#0284C7' },
+  Tidur:       { bgInactive: '#FEF3C7', bgActive: '#D97706', fgActive: '#D97706' },
+  'Ganti Popok':{ bgInactive: '#DCFCE7', bgActive: '#16A34A', fgActive: '#16A34A' },
+  Bermain:     { bgInactive: '#F3E8FF', bgActive: '#9333EA', fgActive: '#9333EA' },
 }
-const getIconStyle = (name) => ICON_BG[name] ?? { bg: '#E0F2FE', color: '#0284C7' }
+const getIconStyle = (name) => ACT_COLORS[name] ?? { bgInactive: '#F1F5F9', bgActive: '#0284C7', fgActive: '#64748B' }
 
 // Format tanggal Indonesia
 const DAYS_ID   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']
@@ -212,7 +212,7 @@ export default function ParentDailyLog() {
                 {activeItems.map(task => {
                   const ic = getIconStyle(task.name)
                   return (
-                    <div key={task.name} style={{ ...S.activeCard }}>
+                    <div key={task.name} style={{ ...S.activeCard, background: ic.bgActive, boxShadow: `0 4px 12px ${ic.bgActive}15` }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(255,255,255,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
                           {getTaskIcon(task.name, 24)}
@@ -224,7 +224,7 @@ export default function ParentDailyLog() {
                           </div>
                         </div>
                       </div>
-                      <button style={S.sekarangBtn}>Sekarang</button>
+                      <button style={{ ...S.sekarangBtn, color: ic.bgActive }}>Sekarang</button>
                     </div>
                   )
                 })}
@@ -235,7 +235,7 @@ export default function ParentDailyLog() {
                   return (
                     <div key={i} style={S.historyCard}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{ width: 48, height: 48, borderRadius: 14, background: ic.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ic.color, flexShrink: 0 }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 14, background: ic.bgInactive, display: 'flex', alignItems: 'center', justifyContent: 'center', color: ic.fgActive, flexShrink: 0 }}>
                           {getTaskIcon(task.name, 22)}
                         </div>
                         <div>

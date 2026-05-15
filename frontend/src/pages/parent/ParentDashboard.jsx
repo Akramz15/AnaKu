@@ -6,7 +6,7 @@ import api from '../../lib/axios'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import EditProfileModal from '../../components/EditProfileModal'
-import { Pencil, MessageCircle, Clock, Smile, Baby, Moon, Mic, Plus, Send } from 'lucide-react'
+import { Pencil, MessageCircle, Clock, Smile, Baby, Moon, Mic, Plus, Send, Shirt, Puzzle } from 'lucide-react'
 
 // Mock icons as emojis or simple spans since we don't have lucide-react installed currently
 const Avatar = ({ name, photo_url, size=40 }) => (
@@ -24,9 +24,19 @@ const getTaskIcon = (taskName, size=24) => {
   switch(taskName) {
     case 'Makan': return <Baby size={size} />
     case 'Tidur': return <Moon size={size} />
+    case 'Ganti Popok': return <Shirt size={size} />
+    case 'Bermain': return <Puzzle size={size} />
     default: return <Baby size={size} />
   }
 }
+
+const ACT_COLORS = {
+  Makan:       { bgInactive: '#E0F2FE', bgActive: '#0284C7', fgActive: '#0284C7' },
+  Tidur:       { bgInactive: '#FEF3C7', bgActive: '#D97706', fgActive: '#D97706' },
+  'Ganti Popok':{ bgInactive: '#DCFCE7', bgActive: '#16A34A', fgActive: '#16A34A' },
+  Bermain:     { bgInactive: '#F3E8FF', bgActive: '#9333EA', fgActive: '#9333EA' },
+}
+const getActColors = (name) => ACT_COLORS[name] ?? { bgInactive: '#F1F5F9', bgActive: '#0284C7', fgActive: '#64748B' }
 
 const getParentMoodColor = (mood) => mood === 'ceria' ? '#4CAF50' : mood === 'biasa' ? '#FFC107' : mood === 'rewel' ? '#FF9800' : mood === 'menangis' ? '#F44336' : '#38C976'
 const getParentMoodLabel = (mood) => mood === 'ceria' ? 'Senang' : mood === 'biasa' ? 'Netral' : mood === 'rewel' ? 'Sedih' : mood === 'menangis' ? 'Tantrum' : 'Good'
@@ -422,30 +432,36 @@ export default function ParentDashboard() {
 
                       return (
                         <>
-                          {actives.map((task, i) => (
-                            <div key={i} style={{ background: '#93CFF5', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                <div style={{ width: 44, height: 44, background: '#fff', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
-                                <div>
-                                  <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.85rem' }}>{task.name}</div>
-                                  <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 800 }}><LiveTimer startTimeISO={task.startTime} /></div>
+                          {actives.map((task, i) => {
+                            const clr = getActColors(task.name)
+                            return (
+                              <div key={i} style={{ background: clr.bgActive, borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxShadow: `0 3px 10px ${clr.bgActive}15` }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                  <div style={{ width: 44, height: 44, background: 'rgba(255,255,255,0.25)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>{getTaskIcon(task.name, 20)}</div>
+                                  <div>
+                                    <div style={{ fontWeight: 700, color: '#fff', fontSize: '0.85rem' }}>{task.name}</div>
+                                    <div style={{ color: '#fff', fontSize: '0.9rem', fontWeight: 800 }}><LiveTimer startTimeISO={task.startTime} /></div>
+                                  </div>
                                 </div>
+                                <span style={{ background: '#fff', color: clr.bgActive, padding: '0.3rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 }}>Sekarang</span>
                               </div>
-                              <span style={{ background: '#fff', color: '#56A1D8', padding: '0.3rem 0.75rem', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 700 }}>Sekarang</span>
-                            </div>
-                          ))}
-                          {history.map((task, i) => (
-                            <div key={i} style={{ border: '1px solid #E2E8F0', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                <div style={{ width: 44, height: 44, background: '#F1F5F9', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{getTaskIcon(task.name, 20)}</div>
-                                <div>
-                                  <div style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.name}</div>
-                                  <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{task.duration} menit</div>
+                            )
+                          })}
+                          {history.map((task, i) => {
+                            const clr = getActColors(task.name)
+                            return (
+                              <div key={i} style={{ border: '1px solid #E2E8F0', borderRadius: '12px', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                  <div style={{ width: 44, height: 44, background: clr.bgInactive, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: clr.fgActive }}>{getTaskIcon(task.name, 20)}</div>
+                                  <div>
+                                    <div style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.name}</div>
+                                    <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{task.duration} menit</div>
+                                  </div>
                                 </div>
+                                <span style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.time}</span>
                               </div>
-                              <span style={{ fontWeight: 700, color: '#1E293B', fontSize: '0.85rem' }}>{task.time}</span>
-                            </div>
-                          ))}
+                            )
+                          })}
                         </>
                       )
                     })()}

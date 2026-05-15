@@ -377,9 +377,9 @@ export default function CaregiverDashboard() {
                     {Object.keys(activeTasks).map(taskName => {
                       const t = TOGGLES.find(x => x.label === taskName) || { icon: <Baby size={24}/> }
                       return (
-                        <div key={taskName} style={{ background: 'var(--info)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
+                        <div key={taskName} style={{ background: t.bgActive || 'var(--info)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <div style={{ width: '48px', height: '48px', background: 'rgba(255,255,255,0.2)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>{t.icon}</div>
+                            <div style={{ width: '48px', height: '48px', background: 'rgba(255,255,255,0.25)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>{t.icon}</div>
                             <div>
                               <div style={{ fontWeight: 700 }}>{taskName}</div>
                               <div style={{ fontWeight: 800, fontSize: '1.1rem' }}>
@@ -387,7 +387,7 @@ export default function CaregiverDashboard() {
                               </div>
                             </div>
                           </div>
-                          <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: '#0284c7' }}>Berjalan</button>
+                          <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: t.bgActive || '#0284c7' }}>Berjalan</button>
                         </div>
                       )
                     })}
@@ -398,7 +398,7 @@ export default function CaregiverDashboard() {
                       return (
                         <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <div style={{ width: '48px', height: '48px', background: 'var(--secondary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#166534' }}>{t.icon}</div>
+                            <div style={{ width: '48px', height: '48px', background: t.bgInactive || '#F1F5F9', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: t.fgActive || '#64748B' }}>{t.icon}</div>
                             <div>
                               <div style={{ fontWeight: 700, color: 'var(--text)' }}>{task.name}</div>
                               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{task.duration} menit</div>
