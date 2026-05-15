@@ -1,9 +1,8 @@
-const CACHE_NAME = 'anaku-cache-v3';
+const CACHE_NAME = 'anaku-cache-v4';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/Logo AnaKu.png',
-  '/favicon.svg',
   '/QrisAnaKu.jpeg'
 ];
 
