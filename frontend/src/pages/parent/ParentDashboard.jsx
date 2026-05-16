@@ -488,7 +488,7 @@ export default function ParentDashboard() {
                       background: isUser ? '#EEF2F6' : '#F4F4F5', 
                       color: '#334155', 
                       padding: '0.85rem 1.15rem', 
-                      borderRadius: '12px',
+                      borderRadius: '12px',     
                       fontSize: '0.95rem', 
                       lineHeight: 1.6 
                     }}>
