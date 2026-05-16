@@ -4,7 +4,7 @@ import PageLayout from '../../components/layout/PageLayout'
 import LiveTimer from '../../components/ui/LiveTimer'
 import { useAuth } from '../../context/AuthContext'
 import api from '../../lib/axios'
-import { Baby, Moon, Shirt, Puzzle, Sparkles, Smile, Mic, Plus, ChevronDown, Send, Pencil } from 'lucide-react'
+import { Baby, Moon, Shirt, Puzzle, Sparkles, Smile, Mic, Plus, ChevronDown, Send, Pencil, XCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 const Avatar = ({ name, size=40 }) => (
@@ -185,6 +185,20 @@ export default function CaregiverDashboard() {
       if (stopped.length > 0) setHistoryTasks(prev => [...stopped, ...prev])
     }
     saveToDb({ activities: nextActs })
+  }
+
+  const cancelTask = (taskName) => {
+    const currentActs = todayLog?.activities || []
+    const nextActs = currentActs.filter(a => !a.startsWith(`START|${taskName}|`))
+    
+    setActiveTasks(prev => {
+      const n = {...prev}
+      delete n[taskName]
+      return n
+    })
+    
+    saveToDb({ activities: nextActs })
+    toast.success(`${taskName} dibatalkan`)
   }
 
   const toggleTodo = (idx) => {
@@ -368,7 +382,6 @@ export default function CaregiverDashboard() {
                 <div style={{ ...styles.card, marginTop: '1.5rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <h3 style={{ fontWeight: 700, margin: 0 }}>Daily Report</h3>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', cursor: 'pointer' }}>Detail</span>
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -387,7 +400,15 @@ export default function CaregiverDashboard() {
                               </div>
                             </div>
                           </div>
-                          <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: t.bgActive || '#0284c7' }}>Berjalan</button>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <button 
+                              onClick={() => cancelTask(taskName)}
+                              style={{ ...styles.whiteBtn, padding: '0.4rem 0.75rem', fontSize: '0.8rem', color: '#EF4444', border: '1px solid #FEE2E2', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                            >
+                              <XCircle size={14} /> Batal
+                            </button>
+                            <button style={{ ...styles.whiteBtn, padding: '0.4rem 1rem', fontSize: '0.85rem', color: t.bgActive || '#0284c7' }}>Berjalan</button>
+                          </div>
                         </div>
                       )
                     })}
