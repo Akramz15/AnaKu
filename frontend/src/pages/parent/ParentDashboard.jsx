@@ -107,7 +107,7 @@ export default function ParentDashboard() {
 
     const fetchData = () => {
       Promise.all([
-        api.get(`/api/v1/daily-logs?child_id=${cid}&log_date=${today}`),
+        api.get(`/api/v1/daily-logs?child_id=${cid}`),
         api.get(`/api/v1/attendances/?child_id=${cid}`),
       ]).then(([logRes, attRes]) => {
         setTodayLog(logRes.data.data[0] || null)
@@ -227,9 +227,14 @@ export default function ParentDashboard() {
             <>
               {/* 1. Kabar Anaku (Peach Background) */}
               <div style={{ ...styles.card, background: '#F4A590', border: 'none' }}>
-                <h3 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem', marginTop: 0 }}>Kabar Anaku</h3>
+                <h3 style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.25rem', marginTop: 0 }}>Kabar Anaku</h3>
+                {todayLog && todayLog.log_date !== new Date().toISOString().split('T')[0] && (
+                  <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.8)', fontWeight: 600, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Laporan Terakhir ({new Date(todayLog.log_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long' })})
+                  </div>
+                )}
                 <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6, margin: '0 0 1.5rem' }}>
-                  {todayLog?.ai_daily_summary || 'Si kecil melewati hari dengan sangat ceria dan kooperatif, mulai dari menghabiskan seluruh makanannya hingga tidur siang dengan sangat pulas. Secara keseluruhan, kondisinya terpantau sangat baik dan aktif.'}
+                  {todayLog?.ai_daily_summary || (todayLog?.activities?.length > 0 ? 'Menganalisis aktivitas...' : 'Belum ada aktivitas yang dicatat pengasuh untuk hari ini.')}
                 </p>
                 <button style={styles.ovalWhiteBtn} onClick={() => navigate('/parent/daily-log')}>
                   Baca Laporan
