@@ -478,7 +478,7 @@ export default function ParentDashboard() {
               <h3 style={styles.cardTitle}>Tanya AI</h3>
             </div>
 
-            <div style={{ height: '420px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem', paddingRight: '0.5rem' }}>
+            <div style={{ height: '380px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem', paddingRight: '0.5rem' }}>
               {messages.map((m, i) => {
                 const isUser = m.role === 'user'
                 return (
