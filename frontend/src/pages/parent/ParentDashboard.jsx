@@ -473,12 +473,13 @@ export default function ParentDashboard() {
           </div>
 
           {/* RIGHT COLUMN (Tanya AI) */}
-          <div className="dashboard-col-side" style={{ ...styles.card, height: 'auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={styles.cardTitle}>Tanya AI</h3>
-            </div>
+          <div className="dashboard-col-side" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ ...styles.card, flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <h3 style={styles.cardTitle}>Tanya AI</h3>
+              </div>
 
-            <div style={{ height: '650px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem' }}>
+              <div style={{ flex: 1, minHeight: '500px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem', paddingRight: '0.5rem' }}>
               {messages.map((m, i) => {
                 const isUser = m.role === 'user'
                 return (
@@ -534,6 +535,7 @@ export default function ParentDashboard() {
               </button>
             </div>
           </div>
+        </div>
 
         </div>
 
