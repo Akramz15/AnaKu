@@ -478,19 +478,19 @@ export default function ParentDashboard() {
               <h3 style={styles.cardTitle}>Tanya AI</h3>
             </div>
 
-            <div style={{ height: '450px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem' }}>
+            <div style={{ height: '650px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', marginBottom: '1rem' }}>
               {messages.map((m, i) => {
                 const isUser = m.role === 'user'
                 return (
-                  <div key={i} style={{ alignSelf: isUser ? 'flex-end' : 'flex-start', maxWidth: '90%' }}>
-                    {!isUser && <div style={{ fontSize: '0.7rem', color: '#94A3B8', marginBottom: '0.2rem', marginLeft: '0.2rem' }}>Tanya AI</div>}
+                  <div key={i} style={{ alignSelf: isUser ? 'flex-end' : 'flex-start', maxWidth: '95%' }}>
+                    {!isUser && <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginBottom: '0.2rem', marginLeft: '0.2rem' }}>Tanya AI</div>}
                     <div style={{ 
                       background: isUser ? '#EEF2F6' : '#F4F4F5', 
                       color: '#334155', 
-                      padding: '0.75rem 1rem', 
+                      padding: '0.85rem 1.15rem', 
                       borderRadius: '12px',
-                      fontSize: '0.875rem', 
-                      lineHeight: 1.5 
+                      fontSize: '0.95rem', 
+                      lineHeight: 1.6 
                     }}>
                       {m.text}
                     </div>
