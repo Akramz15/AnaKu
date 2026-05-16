@@ -52,14 +52,23 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
         return {"status": "success", "data": {"reply": "Maaf, Anda belum memilih atau belum mendaftarkan anak. Silakan daftarkan anak Anda terlebih dahulu agar AI bisa membantu memantau perkembangannya."}}
     child_name = str(child_data.get("full_name") or "Anak")
 
-    # 2. Ambil daily log hari ini
+    # 2. Ambil histori daily logs (7 laporan terakhir) untuk memberikan ingatan jangka panjang pada AI
     log_res = sb.table("daily_logs").select("*") \
-        .eq("child_id", payload.child_id).eq("log_date", target_date).execute()
-    log_data_list = log_res.data
-    log_data = log_data_list[0] if isinstance(log_data_list, list) and len(log_data_list) > 0 and isinstance(log_data_list[0], dict) else None
+        .eq("child_id", payload.child_id).order("log_date", desc=True).limit(7).execute()
+    log_data_list = log_res.data if isinstance(log_res.data, list) else []
     
-    log_context = build_log_context(log_data, child_name) if log_data else \
-        f"Belum ada data log untuk {child_name} pada tanggal {target_date}."
+    # Gabungkan semua log menjadi satu narasi konteks sejarah (dari yang terlama ke terbaru)
+    all_logs_context = ""
+    for log in reversed(log_data_list):
+        if isinstance(log, dict):
+            all_logs_context += build_log_context(log, child_name) + "\n\n"
+    
+    if not all_logs_context:
+        all_logs_context = f"Belum ada riwayat data log untuk {child_name} di sistem."
+
+    # Tambahkan informasi tanggal hari ini agar AI paham waktu relatif (kemarin, lusa, dsb)
+    today_info = f"Tanggal Hari Ini: {date.today().isoformat()}\n\n"
+    final_context = today_info + "Berikut adalah riwayat aktivitas anak dalam beberapa hari terakhir:\n" + all_logs_context
 
     # 3. Ambil riwayat chat AI (10 pesan terakhir) untuk maintain konteks
     history_res = sb.table("chats_ai").select("role, message") \
@@ -67,7 +76,7 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
         .order("created_at", desc=True).limit(10).execute()
         
     # Format messages array untuk Groq (OpenAI format)
-    messages = [{"role": "system", "content": SYSTEM_PROMPT + f"\n\n{log_context}"}]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT + f"\n\n{final_context}"}]
     
     # Masukkan riwayat (oldest first)
     raw_history = history_res.data if isinstance(history_res.data, list) else []
@@ -96,7 +105,8 @@ async def ai_chatbot(payload: ChatbotRequest, current_user = Depends(get_current
         return {"status": "success", "data": {"reply": "Maaf, sistem AI sedang sibuk atau mengalami gangguan. Mohon coba lagi beberapa saat."}}
 
     # 5. Simpan pesan user & AI ke DB
-    log_id = log_data.get("id") if log_data else None
+    log_data = log_data_list[0] if (isinstance(log_data_list, list) and len(log_data_list) > 0) else None
+    log_id = log_data.get("id") if isinstance(log_data, dict) else None
     sb.table("chats_ai").insert([
         {"parent_id": current_user["id"], "child_id": payload.child_id,
          "role": "user", "message": payload.message, "context_log_id": log_id},
