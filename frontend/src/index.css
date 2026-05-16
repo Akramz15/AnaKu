@@ -62,7 +62,6 @@ a { color: var(--primary); }
   gap: 1.25rem;
   flex: 1;
   min-height: 0;
-  align-items: stretch;
 }
 
 .dashboard-col-main {
